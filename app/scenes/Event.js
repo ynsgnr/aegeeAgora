@@ -4,9 +4,9 @@ import {Platform, StyleSheet, Text, View} from 'react-native';
 
 import NavBar from '../components/navBar'
 
-const title = "News"
+const title = "Event"
 
-export default class News extends Component {
+export default class Event extends Component {
 
   render() {
     return (

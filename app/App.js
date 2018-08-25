@@ -1,15 +1,26 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import { createBottomTabNavigator } from 'react-navigation';
+import { createBottomTabNavigator,createStackNavigator,createSwitchNavigator } from 'react-navigation';
 
 import Schedule from './scenes/Schedule';
 import Map from './scenes/Map';
 import Info from './scenes/Info';
 import News from './scenes/News';
 
+import Location from './scenes/Location';
+import Event from './scenes/Event'
 
-const RootStack = createBottomTabNavigator(
+//Stack navigation for event and location pages
+const EventLocationStack = createStackNavigator (
+  {
+    Event:Event,
+    Location:Location,
+  },
+)
+
+//Tab Navigator:
+const TabNavigator = createBottomTabNavigator(
   {
     Schedule: {
       screen: Schedule
@@ -26,7 +37,19 @@ const RootStack = createBottomTabNavigator(
   },
   {
     initialRouteName : 'Schedule', //Starting screen
-  });
+  }
+);
+
+//Combine stack and tab navigations
+const RootNavigator = createSwitchNavigator (
+  {
+    Home:TabNavigator,
+    EventLocationPage: EventLocationStack
+  },
+  {
+    initialRouteName: 'Home'
+  }
+)
 
 /*Navigation functions (use only in scenes):
 
@@ -56,6 +79,6 @@ this.props.navigation.setParams({otherParam: 'Updated!'}) //Update navigation op
 
 export default class App extends React.Component {
   render() {
-    return <RootStack />;
+    return <RootNavigator />;
   }
 }

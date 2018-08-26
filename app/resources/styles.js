@@ -4,23 +4,52 @@ import {
   Dimensions,
 } from 'react-native';
 
+import colors from './colors'
+
 export const SCREEN_WIDTH = Dimensions.get('window').width;
 export const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 export default styles = StyleSheet.create({
-  fab:{
-  borderColor:'rgba(231,229,245,1)',
-  margin:5,
-  width:50,
-  height:50,
-  alignItems:'center',
-  justifyContent:'center',
-  backgroundColor: '#ffffff',
-  borderWidth: 1,
-  borderRadius:100,
-  shadowColor: '#000',
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.3,
-  elevation:3,
-},
+  body:{
+    backgroundColor: colors.background,
+  },
+  listItem:{
+    flexDirection:'row',
+    width:SCREEN_WIDTH,
+    alignItems:'center',
+    justifyContent: 'flex-start',
+    flex:1,
+  },
+  subText:{
+    padding:5,
+    fontSize:15,
+  },
+  titleText:{
+    padding:7,
+    fontSize:18,
+  },
+  littleCircle: {
+    width: 10,
+    height: 10,
+    borderRadius: 10/2,
+    backgroundColor: colors.ligthBlue,
+  },
+  line:{
+    width:1,
+    flex:1,
+    backgroundColor: colors.ligthGrey,
+    borderColor:colors.ligthGrey,
+  },
+  navbar:{
+    width:SCREEN_WIDTH,
+    height:50,
+    justifyContent: 'space-around',
+    alignItems:'stretch',
+    flexDirection:'row',
+    borderWidth: 1,
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderBottomColor: 'rgba(0, 0, 0, 0.12)'
+  },
 })

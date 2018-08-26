@@ -1,6 +1,7 @@
 const colors = {
   main: "#168cd7",
   ligthGrey: "#dfdfdf",
+  ligthBlue: "#4574df",
   mainBG: "#395fac",
   calendar: "#39ac5d",
   calendarDark: "#346643",

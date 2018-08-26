@@ -5,20 +5,10 @@ import {Platform, StyleSheet, Text, View, ActivityIndicator} from 'react-native'
 import NavBar from '../components/navBar'
 import InfoList from '../components/infoList'
 
-import {getAllInfo} from '../actions/info'
+import {getAllInfo,getTypes} from '../actions/info'
 
 const title = "Information & Contact"
 
-
-//const types = ['contact','download','bonus','news'] //Info Types
-
-const types = ['contact','download','bonus'] //Info Types
-const titles = {
-  contact:'Contacts',
-  download:'Downloads',
-  bonus:'Bonus Info',
-  news:'News',
-}
 
 export default class Info extends Component {
 
@@ -32,24 +22,26 @@ export default class Info extends Component {
 
   componentDidMount(){
     getAllInfo().then( (val) =>{
-      let infoList={}
-      for(i=0;i<val.length;i++){
-        if(infoList[val[i].type]==undefined)infoList[val[i].type]=[]
-        infoList[val[i].type].push(val[i])
-      }
-      let sections = []
-      for(i=0;i<types.length;i++){
-          if(infoList[types[i]]!=undefined){
-            sections.push({
-              type:types[i],
-              title:titles[types[i]],
-              data:infoList[types[i]]
-            })
-          }
-      }
-      this.setState({
-        infoList:sections,
-        loading:false,
+      getTypes().then( (typesAndTitles)=>{
+        let infoList={}
+        for(i=0;i<val.length;i++){
+          if(infoList[val[i].type]==undefined)infoList[val[i].type]=[]
+          infoList[val[i].type].push(val[i])
+        }
+        let sections = []
+        for(i=0;i<(typesAndTitles.types.length);i++){
+          if(infoList[typesAndTitles.types[i]]!=undefined){
+              sections.push({
+                type:typesAndTitles.types[i],
+                title:typesAndTitles.titles[typesAndTitles.types[i]],
+                data:infoList[typesAndTitles.types[i]]
+              })
+            }
+        }
+        this.setState({
+          infoList:sections,
+          loading:false,
+        })
       })
     })
   }

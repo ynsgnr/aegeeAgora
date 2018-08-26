@@ -153,3 +153,20 @@ export function getAllNews(){
     )
   })
 }
+
+export function getTypes(){
+  return new Promise(function(resolve,reject){
+    //Get object here
+    resolve(
+      {
+        types:['contact','bonus','download'],
+        titles:{
+          contact:'Contacts',
+          download:'Downloads',
+          bonus:'Bonus Info',
+          news:'News',
+        }
+      }
+    )
+  })
+}

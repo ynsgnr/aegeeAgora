@@ -12,31 +12,37 @@ export function getAllLocations(){
           key:'0',
           news:[],
           eventsHere:[], //key
-          Lat: 42,
-          Long: 41,
+          Lat: 41.011394,
+          Long: 28.925189,
           type: 'eventLocation',
-          Building: 'Test Building',
-          Room: 'Test Room',
+          title: 'Test Building',
+          description: 'Test Room',
           InsideMap: '',
           Description: 'Test Location Description',
         },
         {
           key:'1',
-          Lat: 42,
-          Long: 41,
+          Lat: 41.012394,
+          Long: 28.923189,
           type: 'wifi',
+          title: 'Store wifi',
+          description: 'Test wifi',
         },
         {
           key:'2',
-          Lat: 42,
-          Long: 41,
+          Lat: 41.013993,
+          Long: 28.924406,
           type: 'store',
+          title: 'Kim Market',
+          description: 'Supermarket with no alcohol',
         },
         {
           key:'3',
-          Lat: 42,
-          Long: 41,
+          Lat: 41.011693,
+          Long: 28.928329,
           type: 'gym',
+          title: 'Gym',
+          description: 'Home Sweet Home',
         },
       ]
     )
@@ -65,8 +71,8 @@ export function getInitalRegion(){
     //Get object here
     resolve(
       {
-        latitude: 37.78825,
-        longitude: -122.4324,
+        latitude: 41.0164533,
+        longitude: 28.9900075,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       }

@@ -19,9 +19,8 @@ export default class Map extends Component {
   constructor(props){
     super(props)
     this.state={
-      locationList : {},
       buttonList : [],
-      markers:[],
+      markerLists:{},
       loading:true,
       intialRegion:{
         latitude: 37.78825,
@@ -44,10 +43,26 @@ export default class Map extends Component {
               })
           }
 
+          let markerLists={}
+          for(i=0;i<val.length;i++){
+            let type = val[i].type
+            if(markerLists[type]==undefined)markerLists[type]=[]
+            markerLists[type].push({
+                latlng :{
+                  latitude:val[i].Lat,
+                  longitude:val[i].Long,
+                },
+                title:val[i].title,
+                description:val[i].description,
+                key:val[i].key,
+              })
+          }
+
           this.setState({
             buttonList:buttonList,
             loading:false,
             intialRegion:region,
+            markerLists:markerLists
           })
         })
 
@@ -88,6 +103,25 @@ export default class Map extends Component {
     return style
   }
 
+  getMarkers(){
+    let markerList=[]
+    this.state.buttonList.map( (button) => (
+      button.status && this.state.markerLists[button.type]!=undefined &&
+      this.state.markerLists[button.type].map( (marker) => (
+        markerList.push(
+          <Marker
+            key={button.type+""+marker.latlng.latitude+marker.latlng.longitude}
+            coordinate={marker.latlng}
+            title={marker.title}
+            description={marker.description}
+          />
+        )
+      ))
+    ))
+    console.log(markerList);
+    return markerList
+  }
+
   render() {
     return (
       <View>
@@ -100,13 +134,17 @@ export default class Map extends Component {
                 style={style.map}
                 initialRegion={this.state.intialRegion}
               >
-              {this.state.markers.map(marker => (
-                 <Marker
-                   coordinate={marker.latlng}
-                   title={marker.title}
-                   description={marker.description}
-                 />
-               ))}
+              {this.state.buttonList.map( (button) => (
+                button.status && this.state.markerLists[button.key]!=undefined &&
+                this.state.markerLists[button.key].map( (marker) => (
+                  <Marker
+                    coordinate={marker.latlng}
+                    title={marker.title}
+                    description={marker.description}
+                    key={marker.key}
+                  />
+                ))
+              ))}
               </MapView>
               <View style={style.buttonContainer}>
               {this.state.buttonList.map( (button,index) => (

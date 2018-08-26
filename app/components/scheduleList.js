@@ -5,14 +5,6 @@ import {StyleSheet, Text, View, ActivityIndicator, FlatList, TouchableOpacity} f
 //Resources
 import styles from '../resources/styles'
 
-//Components
-import NavBar from '../components/navBar'
-
-//Actions
-import {getAllEvents} from '../actions/events'
-
-const title = "Schedule"
-
 export default class ScheduleList extends Component {
 
   static defaultProps = {
@@ -37,10 +29,6 @@ export default class ScheduleList extends Component {
         }
       }
   */
-
-  goTo = (event) => {
-    console.log(event);
-  }
 
   renderEventList(event){
     let eventList=this.props.events[event.item]

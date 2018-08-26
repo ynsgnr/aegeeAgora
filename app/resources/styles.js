@@ -13,6 +13,11 @@ export default styles = StyleSheet.create({
   body:{
     backgroundColor: colors.background,
   },
+  centered:{
+    alignItems:'center',
+    justifyContent: 'center',
+    height:SCREEN_HEIGHT*0.8,
+  },
   listItem:{
     flexDirection:'row',
     width:SCREEN_WIDTH,
@@ -52,4 +57,26 @@ export default styles = StyleSheet.create({
     borderRightWidth: 0,
     borderBottomColor: 'rgba(0, 0, 0, 0.12)'
   },
+  daySelector:{
+    width:SCREEN_WIDTH,
+    height:50,
+    justifyContent: 'space-around',
+    alignItems:'center',
+    flexDirection:'row',
+    borderWidth: 1,
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderBottomColor: 'rgba(0, 0, 0, 0.08)',
+    backgroundColor: colors.backgroundDarker,
+  },
+  daySelectorText:{
+    fontSize:15,
+  },
+  leftArrow:{
+    fontSize:20,
+  },
+  rightArrow:{
+    fontSize:20,
+  }
 })

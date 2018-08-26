@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, ActivityIndicator, ScrollView} from 'react-native';
+import {Platform, StyleSheet, Text, View, ActivityIndicator, ScrollView,TouchableOpacity} from 'react-native';
 
 //Resources
 import styles from '../resources/styles'
@@ -22,7 +22,9 @@ export default class Schedule extends Component {
       minDate: new Date(),
       maxDate: new Date(),
       eventList : {},
-      loading : true
+      loading : true,
+      currentDay: new Date(),
+      dayCount:0,
     }
   }
 
@@ -79,24 +81,50 @@ export default class Schedule extends Component {
         if(dayList[dayKey][hourKey]==undefined) dayList[dayKey][hourKey]=[]
         dayList[dayKey][hourKey].push(val[i])
       }
+      maxDate.setHours(23, 59, 59, 99)
+      minDate.setHours(0, 0, 0, 0)
+      let dayCount = Math.abs(this.state.maxDate-this.state.minDate)/86400000
       this.setState({
         minDate:minDate,
         maxDate:maxDate,
         eventList:dayList,
         loading:false,
+        dayCount:dayCount,
       })
     })
   }
 
   renderDays(){
-    let dayCount = Math.abs(this.state.maxDate-this.state.minDate)/86400000
-    let renderArray=[]
-    let d=new Date(this.state.minDate);
-    for(i=0;i<dayCount;i++){
-      renderArray.push(<ScheduleList events={this.state.eventList[this.constructDayKey(d)]} key={i}/>)
-      d.setDate(d.getDate+1)
+    let d=new Date(this.state.currentDay);
+    if(d<this.state.minDate || d>this.state.maxDate){
+      return (
+        <View  style={styles.centered}>
+          <Text style={[{fontSize:20}]}>No Events Today</Text>
+        </View>
+      )
     }
-    return renderArray
+    return (
+      <ScheduleList events={this.state.eventList[this.constructDayKey(d)]} key={i}/>
+    )
+  }
+
+  getWeekDay(d){
+    switch(d.getDay()){
+      case 0:
+        return "Sunday"
+      case 1:
+        return "Monday"
+      case 2:
+        return "Tuesday"
+      case 3:
+        return "Wednesday"
+      case 4:
+        return "Thursday"
+      case 5:
+        return "Friday"
+      case 6:
+        return "Saturday"
+    }
   }
 
   render() {
@@ -105,7 +133,30 @@ export default class Schedule extends Component {
         <NavBar title={title}/>
         <ScrollView style={styles.body}>
           {this.state.loading ? <ActivityIndicator size="large"/> :
-            this.renderDays()
+            <View>
+              <View style={styles.daySelector}>
+                <TouchableOpacity onPress={()=>this.setState(previousState=>{
+                  let currentDay = new Date(previousState.currentDay)
+                  currentDay.setDate(currentDay.getDate()-1)
+                  return (
+                    {currentDay:currentDay}
+                  )
+                })}>
+                  <Text stye={styles.leftArrow}> {'<'} </Text>
+                </TouchableOpacity>
+                <Text style={styles.daySelectorText}>{this.constructDayKey(this.state.currentDay)+" "+this.getWeekDay(this.state.currentDay)}</Text>
+                <TouchableOpacity onPress={()=>this.setState(previousState=>{
+                  let currentDay = new Date(previousState.currentDay)
+                  currentDay.setDate(currentDay.getDate()+1)
+                  return (
+                    {currentDay:currentDay}
+                  )
+                })}>
+                  <Text style={styles.rightArrow}> {'>'} </Text>
+                </TouchableOpacity>
+              </View>
+              {this.renderDays()}
+            </View>
           }
         </ScrollView>
       </View>

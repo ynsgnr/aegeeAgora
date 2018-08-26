@@ -98,7 +98,6 @@ export default class Map extends Component {
         borderColor: 'rgba(0, 0, 0, 0.08)',
       }
       let colorString = button.color
-      console.log(colorString);
       colorString = colorString.slice(3,-1)
       if(button.status)
         style['backgroundColor'] = 'rgba'+ colorString+', 1)'
@@ -128,6 +127,7 @@ export default class Map extends Component {
                     description={marker.description}
                     key={marker.key}
                     pinColor={button.color}
+                    onCalloutPress={()=>console.log(marker)}
                   />
                 ))
               ))}

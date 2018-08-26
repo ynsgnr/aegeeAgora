@@ -8,7 +8,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-
+import io.invertase.firebase.database.RNFirebaseDatabasePackage;
 import com.airbnb.android.react.maps.MapsPackage;
 
 import java.util.Arrays;
@@ -27,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
           new RNFirebasePackage(),
+          new RNFirebaseDatabasePackage(),
           new MapsPackage()
       );
     }

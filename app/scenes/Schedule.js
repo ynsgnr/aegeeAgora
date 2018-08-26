@@ -69,6 +69,9 @@ export default class Schedule extends Component {
       let minDate=new Date()
       minDate.setYear(2050)
       for(i=0;i<val.length;i++){
+        val[i].startDate = new Date(val[i].startDate)
+        val[i].endDate = new Date(val[i].endDate)
+
         if(val[i].startDate>maxDate) maxDate=val[i].startDate
         if(val[i].startDate<minDate) minDate=val[i].startDate
 

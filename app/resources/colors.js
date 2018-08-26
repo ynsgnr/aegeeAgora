@@ -19,7 +19,7 @@ const colors = {
   greenAscent: "#44b83c",
   white: "#ececec",
   background: "#f7f7f7",
-  backgroundDarker: "#f1f1f1",
+  backgroundDarker: "#f5f8fe",
 }
 
 export default colors

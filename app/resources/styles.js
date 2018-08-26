@@ -78,5 +78,18 @@ export default styles = StyleSheet.create({
   },
   rightArrow:{
     fontSize:20,
+  },
+  lineButtonWrapper:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    flex:1,
+    padding:2,
+    marginRight:10,
+  },
+  lineButtons:{
+    alignItems:'flex-start',
+    justifyContent:'flex-start',
+    flexDirection:'row',
+    flex:1,
   }
 })

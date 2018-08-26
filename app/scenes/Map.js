@@ -7,9 +7,10 @@ import colors from '../resources/colors'
 
 import NavBar from '../components/navBar'
 
-import MapView from 'react-native-maps'
+import MapView, {Marker} from 'react-native-maps'
+import Permissions from 'react-native-permissions'
 
-import {getAllLocations,getTypes} from '../actions/locations'
+import {getAllLocations,getTypes,getInitalRegion} from '../actions/locations'
 
 const title = "Map"
 
@@ -20,43 +21,49 @@ export default class Map extends Component {
     this.state={
       locationList : {},
       buttonList : [],
+      markers:[],
       loading:true,
+      intialRegion:{
+        latitude: 37.78825,
+        longitude: -122.4324,
+      }
     }
   }
-
 
   componentDidMount(){
     getAllLocations().then( (val) => {
       getTypes().then( (typesAndTitles) => {
-        let buttonList=[]
-        for(i=0;i<typesAndTitles.types.length;i++){
-          let type = typesAndTitles.types[i]
-          buttonList.push({
-              key:type,
-              title:typesAndTitles.titles[type],
-              status:true,
-            })
-        }
-        this.setState({
-          buttonList:buttonList,
-          loading:false,
+        getInitalRegion().then( (region) => {
+          let buttonList=[]
+          for(i=0;i<typesAndTitles.types.length;i++){
+            let type = typesAndTitles.types[i]
+            buttonList.push({
+                key:type,
+                title:typesAndTitles.titles[type],
+                status:true,
+              })
+          }
+
+          this.setState({
+            buttonList:buttonList,
+            loading:false,
+            intialRegion:region,
+          })
         })
+
       })
+    })
+    Permissions.request('location').then(response => {
+        console.log(response);
+        //TODO check on other android and ios phones
     })
   }
 
-  renderButtons(){
-    let buttons=[]
-    for(i=0;i<this.state.buttonList.length;i++){
-      let buttonIndex = i
-      buttons.push(
-          <TouchableOpacity key={buttonIndex} style={this.getButtonStyle(this.state.buttonList[i].status)} onPress={()=>console.log(buttonIndex)}>
-            <Text>{this.state.buttonList[i].title}</Text>
-          </TouchableOpacity>
-        )
-    }
-    return buttons
+
+  onLocationTypeButtonPress(buttonIndex){
+    console.log(buttonIndex);
   }
+
 
   getButtonStyle(state){
     let style=
@@ -85,16 +92,25 @@ export default class Map extends Component {
           {this.state.loading ? <ActivityIndicator size="large"/> :
             <View style ={style.mapContainer}>
               <MapView
+                showsUserLocation={true}
+                showsMyLocationButton={true}
                 style={style.map}
-                initialRegion={{
-                  latitude: 37.78825,
-                  longitude: -122.4324,
-                  latitudeDelta: 0.0922,
-                  longitudeDelta: 0.0421,
-                }}
-              />
+                initialRegion={this.state.intialRegion}
+              >
+              {this.state.markers.map(marker => (
+                 <Marker
+                   coordinate={marker.latlng}
+                   title={marker.title}
+                   description={marker.description}
+                 />
+               ))}
+              </MapView>
               <View style={style.buttonContainer}>
-                {this.renderButtons()}
+              {this.state.buttonList.map( (button,index) => (
+                <TouchableOpacity key={index} style={this.getButtonStyle(button.status)} onPress={()=>this.onLocationTypeButtonPress(index)}>
+                  <Text>{button.title}</Text>
+                </TouchableOpacity>
+              ))}
               </View>
             </View>
           }
@@ -118,7 +134,7 @@ const style = StyleSheet.create({
    width: Dimensions.get('window').width,
    padding:10,
    alignItems:'flex-end',
-   justifyContent:'flex-start',
+   justifyContent:'flex-end',
    flexDirection:'column',
  },
 });

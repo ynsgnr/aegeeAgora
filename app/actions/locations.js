@@ -50,11 +50,25 @@ export function getTypes(){
       {
         types:['eventLocation','wifi','store','gym'],
         titles:{
-          eventLocation:'Event Locations',
-          wifi:'Wifi Point',
+          eventLocation:'Events',
+          wifi:'Wifi',
           store:'Store',
           gym:'Gym',
         }
+      }
+    )
+  })
+}
+
+export function getInitalRegion(){
+  return new Promise(function(resolve,reject){
+    //Get object here
+    resolve(
+      {
+        latitude: 37.78825,
+        longitude: -122.4324,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
       }
     )
   })

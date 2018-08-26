@@ -61,7 +61,10 @@ export default class Map extends Component {
 
 
   onLocationTypeButtonPress(buttonIndex){
-    console.log(buttonIndex);
+    this.setState((previousState)=>{
+      previousState.buttonList[buttonIndex].status=!previousState.buttonList[buttonIndex].status
+      return previousState
+    })
   }
 
 
@@ -81,7 +84,7 @@ export default class Map extends Component {
       if(state)
         style['backgroundColor'] = 'rgba(255, 255, 255, 1)'
       else
-        style['backgroundColor'] =  'rgba(255, 255, 255, 0.5)'
+        style['backgroundColor'] =  'rgba(200, 200, 200, 0.5)'
     return style
   }
 

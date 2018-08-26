@@ -40,6 +40,7 @@ export default class Map extends Component {
                 key:type,
                 title:typesAndTitles.titles[type],
                 status:true,
+                color:typesAndTitles.colors[type],
               })
           }
 
@@ -83,7 +84,7 @@ export default class Map extends Component {
   }
 
 
-  getButtonStyle(state){
+  getButtonStyle(button){
     let style=
       {
         width:50,
@@ -96,30 +97,14 @@ export default class Map extends Component {
         borderWidth: 1,
         borderColor: 'rgba(0, 0, 0, 0.08)',
       }
-      if(state)
-        style['backgroundColor'] = 'rgba(255, 255, 255, 1)'
+      let colorString = button.color
+      console.log(colorString);
+      colorString = colorString.slice(3,-1)
+      if(button.status)
+        style['backgroundColor'] = 'rgba'+ colorString+', 1)'
       else
-        style['backgroundColor'] =  'rgba(200, 200, 200, 0.5)'
+        style['backgroundColor'] =  'rgba(250, 250, 250, 0.5)'
     return style
-  }
-
-  getMarkers(){
-    let markerList=[]
-    this.state.buttonList.map( (button) => (
-      button.status && this.state.markerLists[button.type]!=undefined &&
-      this.state.markerLists[button.type].map( (marker) => (
-        markerList.push(
-          <Marker
-            key={button.type+""+marker.latlng.latitude+marker.latlng.longitude}
-            coordinate={marker.latlng}
-            title={marker.title}
-            description={marker.description}
-          />
-        )
-      ))
-    ))
-    console.log(markerList);
-    return markerList
   }
 
   render() {
@@ -142,13 +127,14 @@ export default class Map extends Component {
                     title={marker.title}
                     description={marker.description}
                     key={marker.key}
+                    pinColor={button.color}
                   />
                 ))
               ))}
               </MapView>
               <View style={style.buttonContainer}>
               {this.state.buttonList.map( (button,index) => (
-                <TouchableOpacity key={index} style={this.getButtonStyle(button.status)} onPress={()=>this.onLocationTypeButtonPress(index)}>
+                <TouchableOpacity key={index} style={this.getButtonStyle(button)} onPress={()=>this.onLocationTypeButtonPress(index)}>
                   <Text>{button.title}</Text>
                 </TouchableOpacity>
               ))}

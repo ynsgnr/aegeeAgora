@@ -60,6 +60,12 @@ export function getTypes(){
           wifi:'Wifi',
           store:'Store',
           gym:'Gym',
+        },
+        colors:{
+          eventLocation:'rgb(238, 154, 154)',
+          wifi:'rgb(0, 188, 212)',
+          store:'rgb(139, 195, 74)',
+          gym:'rgb(255, 193, 6)',
         }
       }
     )

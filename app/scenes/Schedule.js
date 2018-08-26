@@ -135,24 +135,24 @@ export default class Schedule extends Component {
           {this.state.loading ? <ActivityIndicator size="large"/> :
             <View>
               <View style={styles.daySelector}>
-                <TouchableOpacity onPress={()=>this.setState(previousState=>{
+                <TouchableOpacity style={{padding:20}} onPress={()=>this.setState(previousState=>{
                   let currentDay = new Date(previousState.currentDay)
                   currentDay.setDate(currentDay.getDate()-1)
                   return (
                     {currentDay:currentDay}
                   )
                 })}>
-                  <Text stye={styles.leftArrow}> {'<'} </Text>
+                  <Text style={styles.leftArrow}> {'<'} </Text>
                 </TouchableOpacity>
-                <Text style={styles.daySelectorText}>{this.constructDayKey(this.state.currentDay)+" "+this.getWeekDay(this.state.currentDay)}</Text>
-                <TouchableOpacity onPress={()=>this.setState(previousState=>{
+                <Text style={[styles.daySelectorText,{flex:2}]}>{this.constructDayKey(this.state.currentDay)+" "+this.getWeekDay(this.state.currentDay)}</Text>
+                <TouchableOpacity style={{padding:20}} onPress={()=>this.setState(previousState=>{
                   let currentDay = new Date(previousState.currentDay)
                   currentDay.setDate(currentDay.getDate()+1)
                   return (
                     {currentDay:currentDay}
                   )
                 })}>
-                  <Text style={styles.rightArrow}> {'>'} </Text>
+                  <Text style={[styles.rightArrow]}> {'>'} </Text>
                 </TouchableOpacity>
               </View>
               {this.renderDays()}

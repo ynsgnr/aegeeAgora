@@ -56,3 +56,4 @@ buck-out/
 *.jsbundle
 
 Documentation and Planing.md
+android/app/google-services.json

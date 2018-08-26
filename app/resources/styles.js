@@ -91,5 +91,14 @@ export default styles = StyleSheet.create({
     justifyContent:'flex-start',
     flexDirection:'row',
     flex:1,
+  },
+  bigButton:{
+    margin:15,
+    flexDirection:'row',
+    flex:1,
+    borderWidth:1,
+    borderRadius:50,
+    borderColor: colors.backgroundDarker,
+    backgroundColor: colors.white,
   }
 })

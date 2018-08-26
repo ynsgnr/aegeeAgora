@@ -22,7 +22,37 @@ export function getAllInfo(){
         {
           eventKey: '',
           locationKey: '',
-          key: '1', //switch to string
+          key: '01', //switch to string
+          type: 'contact',
+          title: 'Name Surname',
+          image: 'https://openclipart.org/image/2400px/svg_to_png/202776/pawn.png',
+          text: 'Duty',
+          link: '05555555555',//Add to phone as a person
+        },
+        {
+          eventKey: '',
+          locationKey: '',
+          key: '10', //switch to string
+          type: 'download',
+          title: 'Document name',
+          image: 'https://cdn2.iconfinder.com/data/icons/55-files-and-documents/512/Icon_17-512.png',
+          text: 'Document explanation',
+          link: 'http://aegee.org/', //open in browser
+        },
+        {
+          eventKey: '',
+          locationKey: '',
+          key: '11', //switch to string
+          type: 'download',
+          title: 'Document name',
+          image: 'https://cdn2.iconfinder.com/data/icons/55-files-and-documents/512/Icon_17-512.png',
+          text: 'Document explanation',
+          link: 'http://aegee.org/', //open in browser
+        },
+        {
+          eventKey: '',
+          locationKey: '',
+          key: '12', //switch to string
           type: 'download',
           title: 'Document name',
           image: 'https://cdn2.iconfinder.com/data/icons/55-files-and-documents/512/Icon_17-512.png',

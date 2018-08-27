@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, ActivityIndicator} from 'react-native';
+import {Text, View, ActivityIndicator} from 'react-native';
 
 import NavBar from '../components/navBar'
 import InfoList from '../components/infoList'
@@ -56,4 +56,5 @@ export default class Info extends Component {
       </View>
     );
   }
+  
 }

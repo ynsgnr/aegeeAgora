@@ -70,7 +70,7 @@ export default class Map extends Component {
       })
     })
     Permissions.request('location').then(response => {
-        console.log(response);
+        console.log("Location Permission response: "+response);
         //TODO check on other android and ios phones
     })
   }
@@ -154,6 +154,7 @@ export default class Map extends Component {
       </View>
     );
   }
+
 }
 
 const style = StyleSheet.create({

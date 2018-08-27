@@ -11,7 +11,6 @@ export default class ScheduleList extends Component {
     events:[],
   }
 
-
   //Render Item. Item Structıre:
   /*
       event:{

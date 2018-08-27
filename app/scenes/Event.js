@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
 import NavBar from '../components/navBar'
 
@@ -16,4 +16,5 @@ export default class Event extends Component {
       </View>
     );
   }
+  
 }

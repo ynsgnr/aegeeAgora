@@ -16,4 +16,5 @@ export default class Location extends Component {
       </View>
     );
   }
+  
 }

@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import {
-  Text,
-  View,
-} from 'react-native';
+import {Text, View } from 'react-native';
 
 import styles from '../resources/styles'
 import colors from '../resources/colors'
 
-class NavBar extends Component {
-
+export default class NavBar extends Component {
+  
   render(){
     return(
         <View style={styles.navbar}>
@@ -16,7 +13,5 @@ class NavBar extends Component {
         </View>
     )
   }
-};
 
-
-export default (NavBar)
+}

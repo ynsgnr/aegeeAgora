@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, ActivityIndicator} from 'react-native';
+import { Text, View, ActivityIndicator} from 'react-native';
 
 import NavBar from '../components/navBar'
 import NewsList from '../components/newsList'
@@ -10,7 +10,6 @@ import {getAllNews} from '../actions/info'
 const title = "News"
 
 export default class News extends Component {
-
 
   constructor(props){
     super(props)
@@ -40,4 +39,5 @@ export default class News extends Component {
       </View>
     );
   }
+  
 }

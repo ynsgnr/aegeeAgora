@@ -3,17 +3,19 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import { createBottomTabNavigator,createStackNavigator,createSwitchNavigator } from 'react-navigation';
 
+//Tab Scenes
 import Schedule from './scenes/Schedule';
 import Map from './scenes/Map';
 import Info from './scenes/Info';
 import News from './scenes/News';
 
+//Standalone scenes
 import Location from './scenes/Location';
 import Event from './scenes/Event'
 
-//import {resetDatabase} from './actions/write'
+//import {resetDatabase} from './actions/write' //Used for injecting mock data to db
 
-//Stack navigation for event and location pages
+//Stack navigation for standalone pages
 const EventLocationStack = createStackNavigator (
   {
     Event:Event,
@@ -88,4 +90,5 @@ export default class App extends React.Component {
   render() {
     return <RootNavigator />;
   }
+  
 }

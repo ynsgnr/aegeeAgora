@@ -264,7 +264,6 @@ export function writeLocationTypes(){
   })
 }
 
-
 export function writeArrayToBranch(branch,data){
   //Overwrites existing data based on key ,in the branch use with caution!
   //branch: branch name

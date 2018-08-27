@@ -12,7 +12,6 @@ export default class NewsList extends Component {
     news:[],
   }
 
-
   //Render Item. Item Structıre:
   /*
         info:{

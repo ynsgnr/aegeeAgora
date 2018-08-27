@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, ActivityIndicator, ScrollView,TouchableOpacity} from 'react-native';
+import {Text, View, ActivityIndicator, ScrollView,TouchableOpacity} from 'react-native';
 
 //Resources
 import styles from '../resources/styles'
@@ -165,4 +165,5 @@ export default class Schedule extends Component {
       </View>
     );
   }
+
 }

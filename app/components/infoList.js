@@ -12,7 +12,6 @@ export default class InfoList extends Component {
     infoList:[],
   }
 
-
   //Render Item. Item Structıre:
   /*
         info:{
@@ -92,7 +91,7 @@ export default class InfoList extends Component {
   }
 
   renderNews(news){
-    return <View/> //For news display newsList
+    return <View/> //For news display newsList component
     return(
       <View style={styles.listItem}>
           <View style={style.leftSmall}>

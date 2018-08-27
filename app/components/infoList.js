@@ -39,7 +39,6 @@ export default class InfoList extends Component {
   */
 
   renderContact(contact){
-    console.log(contact);
     return(
       <View style={styles.listItem}>
           <View style={[style.leftSmall,{flex:3}]}>

@@ -11,6 +11,8 @@ import News from './scenes/News';
 import Location from './scenes/Location';
 import Event from './scenes/Event'
 
+//import {resetDatabase} from './actions/write'
+
 //Stack navigation for event and location pages
 const EventLocationStack = createStackNavigator (
   {
@@ -78,6 +80,11 @@ this.props.navigation.setParams({otherParam: 'Updated!'}) //Update navigation op
 */
 
 export default class App extends React.Component {
+
+  /*componentDidMount(){
+    resetDatabase()
+  }*/
+
   render() {
     return <RootNavigator />;
   }

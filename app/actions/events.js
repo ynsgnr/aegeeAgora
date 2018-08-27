@@ -7,9 +7,10 @@ import firebase from 'react-native-firebase'
 
 export function getAllEvents(){
   return new Promise(function(resolve,reject){
-    //Get object here
-    firebase.database().ref('events/').once('value').then((snapshot)=>{
-      resolve(snapshot.val())
+    firebase.firestore().collection('events').where("valid","==",true).get().then((qsnapshot)=>{
+      let dataArray=[]
+      qsnapshot.forEach((doc)=>dataArray.push(doc.data()))
+      resolve(dataArray)
     })
   })
 }
@@ -17,9 +18,10 @@ export function getAllEvents(){
 
 export function getEventByKey(key){
   return new Promise(function(resolve,reject){
-    //Get object here
-    firebase.database().ref('events/'+key).once('value').then((snapshot)=>{
-      resolve(snapshot.val())
+    firebase.firestore().collection('events/'+key).get().then((qsnapshot)=>{
+      let dataArray=[]
+      qsnapshot.forEach((doc)=>dataArray.push(doc.data()))
+      resolve(dataArray)
     })
   })
 }

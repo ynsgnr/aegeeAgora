@@ -3,12 +3,14 @@ package com.agora;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import io.invertase.firebase.RNFirebasePackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import io.invertase.firebase.database.RNFirebaseDatabasePackage;
+
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
+
 import com.airbnb.android.react.maps.MapsPackage;
 
 import java.util.Arrays;
@@ -27,7 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
           new RNFirebasePackage(),
-          new RNFirebaseDatabasePackage(),
+          new RNFirebaseFirestorePackage(),
           new MapsPackage()
       );
     }

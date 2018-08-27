@@ -7,29 +7,28 @@ import firebase from 'react-native-firebase'
 
 export function getAllInfo(){
   return new Promise(function(resolve,reject){
-    firebase.database().ref('info/').once('value').then((snapshot)=>{
-      resolve(snapshot.val())
+    firebase.firestore().collection('info').where("valid","==",true).get().then((qsnapshot)=>{
+      let dataArray=[]
+      qsnapshot.forEach((doc)=>dataArray.push(doc.data()))
+      resolve(dataArray)
     })
   })
 }
 
 export function getAllNews(){
   return new Promise(function(resolve,reject){
-    getAllInfo().then((value)=>{
-      let result=[]
-      value.map((item)=>{
-        if(item.type=='news')
-          result.push(item)
-      })
-      resolve(result)
+    firebase.firestore().collection('info').where("valid","==",true).where("type","==","news").get().then((qsnapshot)=>{
+      let dataArray=[]
+      qsnapshot.forEach((doc)=>dataArray.push(doc.data()))
+      resolve(dataArray)
     })
   })
 }
 
 export function getTypes(){
   return new Promise(function(resolve,reject){
-    firebase.database().ref('infoTypes/').once('value').then((snapshot)=>{
-      resolve(snapshot.val())
+    firebase.firestore().collection('settings').doc("infoTypes").get().then((snapshot)=>{
+      resolve(snapshot.data())
     })
   })
 }

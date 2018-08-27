@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, ActivityIndicator, SectionList, TouchableOpacity ,Image} from 'react-native';
+import {StyleSheet, Text, View, ActivityIndicator, SectionList, TouchableOpacity ,Image, Linking } from 'react-native';
 
 //Resources
 import styles from '../resources/styles'
@@ -50,7 +50,7 @@ export default class InfoList extends Component {
           <View style={[style.rightBig,{flexDirection:'column',alignItems:'flex-start'}]}>
             <Text style={styles.titleText}>{contact.item.title}</Text>
             <Text style={styles.subText}>{contact.item.text}</Text>
-            <TouchableOpacity onPress={()=>console.log("Open native contact info")}>
+            <TouchableOpacity onPress={()=>Linking.openURL('tel:'+contact.item.link)}>
             < Text style={styles.titleText}>{contact.item.link}</Text>
             </TouchableOpacity>
           </View>
@@ -61,7 +61,7 @@ export default class InfoList extends Component {
   renderDownload(download){
       return(
         <View style={styles.listItem}>
-          <TouchableOpacity style={styles.bigButton} onPress={()=>console.log("Open native browser "+download.item.link)}>
+          <TouchableOpacity style={styles.bigButton} onPress={()=>Linking.openURL(download.item.link)}>
             <View style={[style.leftSmall,{flex:1,alignItems:'center',justifyContent:'center',paddingLeft:15}]}>
               <Image style={{width:30, height:30}} source={{uri:download.item.image}}/>
             </View>
@@ -76,7 +76,7 @@ export default class InfoList extends Component {
 
   renderBonus(bonus){
     return(
-      <TouchableOpacity style={styles.listItem} onPress={()=>console.log("Go to webpage natively if link is not empty: " + bonus.item.link)}>
+      <TouchableOpacity style={styles.listItem} onPress={()=>{if(bonus.item.link!=undefined && bonus.item.link!="")Linking.openURL(bonus.item.link)}}>
           <View style={style.leftSmall}>
             <Image style={{width:50, height:50}} source={{uri:bonus.item.image}}/>
           </View>

@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {Platform, TouchableOpacity, Text, View, StyleSheet, Dimensions,ActivityIndicator} from 'react-native'
+import {Platform, TouchableOpacity, Text, View, StyleSheet, Dimensions, ActivityIndicator, Linking} from 'react-native'
 
 //import styles from '../resources/styles' //Does not work well with maps
 import colors from '../resources/colors'
@@ -106,6 +106,16 @@ export default class Map extends Component {
     return style
   }
 
+
+  openMaps(title,latlng){
+    Linking.openURL(
+      Platform.select({
+        ios: 'maps:0,0?q='+title+'@'+latlng.latitude+','+latlng.longitude ,
+        android: 'geo:0,0?q='+latlng.latitude+','+latlng.longitude+'('+title+')'
+      })
+    )
+  }
+
   render() {
     return (
       <View>
@@ -127,7 +137,7 @@ export default class Map extends Component {
                     description={marker.description}
                     key={marker.key}
                     pinColor={button.color}
-                    onCalloutPress={()=>console.log(marker)}
+                    onCalloutPress={()=>this.openMaps(marker.title,marker.latlng)}
                   />
                 ))
               ))}

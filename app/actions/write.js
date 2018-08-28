@@ -186,14 +186,14 @@ export function writeInfoMockData(){
 
 export function writeLocationMockData(){
     let mockData=[ {
-        "Description" : "Test Location Description",
-        "InsideMap" : "",
         "Lat" : 41.011394,
         "Long" : 28.925189,
-        "description" : "Test Room",
         "key" : "0",
         "title" : "Test Building",
-        "type" : "eventLocation",
+        "text" : "Test Location Description",
+        "description" : "Test Room",
+        "type" : "eventLocation",        
+        "InsideMap" : "",
         "valid" : true
       }, {
         "Lat" : 41.012394,

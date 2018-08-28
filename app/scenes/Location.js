@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, ActivityIndicator} from 'react-native';
 
-import {getlocationByKey} from '../actions/locations'
+import {getLocationByKey} from '../actions/locations'
 
 const title = "Location"
 
@@ -43,7 +43,7 @@ export default class Location extends Component {
 
     //if there is locationkey, get location from db, locationkey overwrites location object with location object from db
     if(locationKey!=""){
-      getlocationByKey(locationKey).then( (val) =>{
+      getLocationByKey(locationKey).then( (val) =>{
         this.props.navigation.setParams({locationName: val.title})
         this.setState({
           location:val,

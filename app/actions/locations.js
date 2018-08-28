@@ -30,3 +30,11 @@ export function getInitalRegion(){
     })
   })
 }
+
+export function getLocationByKey(key){
+  return new Promise(function(resolve,reject){
+    firebase.firestore().collection('locations').doc(key.toString()).get().then((snapshot)=>{
+      resolve(snapshot.data())
+    })
+  })
+}

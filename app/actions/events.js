@@ -18,10 +18,8 @@ export function getAllEvents(){
 
 export function getEventByKey(key){
   return new Promise(function(resolve,reject){
-    firebase.firestore().collection('events/'+key).get().then((qsnapshot)=>{
-      let dataArray=[]
-      qsnapshot.forEach((doc)=>dataArray.push(doc.data()))
-      resolve(dataArray)
+    firebase.firestore().collection('events').doc(key.toString()).get().then((snapshot)=>{
+      resolve(snapshot.data())
     })
   })
 }

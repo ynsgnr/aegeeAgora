@@ -34,7 +34,7 @@ export default class News extends Component {
       <View>
         <NavBar title={title}/>
         {this.state.loading ? <ActivityIndicator size="large"/> :
-          <NewsList news={this.state.newsList}/>
+          <NewsList  navigation={this.props.navigation} news={this.state.newsList}/>
         }
       </View>
     );

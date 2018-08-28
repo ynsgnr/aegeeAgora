@@ -107,7 +107,7 @@ export default class Schedule extends Component {
       )
     }
     return (
-      <ScheduleList events={this.state.eventList[this.constructDayKey(d)]} key={i}/>
+      <ScheduleList navigation={this.props.navigation} events={this.state.eventList[this.constructDayKey(d)]} key={i}/>
     )
   }
 

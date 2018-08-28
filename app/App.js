@@ -1,7 +1,7 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import { createBottomTabNavigator,createStackNavigator,createSwitchNavigator } from 'react-navigation';
+import { createBottomTabNavigator,createStackNavigator } from 'react-navigation';
 
 //Tab Scenes
 import Schedule from './scenes/Schedule';
@@ -15,28 +15,23 @@ import Event from './scenes/Event'
 
 //import {resetDatabase} from './actions/write' //Used for injecting mock data to db
 
-//Stack navigation for standalone pages
-const EventLocationStack = createStackNavigator (
-  {
-    Event:Event,
-    Location:Location,
-  },
-)
-
 //Tab Navigator:
 const TabNavigator = createBottomTabNavigator(
   {
     Schedule: {
-      screen: Schedule
+      screen: Schedule,
+      navigationOptions: ({ navigation }) => ({
+          title: 'Schedule',
+        }),
     },
     Map:{
-      screen:Map
+      screen:Map,
     },
     Info:{
-      screen:Info
+      screen:Info,
     },
     News:{
-      screen:News
+      screen:News,
     }
   },
   {
@@ -45,10 +40,16 @@ const TabNavigator = createBottomTabNavigator(
 );
 
 //Combine stack and tab navigations
-const RootNavigator = createSwitchNavigator (
+const RootNavigator = createStackNavigator (
   {
-    Home:TabNavigator,
-    EventLocationPage: EventLocationStack
+    Home:{
+      screen:TabNavigator,
+      navigationOptions:{
+        header:null
+      }
+    },
+    EventPage: Event,
+    LocationPage: Location,
   },
   {
     initialRouteName: 'Home'
@@ -90,5 +91,5 @@ export default class App extends React.Component {
   render() {
     return <RootNavigator />;
   }
-  
+
 }

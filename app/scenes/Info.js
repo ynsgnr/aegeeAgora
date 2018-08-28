@@ -51,10 +51,10 @@ export default class Info extends Component {
       <View>
         <NavBar title={title}/>
         {this.state.loading ? <ActivityIndicator size="large"/> :
-          <InfoList infoList={this.state.infoList}/>
+          <InfoList navigation={this.props.navigation} infoList={this.state.infoList}/>
         }
       </View>
     );
   }
-  
+
 }

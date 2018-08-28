@@ -56,6 +56,12 @@ export default class Map extends Component {
                 title:val[i].title,
                 description:val[i].description,
                 key:val[i].key,
+                Lat:val[i].Lat,
+                Long:val[i].Long,
+                text:val[i].text,
+                type:val[i].type,
+                insideMap:val[i].insideMap,
+                valid:true,
               })
           }
 
@@ -137,7 +143,10 @@ export default class Map extends Component {
                     description={marker.description}
                     key={marker.key}
                     pinColor={button.color}
-                    onCalloutPress={()=>this.openMaps(marker.title,marker.latlng)}
+                    onCalloutPress={()=>{
+                      if(marker.type=="eventLocation") this.props.navigation.push('LocationPage',{location:marker})
+                      else this.openMaps(marker.title,marker.latlng)
+                    }}
                   />
                 ))
               ))}

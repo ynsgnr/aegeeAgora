@@ -36,7 +36,7 @@ export default class ScheduleList extends Component {
     for(i=0;i<eventList.length;i++){
       let event = eventList[i]
       renderedList.push(
-        <TouchableOpacity key={i} onPress={()=>console.log(event)}>
+        <TouchableOpacity key={i} onPress={()=>{this.props.navigation.navigate('EventPage', {event:event})}}>
           <Text style={style.titleText}>{eventList[i].title}</Text>
           <Text style={style.subText}>{eventList[i].locationInfo}</Text>
         </TouchableOpacity>

@@ -97,5 +97,16 @@ export default styles = StyleSheet.create({
     borderRadius:50,
     borderColor: colors.backgroundDarker,
     backgroundColor: colors.white,
+  },
+  longTextWrapper:{
+    padding:10,
+  },
+  startOriented:{
+    justifyContent:'flex-start',
+    alignItems:'flex-start',
+    width:SCREEN_WIDTH,
+  },
+  darkText:{
+    color:colors.black,
   }
 })

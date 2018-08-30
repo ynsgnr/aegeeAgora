@@ -1,8 +1,12 @@
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, ActivityIndicator} from 'react-native';
+import {StyleSheet, Text, View, ActivityIndicator, Image, ScrollView, Linking} from 'react-native';
 
 import {getLocationByKey} from '../actions/locations'
+
+import LocationDisplay from '../components/locationDisplay'
+
+import styles from '../resources/styles'
 
 const title = "Location"
 
@@ -25,10 +29,19 @@ export default class Location extends Component {
   constructor(props){
     super(props)
     this.state={
-      evelocationnt : {},
+      location : {},
       locationKey : "",
       loading: true,
     }
+  }
+
+  openMaps(title,latlng){
+    Linking.openURL(
+      Platform.select({
+        ios: 'maps:0,0?q='+title+'@'+latlng.latitude+','+latlng.longitude ,
+        android: 'geo:0,0?q='+latlng.latitude+','+latlng.longitude+'('+title+')'
+      })
+    )
   }
 
   componentDidMount(){
@@ -43,14 +56,14 @@ export default class Location extends Component {
 
     //if there is locationkey, get location from db, locationkey overwrites location object with location object from db
     if(locationKey!=""){
-      getLocationByKey(locationKey).then( (val) =>{
+      getLocationByKey(locationKey.toString()).then( (val) =>{
         this.props.navigation.setParams({locationName: val.title})
         this.setState({
           location:val,
           loading:false,
         })
       })
-    }else if(location!={}){
+    }else if(location!=undefined){
       this.props.navigation.setParams({locationName: location.title})
       this.setState({
         location:location,
@@ -65,7 +78,31 @@ export default class Location extends Component {
     return (
       <View>
         {this.state.loading ? <ActivityIndicator size="large"/> :
-          <Text>{this.state.location.title}</Text>
+          <ScrollView>
+            <LocationDisplay location={this.state.location} onPress={()=>{
+              this.openMaps(this.state.location.title,{latitude:this.state.location.Lat,longitude:this.state.location.Long})
+            }} height={150}/>
+
+            <View style={[styles.startOriented]}>
+              <Text style={styles.titleText}>{this.state.location.title}</Text>
+              <Text style={styles.subText}>{this.state.location.text}</Text>
+            </View>
+
+            {(this.state.location.insideMap!=undefined && this.state.location.insideMap!="")&&
+              <View style={[styles.startOriented,{paddingLeft:10}]}>
+                <Text style={styles.titleText}>Inside Map</Text>
+                <Image style={{alignSelf: 'stretch', flex:1}} source={{uri:this.state.location.insideMap}}/>
+              </View>
+            }
+
+            <View style={styles.startOriented}>
+              <Text style={[styles.titleText,styles.darkText]}>Description</Text>
+              <View style={styles.longTextWrapper}>
+                <Text style={styles.subText}>{this.state.location.description}</Text>
+              </View>
+            </View>
+
+          </ScrollView>
         }
       </View>
     );

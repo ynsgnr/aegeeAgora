@@ -56,7 +56,6 @@ export default styles = StyleSheet.create({
   },
   daySelector:{
     width:SCREEN_WIDTH,
-    height:50,
     justifyContent: 'space-around',
     alignItems:'center',
     flexDirection:'row',
@@ -69,6 +68,7 @@ export default styles = StyleSheet.create({
   },
   daySelectorText:{
     fontSize:15,
+    padding:15,
   },
   leftArrow:{
     fontSize:20,

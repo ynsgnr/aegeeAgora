@@ -10,6 +10,7 @@ import com.facebook.soloader.SoLoader;
 
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
+import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 
 import com.airbnb.android.react.maps.MapsPackage;
 
@@ -30,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
           new RNFirebasePackage(),
           new RNFirebaseFirestorePackage(),
+          new RNFirebaseAuthPackage(),
           new MapsPackage()
       );
     }

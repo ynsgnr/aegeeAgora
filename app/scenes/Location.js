@@ -1,12 +1,14 @@
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, ActivityIndicator, Image, ScrollView, Linking} from 'react-native';
+import {StyleSheet, Text, View, ActivityIndicator, Image, ScrollView, Linking, Dimensions} from 'react-native';
 
 import {getLocationByKey} from '../actions/locations'
 
 import LocationDisplay from '../components/locationDisplay'
 
 import styles from '../resources/styles'
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
 
 const title = "Location"
 
@@ -75,6 +77,7 @@ export default class Location extends Component {
   }
 
   render() {
+    console.log(this.state);
     return (
       <View>
         {this.state.loading ? <ActivityIndicator size="large"/> :
@@ -83,7 +86,7 @@ export default class Location extends Component {
               this.openMaps(this.state.location.title,{latitude:this.state.location.Lat,longitude:this.state.location.Long})
             }} height={150}/>
 
-            <View style={[styles.startOriented]}>
+            <View style={[styles.startOriented,{padding:5}]}>
               <Text style={styles.titleText}>{this.state.location.title}</Text>
               <Text style={styles.subText}>{this.state.location.text}</Text>
             </View>
@@ -91,7 +94,7 @@ export default class Location extends Component {
             {(this.state.location.insideMap!=undefined && this.state.location.insideMap!="")&&
               <View style={[styles.startOriented,{paddingLeft:10}]}>
                 <Text style={styles.titleText}>Inside Map</Text>
-                <Image style={{alignSelf: 'stretch', flex:1}} source={{uri:this.state.location.insideMap}}/>
+                <Image style={{width:SCREEN_WIDTH*0.9, aspectRatio: 1}} source={{uri:this.state.location.insideMap}}/>
               </View>
             }
 

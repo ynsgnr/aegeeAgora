@@ -192,8 +192,8 @@ export function writeLocationMockData(){
         "title" : "Test Building",
         "text" : "Test Location Description",
         "description" : "Test Room",
-        "type" : "eventLocation",        
-        "InsideMap" : "",
+        "type" : "eventLocation",
+        "insideMap" : "",
         "valid" : true
       }, {
         "Lat" : 41.012394,

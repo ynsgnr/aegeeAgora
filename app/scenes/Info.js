@@ -49,7 +49,7 @@ export default class Info extends Component {
   render() {
     return (
       <View>
-        <NavBar title={title}/>
+        <NavBar title={title} navigation={this.props.navigation}/>
         {this.state.loading ? <ActivityIndicator size="large"/> :
           <InfoList navigation={this.props.navigation} infoList={this.state.infoList}/>
         }

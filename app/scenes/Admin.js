@@ -7,37 +7,36 @@ import NewsList from '../components/newsList'
 
 import {getAllNews} from '../actions/info'
 
-const title = "News"
+const title = "Update Data"
 
-export default class News extends Component {
+export default class Admin extends Component {
 
   constructor(props){
     super(props)
     this.state={
-      newsList : {},
       loading: true,
     }
   }
 
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: title
+    }
+  }
+
+
   componentDidMount(){
-    getAllNews().then( (val) =>{
-      let newsList=[]
-      this.setState({
-        newsList:val,
-        loading:false,
-      })
-    })
+
   }
 
   render() {
     return (
       <View>
-        <NavBar title={title} navigation={this.props.navigation}/>
         {this.state.loading ? <ActivityIndicator size="large"/> :
-          <NewsList  navigation={this.props.navigation} news={this.state.newsList}/>
+          <View/>
         }
       </View>
-    );
+    )
   }
 
 }

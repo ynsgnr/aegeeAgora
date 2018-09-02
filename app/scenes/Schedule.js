@@ -133,7 +133,7 @@ export default class Schedule extends Component {
   render() {
     return (
       <View>
-        <NavBar title={title}/>
+        <NavBar title={title} navigation={this.props.navigation}/>
         <ScrollView style={styles.body}>
           {this.state.loading ? <ActivityIndicator size="large"/> :
             <View>

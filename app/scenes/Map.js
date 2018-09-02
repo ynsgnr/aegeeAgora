@@ -125,7 +125,7 @@ export default class Map extends Component {
   render() {
     return (
       <View>
-        <NavBar title={title}/>
+        <NavBar title={title} navigation={this.props.navigation}/>
           {this.state.loading ? <ActivityIndicator size="large"/> :
             <View style ={style.mapContainer}>
               <MapView

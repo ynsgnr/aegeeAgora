@@ -3,6 +3,8 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import { createBottomTabNavigator,createStackNavigator } from 'react-navigation';
 
+import firebase from 'react-native-firebase';
+
 //Tab Scenes
 import Schedule from './scenes/Schedule';
 import Map from './scenes/Map';
@@ -12,6 +14,8 @@ import News from './scenes/News';
 //Standalone scenes
 import Location from './scenes/Location';
 import Event from './scenes/Event'
+import Auth from './scenes/Auth'
+import Admin from './scenes/Admin'
 
 //import {resetDatabase} from './actions/write' //Used for injecting mock data to db
 
@@ -50,6 +54,8 @@ const RootNavigator = createStackNavigator (
     },
     EventPage: Event,
     LocationPage: Location,
+    AuthPage: Auth,
+    AdminPage: Admin,
   },
   {
     initialRouteName: 'Home'
@@ -84,9 +90,13 @@ this.props.navigation.setParams({otherParam: 'Updated!'}) //Update navigation op
 
 export default class App extends React.Component {
 
-  /*componentDidMount(){
-    resetDatabase()
-  }*/
+  componentDidMount(){
+  firebase.auth().signInAnonymouslyAndRetrieveData()
+    .then((data) => {
+      console.log("signed in anonymously: ")
+    });
+    //resetDatabase()
+  }
 
   render() {
     return <RootNavigator />;

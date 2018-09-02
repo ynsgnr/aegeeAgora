@@ -1,11 +1,14 @@
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View, Dimensions} from 'react-native';
 import { createBottomTabNavigator,createStackNavigator } from 'react-navigation';
+import { BottomTabBar } from 'react-navigation-tabs'
 
 import firebase from 'react-native-firebase';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
+
+import LogOutButton from './components/logOutButton'
 
 //Tab Scenes
 import Schedule from './scenes/Schedule';
@@ -17,9 +20,10 @@ import News from './scenes/News';
 import Location from './scenes/Location';
 import Event from './scenes/Event'
 import Auth from './scenes/Auth'
-import Admin from './scenes/Admin'
 
 //import {resetDatabase} from './actions/write' //Used for injecting mock data to db
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
 
 //Tab Navigator:
 const TabNavigator = createBottomTabNavigator(
@@ -71,7 +75,18 @@ const TabNavigator = createBottomTabNavigator(
   },
   {
     initialRouteName : 'Schedule', //Starting screen
-  }
+    tabBarComponent: (props) =>
+    <View>
+    {(firebase.auth().currentUser!=null && firebase.auth().currentUser.isAnonymous==false) ?
+    <View style={{flexDirection:'row'}}>
+      <BottomTabBar style={{width:SCREEN_WIDTH*0.8}} {...props}/>
+      <LogOutButton style={{width:SCREEN_WIDTH*0.2}}/>
+    </View>
+    :
+      <BottomTabBar {...props}/>
+    }
+    </View>
+  },
 );
 
 //Combine stack and tab navigations
@@ -86,7 +101,6 @@ const RootNavigator = createStackNavigator (
     EventPage: Event,
     LocationPage: Location,
     AuthPage: Auth,
-    AdminPage: Admin,
   },
   {
     initialRouteName: 'Home'
@@ -131,12 +145,11 @@ export default class App extends React.Component {
       console.log("Already loged as: ")
       console.log(firebase.auth().currentUser.email);
     }
-
         //resetDatabase()
   }
 
   render() {
-    return <RootNavigator />;
+    return <RootNavigator/>
   }
 
 }

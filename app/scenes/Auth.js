@@ -2,12 +2,19 @@
 import React, {Component} from 'react';
 import { Text, View, ActivityIndicator, TextInput, TouchableOpacity} from 'react-native';
 
+import { StackActions, NavigationActions } from 'react-navigation';
+
 import NavBar from '../components/navBar'
 import NewsList from '../components/newsList'
 
 import firebase from 'react-native-firebase';
 
 import colors from '../resources/colors'
+
+const resetAction = StackActions.reset({
+  index: 0,
+  actions: [NavigationActions.navigate({ routeName: 'Home' })],
+});
 
 export default class Auth extends Component {
 
@@ -32,7 +39,7 @@ export default class Auth extends Component {
 
   componentDidMount(){
     let user = firebase.auth().currentUser
-    if(user!=null && user.isAnonymous==false)this.props.navigation.replace('AdminPage')
+    if(user!=null && user.isAnonymous==false)this.props.navigation.dispatch(resetAction)
     else this.setState({loading:false})
   }
 
@@ -42,7 +49,7 @@ export default class Auth extends Component {
     firebase.auth().signInAndRetrieveDataWithEmailAndPassword(
       this.state.email, this.state.pass
     ).then((data)=>{
-      this.props.navigation.replace('AdminPage')
+      this.props.navigation.dispatch(resetAction);
     },
     (error)=>{
       console.log(error);

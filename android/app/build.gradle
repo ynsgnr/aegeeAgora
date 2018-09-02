@@ -141,6 +141,9 @@ dependencies {
     implementation project(':react-native-firebase')
     implementation "com.google.firebase:firebase-firestore:16.0.0"
     implementation "com.google.firebase:firebase-auth:16.0.2"
+
+    implementation project(':react-native-vector-icons')
+
     implementation project(':react-native-maps')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])

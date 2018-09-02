@@ -5,6 +5,8 @@ import { createBottomTabNavigator,createStackNavigator } from 'react-navigation'
 
 import firebase from 'react-native-firebase';
 
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
 //Tab Scenes
 import Schedule from './scenes/Schedule';
 import Map from './scenes/Map';
@@ -24,18 +26,47 @@ const TabNavigator = createBottomTabNavigator(
   {
     Schedule: {
       screen: Schedule,
-      navigationOptions: ({ navigation }) => ({
-          title: 'Schedule',
-        }),
+      navigationOptions:{
+        tabBarIcon:({ tintColor }) => (
+            <Icon name="calendar" size={20} color={tintColor} solid/>
+          ),
+        tabBarOptions: {
+          showIcon: true
+        },
+      }
     },
     Map:{
       screen:Map,
+      navigationOptions:{
+        tabBarIcon:({ tintColor }) => (
+            <Icon name="map-marked" size={20} color={tintColor} solid/>
+          ),
+        tabBarOptions: {
+          showIcon: true
+        },
+      }
     },
     Info:{
       screen:Info,
+      navigationOptions:{
+        tabBarIcon:({ tintColor }) => (
+            <Icon name="info-circle" size={20} color={tintColor} solid/>
+          ),
+        tabBarOptions: {
+          showIcon: true
+        },
+      }
     },
     News:{
       screen:News,
+      navigationOptions:{
+        tabBarIcon:({ tintColor }) => (
+            <Icon name="newspaper" size={20} color={tintColor} solid/>
+          ),
+        tabBarOptions: {
+          showIcon: true
+        },
+      }
     }
   },
   {

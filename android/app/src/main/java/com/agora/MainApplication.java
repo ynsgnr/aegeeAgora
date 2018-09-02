@@ -14,6 +14,8 @@ import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 
 import com.airbnb.android.react.maps.MapsPackage;
 
+import com.oblador.vectoricons.VectorIconsPackage;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,7 +34,8 @@ public class MainApplication extends Application implements ReactApplication {
           new RNFirebasePackage(),
           new RNFirebaseFirestorePackage(),
           new RNFirebaseAuthPackage(),
-          new MapsPackage()
+          new MapsPackage(),
+          new VectorIconsPackage()
       );
     }
 

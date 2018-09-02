@@ -80,7 +80,7 @@ export default class Location extends Component {
     console.log(this.state);
     return (
       <View>
-        {this.state.loading ? <ActivityIndicator size="large"/> :
+        {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> : 
           <ScrollView>
             <LocationDisplay location={this.state.location} onPress={()=>{
               this.openMaps(this.state.location.title,{latitude:this.state.location.Lat,longitude:this.state.location.Long})

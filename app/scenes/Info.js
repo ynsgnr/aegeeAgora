@@ -50,7 +50,7 @@ export default class Info extends Component {
     return (
       <View>
         <NavBar title={title} navigation={this.props.navigation}/>
-        {this.state.loading ? <ActivityIndicator size="large"/> :
+        {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :
           <InfoList navigation={this.props.navigation} infoList={this.state.infoList}/>
         }
       </View>

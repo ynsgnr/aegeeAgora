@@ -49,7 +49,7 @@ export default class Auth extends Component {
   }
 
   render() {
-    if(this.state.isLoggedIn || this.state.loading) return <ActivityIndicator size="large"/>
+    if(this.state.isLoggedIn || this.state.loading) return <View style={styles.centered}><ActivityIndicator size="large"/></View>
     return (
       <View style={styles.centered}>
         <TextInput onChangeText={(text)=>this.setState({email:text})} placeholder={'E-mail'} style={{width:150}}/>

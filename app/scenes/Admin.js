@@ -34,16 +34,15 @@ export default class Admin extends Component {
   }
 
   componentWillUnmount() {
-    if (this.unsubscriber) {
-      this.unsubscriber();
-    }
+    if (this.unsubscriber) this.unsubscriber()
   }
 
   render() {
-    if(this.state.loading || this.state.user.isAnonymous) return <ActivityIndicator size="large"/>
+    if(this.state.loading || this.state.user.isAnonymous) return <View style={styles.centered}><ActivityIndicator size="large"/></View>
     return (
-      <View>
+      <View style={styles.centered}>
         <Text>Loged In!</Text>
+        <TouchableOpacity style={styles.bigButton}><Text style={styles.subText}>Log Out</Text></TouchableOpacity>
       </View>
     )
   }

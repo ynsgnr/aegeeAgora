@@ -135,7 +135,7 @@ export default class Schedule extends Component {
       <View>
         <NavBar title={title} navigation={this.props.navigation}/>
         <ScrollView style={styles.body}>
-          {this.state.loading ? <ActivityIndicator size="large"/> :
+          {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> : 
             <View>
               <View style={styles.daySelector}>
                 <TouchableOpacity style={{padding:20}} onPress={()=>this.setState(previousState=>{

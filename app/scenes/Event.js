@@ -123,7 +123,7 @@ export default class Event extends Component {
   render() {
     return (
       <View>
-        {this.state.loading ? <ActivityIndicator size="large"/> :
+        {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :
           <ScrollView>
             <View style={{alignItems:'center', justifyContent: 'center', height:250,}}>
               <View style={style.dateTimeDisplay}>

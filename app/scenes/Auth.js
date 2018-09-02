@@ -32,14 +32,16 @@ export default class Auth extends Component {
 
   componentDidMount(){
     let user = firebase.auth().currentUser
-    if(user && user.isAnonymous==false)this.props.navigation.replace('AdminPage')
+    if(user!=null && user.isAnonymous==false)this.props.navigation.replace('AdminPage')
     else this.setState({loading:false})
   }
 
   loginWithMail(){
     this.setState({loggingIn:true})
     console.log("Logging in with mail: "+this.state.email);
-    firebase.auth().signInAndRetrieveDataWithEmailAndPassword(this.state.email, this.state.pass).then((data)=>{
+    firebase.auth().signInAndRetrieveDataWithEmailAndPassword(
+      this.state.email, this.state.pass
+    ).then((data)=>{
       this.props.navigation.replace('AdminPage')
     },
     (error)=>{

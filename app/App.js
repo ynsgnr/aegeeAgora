@@ -91,12 +91,15 @@ this.props.navigation.setParams({otherParam: 'Updated!'}) //Update navigation op
 export default class App extends React.Component {
 
   componentDidMount(){
-    if(firebase.auth().currentUser!=null){
+    if(firebase.auth().currentUser==null){
       firebase.auth().signInAnonymouslyAndRetrieveData()
         .then((data) => {
           console.log("signed in anonymously: ")
         });
-    }else console.log("Already loged in: ");
+    }else {
+      console.log("Already loged as: ")
+      console.log(firebase.auth().currentUser.email);
+    }
 
         //resetDatabase()
   }

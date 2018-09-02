@@ -1,9 +1,10 @@
 
 import React, {Component} from 'react';
-import { Text, View, ActivityIndicator} from 'react-native';
+import { Text, View, ActivityIndicator, TouchableOpacity} from 'react-native';
 
-import NavBar from '../components/navBar'
 import NewsList from '../components/newsList'
+
+import colors from '../resources/colors'
 
 import firebase from 'react-native-firebase';
 
@@ -31,6 +32,13 @@ export default class Admin extends Component {
     this.unsubscriber = firebase.auth().onAuthStateChanged((user) => {
       if(user==undefined || user.isAnonymous) this.props.navigation.replace('AuthPage')
     });
+    let user = firebase.auth().currentUser
+    if(user!=null && user.isAnonymous==false){
+      this.setState({
+        user:user,
+        loading:false,
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -42,7 +50,11 @@ export default class Admin extends Component {
     return (
       <View style={styles.centered}>
         <Text>Loged In!</Text>
-        <TouchableOpacity style={styles.bigButton}><Text style={styles.subText}>Log Out</Text></TouchableOpacity>
+        <View style={{flexDirection:'row'}}>
+          <TouchableOpacity style={[styles.bigButton,{flex:1,justifyContent:'center',alignItems:'center',backgroundColor:colors.ligthRed}]} onPress={()=>{firebase.auth().signOut()}}>
+            <Text style={[styles.subText,{color:colors.white}]}>Log Out</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }

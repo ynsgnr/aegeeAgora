@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import { Text, View, ActivityIndicator} from 'react-native';
+import { Text, View, ActivityIndicator, TextInput, TouchableOpacity} from 'react-native';
 
 import NavBar from '../components/navBar'
 import NewsList from '../components/newsList'
@@ -16,6 +16,8 @@ export default class Auth extends Component {
       isLoggedIn : false,
       loading: true,
       user:{},
+      email:'',
+      pass:'',
     }
   }
 
@@ -27,15 +29,17 @@ export default class Auth extends Component {
 
   componentDidMount(){
     let user = firebase.auth().currentUser
-    if(user && user.isAnonymous!=false)this.props.navigation.replace('AdminPage')
-    //Already logedin as anon check if mail
+    if(user && user.isAnonymous==false)this.props.navigation.replace('AdminPage')
+    else this.setState({loading:false})
   }
 
   render() {
     if(this.state.isLoggedIn || this.state.loading) return <ActivityIndicator size="large"/>
     return (
-      <View>
-        <Text>Test Auth</Text>
+      <View style={styles.centered}>
+        <TextInput onChangeText={(text)=>this.setState({email:text})} placeholder={'E-mail'} style={{width:150}}/>
+        <TextInput secureTextEntry onChangeText={(text)=>this.setState({pass:text})} placeholder={'Password'} style={{width:150}}/>
+        <TouchableOpacity style={styles.bigButton}><Text style={styles.subText}>Log in as Admin</Text></TouchableOpacity>
       </View>
     )
   }

@@ -92,7 +92,6 @@ export default styles = StyleSheet.create({
   bigButton:{
     margin:15,
     flexDirection:'row',
-    flex:1,
     borderWidth:1,
     borderRadius:50,
     borderColor: colors.backgroundDarker,

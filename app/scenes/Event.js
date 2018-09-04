@@ -97,12 +97,14 @@ export default class Event extends Component {
             <Text style={[styles.subText,styles.darkText,{marginLeft:10}]}>{this.state.event.locationInfo}</Text>
             <LocationDisplay onPress={()=>this.props.navigation.push("LocationPage",{locationKey:this.state.event.location.toString()})} locationKey={this.state.event.location.toString()} height={100}/>
 
-            <View style={styles.startOriented}>
-              <Text style={[styles.titleText,styles.darkText]}>Description</Text>
-              <View style={styles.longTextWrapper}>
-                <Text style={styles.subText}>{this.state.event.description}</Text>
+            {this.state.event.description!=undefined && this.state.event.description!="" &&
+              <View style={styles.startOriented}>
+                <Text style={[styles.titleText,styles.darkText]}>Description</Text>
+                <View style={styles.longTextWrapper}>
+                  <Text style={styles.subText}>{this.state.event.description}</Text>
+                </View>
               </View>
-            </View>
+            }
 
           </ScrollView>
         }

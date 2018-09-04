@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, ScrollView} from 'react-native';
 
-import {getEventByKey} from '../actions/events'
+import {getEventByKey, constructDayKey, constructHourKey, getWeekDay} from '../actions/events'
 
 import LocationDisplay from '../components/locationDisplay'
 
@@ -66,60 +66,6 @@ export default class Event extends Component {
     }
   }
 
-
-    constructDayKey(d){
-      let timeString = "";
-          if (d.getDate()<10){
-        timeString=timeString+"0"+d.getDate()
-      }else{
-        timeString=timeString+d.getDate()
-      }
-      timeString=timeString+"-"
-      if (d.getMonth()<9){
-        timeString=timeString+"0"+(d.getMonth()+1)
-      }else{
-        timeString=timeString+(d.getMonth()+1)
-      }
-      timeString=timeString+"-"+d.getFullYear()
-      return timeString
-    }
-
-    constructHourKey(d){
-      let timeString = "";
-      if (d.getHours()<10){
-        timeString=timeString+"0"+d.getHours()
-      }else{
-        timeString=timeString+d.getHours()
-      }
-      timeString=timeString+":"
-      if (d.getMinutes()<10){
-        timeString=timeString+"0"+d.getMinutes()
-      }else{
-        timeString=timeString+d.getMinutes()
-      }
-      return timeString
-    }
-
-    getWeekDay(d){
-      switch(d.getDay()){
-        case 0:
-          return "Sunday"
-        case 1:
-          return "Monday"
-        case 2:
-          return "Tuesday"
-        case 3:
-          return "Wednesday"
-        case 4:
-          return "Thursday"
-        case 5:
-          return "Friday"
-        case 6:
-          return "Saturday"
-      }
-    }
-
-
   render() {
     return (
       <View>
@@ -128,23 +74,23 @@ export default class Event extends Component {
             <View style={{alignItems:'center', justifyContent: 'center', height:250,}}>
               <View style={style.dateTimeDisplay}>
                   <View style={style.smallSide}>
-                    <Text style={[styles.titleText,styles.darkText]}>{this.constructHourKey(this.state.event.startDate)}</Text>
+                    <Text style={[styles.titleText,styles.darkText]}>{constructHourKey(this.state.event.startDate)}</Text>
                     <View style={style.shapeContainer}>
                       <View style={style.midLineInvisible}/>
                       <View style={styles.littleCircle}/>
                       <View style={style.midLine}/>
                     </View>
-                    <Text style={[styles.titleText,styles.darkText]}>{this.constructDayKey(this.state.event.startDate)+" "+this.getWeekDay(this.state.event.startDate)}</Text>
+                    <Text style={[styles.titleText,styles.darkText]}>{constructDayKey(this.state.event.startDate)+" "+getWeekDay(this.state.event.startDate)}</Text>
                   </View>
                 <View style={style.midLine}/>
                 <View style={style.smallSide}>
-                  <Text style={[styles.titleText,styles.darkText]}>{this.constructHourKey(this.state.event.endDate)}</Text>
+                  <Text style={[styles.titleText,styles.darkText]}>{constructHourKey(this.state.event.endDate)}</Text>
                   <View style={style.shapeContainer}>
                     <View style={style.midLine}/>
                     <View style={styles.littleCircle}/>
                     <View style={style.midLineInvisible}/>
                   </View>
-                  <Text style={[styles.titleText,styles.darkText]}>{this.constructDayKey(this.state.event.endDate)+" "+this.getWeekDay(this.state.event.endDate)}</Text>
+                  <Text style={[styles.titleText,styles.darkText]}>{constructDayKey(this.state.event.endDate)+" "+getWeekDay(this.state.event.endDate)}</Text>
                 </View>
               </View>
             </View>

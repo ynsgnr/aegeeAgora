@@ -2,7 +2,11 @@
 import React, {Component} from 'react';
 import {Text, View, ActivityIndicator, ScrollView, TouchableOpacity, Animated, Dimensions} from 'react-native';
 
+import {constructDayKey, constructHourKey, getWeekDay, constructReverseDayKey} from '../actions/events'
+
 import {Calendar} from 'react-native-calendars';
+
+import firebase from 'react-native-firebase';
 
 //Resources
 import styles from '../resources/styles'
@@ -39,57 +43,6 @@ export default class Schedule extends Component {
       expanded:true,
     }
   }
-
-  constructDayKey(d){
-    let timeString = "";
-        if (d.getDate()<10){
-      timeString=timeString+"0"+d.getDate()
-    }else{
-      timeString=timeString+d.getDate()
-    }
-    timeString=timeString+"-"
-    if (d.getMonth()<9){
-      timeString=timeString+"0"+(d.getMonth()+1)
-    }else{
-      timeString=timeString+(d.getMonth()+1)
-    }
-    timeString=timeString+"-"+d.getFullYear()
-    return timeString
-  }
-
-  constructReverseDayKey(d){
-    let timeString = "";
-    timeString=timeString+d.getFullYear()+"-"
-    if (d.getMonth()<9){
-      timeString=timeString+"0"+(d.getMonth()+1)
-    }else{
-      timeString=timeString+(d.getMonth()+1)
-    }
-    timeString=timeString+"-"
-    if (d.getDate()<10){
-      timeString=timeString+"0"+d.getDate()
-    }else{
-      timeString=timeString+d.getDate()
-    }
-    return timeString
-  }
-
-  constructHourKey(d){
-    let timeString = "";
-    if (d.getHours()<10){
-      timeString=timeString+"0"+d.getHours()
-    }else{
-      timeString=timeString+d.getHours()
-    }
-    timeString=timeString+":"
-    if (d.getMinutes()<10){
-      timeString=timeString+"0"+d.getMinutes()
-    }else{
-      timeString=timeString+d.getMinutes()
-    }
-    return timeString
-  }
-
   sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
@@ -108,11 +61,11 @@ export default class Schedule extends Component {
         if(val[i].startDate>maxDate) maxDate=val[i].startDate
         if(val[i].startDate<minDate) minDate=val[i].startDate
 
-        let dayKey = this.constructDayKey(val[i].startDate)
+        let dayKey = constructDayKey(val[i].startDate)
 
         if(dayList[dayKey]==undefined) dayList[dayKey]={}
 
-        let hourKey = this.constructHourKey(val[i].startDate)
+        let hourKey = constructHourKey(val[i].startDate)
 
         if(dayList[dayKey][hourKey]==undefined) dayList[dayKey][hourKey]=[]
         dayList[dayKey][hourKey].push(val[i])
@@ -141,27 +94,8 @@ export default class Schedule extends Component {
       )
     }
     return (
-      <ScheduleList navigation={this.props.navigation} events={this.state.eventList[this.constructDayKey(d)]} key={i}/>
+      <ScheduleList navigation={this.props.navigation} events={this.state.eventList[constructDayKey(d)]} key={i}/>
     )
-  }
-
-  getWeekDay(d){
-    switch(d.getDay()){
-      case 0:
-        return "Sunday"
-      case 1:
-        return "Monday"
-      case 2:
-        return "Tuesday"
-      case 3:
-        return "Wednesday"
-      case 4:
-        return "Thursday"
-      case 5:
-        return "Friday"
-      case 6:
-        return "Saturday"
-    }
   }
 
   toggleCalendar(){
@@ -193,7 +127,7 @@ export default class Schedule extends Component {
   }
 
   getMarkedDates(){
-    let key = this.constructReverseDayKey(this.state.currentDay)
+    let key = constructReverseDayKey(this.state.currentDay)
     let val = {}
     val[key]={selected:true}
     return val
@@ -209,7 +143,7 @@ export default class Schedule extends Component {
               <View style={{flexDirection:'column'}}>
                 <View style={{height:this.props.maxDayPickerHeigth-this.props.minDayPickerHeigth,backgroundColor:colors.white}}>
                   <Calendar style={{height:this.props.maxDayPickerHeigth-this.props.minDayPickerHeigth,backgroundColor:colors.white,calendarBackground:colors.white}}
-                  current={this.constructReverseDayKey(this.state.currentDay)}
+                  current={constructReverseDayKey(this.state.currentDay)}
                   onDayPress={(day) => {
                     let currentDay = new Date()
                     currentDay.setYear(day.year)
@@ -231,7 +165,7 @@ export default class Schedule extends Component {
                     <Text style={styles.leftArrow}> {'<'} </Text>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={()=>this.toggleCalendar()}>
-                    <Text style={[styles.daySelectorText,{flex:2}]}>{this.constructDayKey(this.state.currentDay)+" "+this.getWeekDay(this.state.currentDay)}</Text>
+                    <Text style={[styles.daySelectorText,{flex:2}]}>{constructDayKey(this.state.currentDay)+" "+getWeekDay(this.state.currentDay)}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={{padding:20}} onPress={()=>this.setState(previousState=>{
                     let currentDay = new Date(previousState.currentDay)

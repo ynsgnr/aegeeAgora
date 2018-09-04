@@ -1,8 +1,9 @@
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, ScrollView, TextInput, Dimensions} from 'react-native';
+import {StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, ScrollView, TextInput, Dimensions, Picker} from 'react-native';
 
 import {getEventByKey, writeEvent, constructDayKey, constructHourKey, getWeekDay} from '../actions/events'
+import {getAllLocations} from '../actions/locations'
 
 import LocationDisplay from '../components/locationDisplay'
 import TimePicker from '../components/timePicker'
@@ -58,42 +59,55 @@ export default class Event extends Component {
       event=this.props.navigation.getParam("event", undefined )
     }else{event=this.props.event}
 
-    //if there is eventkey, get event from db, eventkey overwrites event object with event object from db
-    if(eventKey!=""){
-      getEventByKey(eventKey).then( (val) =>{
+    //construct location picker
+    getAllLocations().then((data)=>{
+      let pickerValues = []
+      for(i=0;i<data.length;i++){
+        if(data[i].type=="eventLocation")
+          pickerValues.push(
+            <Picker.Item label={data[i].title} value={data[i]} key={i} />
+          )
+      }
+
+      //if there is eventkey, get event from db, eventkey overwrites event object with event object from db
+      if(eventKey!=""){
+        getEventByKey(eventKey).then( (val) =>{
+          this.props.navigation.setParams({title: "Edit Event"})
+          this.props.navigation.setParams({eventName: val.title})
+          this.setState({
+            event:val,
+            loading:false,
+            locationPickerList:pickerValues,
+          })
+        })
+      }else if(event!=undefined){
         this.props.navigation.setParams({title: "Edit Event"})
-        this.props.navigation.setParams({eventName: val.title})
+        this.props.navigation.setParams({eventName: event.title})
         this.setState({
-          event:val,
+          event:event,
+          loading:false,
+          locationPickerList:pickerValues,
+        })
+      }else{
+        //No event or key found, add a new event
+        this.props.navigation.setParams({title: "Add New Event"})
+        this.setState({
+          event:{
+            "description" : "",
+            "endDate" : endDate,
+            "key" : "-1",
+            "location" : "0",
+            "locationInfo" : " ",
+            "startDate" : startDate,
+            "title" : "",
+            "valid" : true,
+          },
+          "locationPickerList":pickerValues,
           loading:false,
         })
-      })
-    }else if(event!=undefined){
-      this.props.navigation.setParams({title: "Edit Event"})
-      this.props.navigation.setParams({eventName: event.title})
-      this.setState({
-        event:event,
-        loading:false,
-      })
-    }else{
-      //No event or key found, add a new event
-      this.props.navigation.setParams({title: "Add New Event"})
-      this.setState({
-        event:{
-          "description" : "",
-          "endDate" : endDate,
-          "key" : "-1",
-          "location" : "0",
-          "locationInfo" : " ",
-          "startDate" : startDate,
-          "title" : "",
-          "valid" : true,
-        },
-        loading:false,
-      })
-    }
+      }
+    })
   }
-
 
   render() {
     return (
@@ -144,7 +158,19 @@ export default class Event extends Component {
                 </TouchableOpacity>
               </View>
 
-              <Text style={[styles.titleText,styles.darkText]}>Location</Text>
+              <Text style={[styles.titleText,styles.darkText]}>Location:</Text>
+              <Picker
+                selectedValue={this.state.event.location}
+                style={{ flex:1 }}
+                onValueChange={(itemValue, itemIndex) =>
+                  this.setState((previousState)=>{
+                    previousState.event.locationKey=itemValue.key
+                    previousState.event.locationInfo=itemValue.title
+                    return previousState}
+                  )}
+                >
+                {this.state.locationPickerList}
+              </Picker>
               <Text style={[styles.subText,styles.darkText,{marginLeft:10}]}>{this.state.event.locationInfo}</Text>
               <LocationDisplay onPress={()=>this.props.navigation.push("LocationPage",{locationKey:this.state.event.location.toString()})} locationKey={this.state.event.location.toString()} height={100}/>
 
@@ -154,7 +180,6 @@ export default class Event extends Component {
                   <TextInput multiline placeholder={'Description'} style={[styles.subText,styles.darkText,{marginLeft:10,width:SCREEN_WIDTH*0.8}]} onChangeText={(text)=>this.setState((previousState)=>{previousState.event.description=text;return previousState})}/>
                 </View>
               </View>
-
             </ScrollView>
           </View>
         }

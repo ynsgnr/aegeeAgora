@@ -10,8 +10,6 @@ import styles from '../resources/styles'
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-const title = "Location"
-
 export default class Location extends Component {
 
   //Props avaliable by component props or navigation paramaters
@@ -80,7 +78,7 @@ export default class Location extends Component {
     console.log(this.state);
     return (
       <View>
-        {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> : 
+        {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :
           <ScrollView>
             <LocationDisplay location={this.state.location} onPress={()=>{
               this.openMaps(this.state.location.title,{latitude:this.state.location.Lat,longitude:this.state.location.Long})

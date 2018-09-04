@@ -45,8 +45,8 @@ export default styles = StyleSheet.create({
   navbar:{
     width:SCREEN_WIDTH,
     height:50,
-    justifyContent: 'space-around',
-    alignItems:'stretch',
+    justifyContent: 'center',
+    alignItems:'center',
     flexDirection:'row',
     borderWidth: 1,
     borderTopWidth: 0,

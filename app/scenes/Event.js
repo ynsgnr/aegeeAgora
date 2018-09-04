@@ -9,8 +9,6 @@ import LocationDisplay from '../components/locationDisplay'
 import colors from '../resources/colors'
 import styles from '../resources/styles'
 
-const title = "Event"
-
 export default class Event extends Component {
 
   //Props avaliable by component props or navigation paramaters

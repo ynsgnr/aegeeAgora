@@ -29,7 +29,7 @@ export default class TimePicker extends Component{
   static defaultProps = {
     beginDate:new Date(),
     endDate:new Date(),
-    pickedDateColor:colors.ligthBlue,
+    pickedDateColor:colors.background,
     done:(begin,end)=>{console.log("Dates Picked "+begin+" - "+end)},
     visible:false,
   }
@@ -63,38 +63,6 @@ export default class TimePicker extends Component{
   }
 
   componentDidMount(){
-    d = this.props.beginDate
-    b = this.props.endDate
-    bDateS = ''
-    eDateS = ''
-    if (this.props.endDate==undefined) {
-      b.setHours(d.getHours()+2)
-    }else{//WHY??
-      yy=d.getFullYear()
-      dd=d.getDate()
-      mm=d.getMonth()+1
-      bDateS=yy
-      if(mm<10)
-        bDateS=bDateS+'-0'+mm
-      else
-        bDateS=bDateS+'-'+mm
-      if(dd<10)
-        bDateS=bDateS+'-0'+dd
-      else
-        bDateS=bDateS+'-'+dd
-      yy=d.getFullYear()
-      dd=d.getDate()
-      mm=d.getMonth()+1
-      eDateS=yy
-      if(mm<10)
-        eDateS=eDateS+'-0'+mm
-      else
-        eDateS=eDateS+'-'+mm
-      if(dd<10)
-        eDateS=eDateS+'-0'+dd
-      else
-        eDateS=eDateS+'-'+dd
-    }
     this.hours=[]
     this.hours.push(
       <View key={-2} style={[{height:SCROLLSTEPHEIGHT}]}/>
@@ -133,6 +101,45 @@ export default class TimePicker extends Component{
     this.minutes.push(
       <View key={62} style={[{height:SCROLLSTEPHEIGHT}]}/>
     )
+    this.setState({
+      loading:false
+    })
+  }
+
+  componentWillReceiveProps(nextProps){
+    console.log(nextProps);
+    d = nextProps.beginDate
+    b = nextProps.endDate
+    bDateS = ''
+    eDateS = ''
+    if (nextProps.endDate==undefined) {
+      b.setHours(d.getHours()+2)
+    }else{//WHY??
+      yy=d.getFullYear()
+      dd=d.getDate()
+      mm=d.getMonth()+1
+      bDateS=yy
+      if(mm<10)
+        bDateS=bDateS+'-0'+mm
+      else
+        bDateS=bDateS+'-'+mm
+      if(dd<10)
+        bDateS=bDateS+'-0'+dd
+      else
+        bDateS=bDateS+'-'+dd
+      yy=d.getFullYear()
+      dd=d.getDate()
+      mm=d.getMonth()+1
+      eDateS=yy
+      if(mm<10)
+        eDateS=eDateS+'-0'+mm
+      else
+        eDateS=eDateS+'-'+mm
+      if(dd<10)
+        eDateS=eDateS+'-0'+dd
+      else
+        eDateS=eDateS+'-'+dd
+    }
     this.setState({
       loading:false,
       bHour:d.getHours(),
@@ -264,24 +271,26 @@ export default class TimePicker extends Component{
   }
 
   render(){
-    console.log(this.state);
     return (
       <Modal animationType='fade' onShow={()=>{this.scrollToState();}} hardwareAccelerated={true} onRequestClose={() => this.saveAndclose()} transparent={true} visible={this.props.visible}>
         { this.state.loading ? <ActivityIndicator/> :
-        <View style={[styles.fullModalPage]}>
-          <View style={[styles.timePickerContainer]}>
-            {this.clock()}
-            <View style={[styles.calendarContainer]}>
-                <CalendarList
-                style={[{backgroundColor:'transparent'}]}
-                current={this.state.beginDay.dateString}
-                onDayPress={(day)=>this.markDates(day)}
-                markingType={'period'}
-                markedDates={this.state.markedDates}
-                />
+          <View style={[styles.fullModalPage]}>
+            <View style={[styles.timePickerContainer]}>
+              {this.clock()}
+              <View style={[styles.calendarContainer]}>
+                  <CalendarList
+                  style={[{backgroundColor:'transparent'}]}
+                  current={this.state.beginDay.dateString}
+                  onDayPress={(day)=>this.markDates(day)}
+                  markingType={'period'}
+                  markedDates={this.state.markedDates}
+                  />
+              </View>
+              <TouchableOpacity onPress={()=>this.saveAndclose()} style={[ styles.smallLightButton, {width:SCREEN_WIDTH*0.9, padding:15}]}>
+                <Text>Done</Text>
+              </TouchableOpacity>
             </View>
           </View>
-        </View>
         }
       </Modal>
     )

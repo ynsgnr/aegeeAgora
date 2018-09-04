@@ -186,7 +186,7 @@ export default class Schedule extends Component {
       }else{
         //Shrink
         this.scrolView.scrollTo({x:0,y:(this.props.maxDayPickerHeigth-this.props.minDayPickerHeigth),animated:true})
-        this.setState({expanded:true})
+        this.setState({expanded:false})
       }
 
     }

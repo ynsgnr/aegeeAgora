@@ -24,6 +24,20 @@ export function getEventByKey(key){
   })
 }
 
+export function writeEvent(event){
+  return new Promise(function(resolve,reject){
+    if(event!=undefined)
+    if(event.key=="-1" || event.key==-1){
+      getAllEvents().then((data)=>{
+        event.key=data.length.toString()
+        firebase.firestore().collection('events').doc(event.key).set(event)
+      })
+    }else{
+      firebase.firestore().collection('events').doc(event.key).update(event)
+    }
+  })
+}
+
 export function constructDayKey(d){
   let timeString = "";
       if (d.getDate()<10){

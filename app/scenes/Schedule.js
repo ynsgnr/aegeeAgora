@@ -34,12 +34,9 @@ export default class Schedule extends Component {
   constructor(props){
     super(props)
     this.state={
-      minDate: new Date(),
-      maxDate: new Date(),
       eventList : {},
       loading : true,
       currentDay: new Date(),
-      dayCount:0,
       expanded:true,
     }
   }
@@ -51,15 +48,9 @@ export default class Schedule extends Component {
     getAllEvents().then( (val) => {
       //Order by day?
       let dayList={}
-      let maxDate=new Date(0)
-      let minDate=new Date()
-      minDate.setYear(2050)
       for(i=0;i<val.length;i++){
         val[i].startDate = new Date(val[i].startDate)
         val[i].endDate = new Date(val[i].endDate)
-
-        if(val[i].startDate>maxDate) maxDate=val[i].startDate
-        if(val[i].startDate<minDate) minDate=val[i].startDate
 
         let dayKey = constructDayKey(val[i].startDate)
 
@@ -70,15 +61,9 @@ export default class Schedule extends Component {
         if(dayList[dayKey][hourKey]==undefined) dayList[dayKey][hourKey]=[]
         dayList[dayKey][hourKey].push(val[i])
       }
-      maxDate.setHours(23, 59, 59, 99)
-      minDate.setHours(0, 0, 0, 0)
-      let dayCount = Math.abs(this.state.maxDate-this.state.minDate)/86400000
       this.setState({
-        minDate:minDate,
-        maxDate:maxDate,
         eventList:dayList,
         loading:false,
-        dayCount:dayCount,
       })
       this.sleep(200).then(()=>{this.toggleCalendar()})
     })
@@ -86,9 +71,9 @@ export default class Schedule extends Component {
 
   renderDays(){
     let d=new Date(this.state.currentDay);
-    if(d<this.state.minDate || d>this.state.maxDate){
+    if(this.state.eventList[constructDayKey(d)]==undefined){
       return (
-        <View  style={styles.centered}>
+        <View  style={[styles.centered,{flex:1}]}>
           <Text style={[{fontSize:20}]}>No Events Today</Text>
         </View>
       )
@@ -111,7 +96,6 @@ export default class Schedule extends Component {
   }
 
   checkIfToggle(event){
-    console.log(event.nativeEvent)
     if(event.nativeEvent.contentOffset.y<(this.props.maxDayPickerHeigth-this.props.minDayPickerHeigth)){
       if(event.nativeEvent.velocity.y>0){
         //Expand
@@ -136,7 +120,7 @@ export default class Schedule extends Component {
   render() {
     return (
       <View>
-        <NavBar title={title} navigation={this.props.navigation}/>
+        <NavBar title={title} navigation={this.props.navigation} rigthButton={firebase.auth().currentUser && !firebase.auth().currentUser.isAnonymous} onRigthButtonPress={()=>this.props.navigation.push('EditEventPage')}/>
         <ScrollView ref={(c)=>this.scrolView=c} style={styles.body} onScrollEndDrag={(scrol)=>this.checkIfToggle(scrol)}>
           {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :
             <View>
@@ -178,7 +162,10 @@ export default class Schedule extends Component {
                   </TouchableOpacity>
                 </View>
               </View>
-              {this.renderDays()}
+              <View style={{flexDirection:'row'}}>
+                <View style={{height:SCREEN_HEIGHT,width:1}}/>
+                {this.renderDays()}
+              </View>
             </View>
           }
         </ScrollView>

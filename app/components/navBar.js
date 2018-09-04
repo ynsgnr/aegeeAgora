@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
-import {Text, View, TouchableWithoutFeedback } from 'react-native';
+import {Text, View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import styles from '../resources/styles'
 import colors from '../resources/colors'
 
 export default class NavBar extends Component {
+
+  static defaultProps = {
+    onRigthButtonPress:()=>{console.log("Pressed on rigth button on navbar")},
+    rigthButton:false,
+  }
 
   constructor(props){
     super(props)
@@ -28,9 +35,14 @@ export default class NavBar extends Component {
   render(){
     return(
       <View style={styles.navbar}>
-        <TouchableWithoutFeedback onPress={()=>this.openAdminPage()}>
+        <TouchableWithoutFeedback style={{flex:1}} onPress={()=>this.openAdminPage()}>
             <Text style={[{fontSize:20, color:'black', padding:10}]}>{this.props.title ? this.props.title : ""}</Text>
         </TouchableWithoutFeedback>
+        {this.props.rigthButton &&
+          <TouchableOpacity style={{padding:5,position:'absolute',right:0}} onPress={this.props.onRigthButtonPress}>
+            <Icon name="plus-circle" size={25} color={colors.ligthBlue} solid/>
+          </TouchableOpacity>
+        }
       </View>
     )
   }

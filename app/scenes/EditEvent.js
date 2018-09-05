@@ -23,10 +23,6 @@ export default class Event extends Component {
     event: undefined,
   }
 
-  componentWillUnmount(){
-    //Add alarm
-    writeEvent(this.state.event)
-  }
 
   static navigationOptions = ({ navigation }) => {
     return {
@@ -179,6 +175,15 @@ export default class Event extends Component {
                 <View style={styles.longTextWrapper}>
                   <TextInput multiline placeholder={'Description'} style={[styles.subText,styles.darkText,{marginLeft:10,width:SCREEN_WIDTH*0.8}]} onChangeText={(text)=>this.setState((previousState)=>{previousState.event.description=text;return previousState})}/>
                 </View>
+              </View>
+              <View style={{flex:1,flexDirection:"row"}}>
+              <TouchableOpacity onPress={()=>  {writeEvent(this.state.event);this.props.navigation.pop()}} style={styles.bigButton}>
+                <Text style={styles.titleText}>Save</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={()=>this.props.navigation.pop()} style={styles.bigButton}>
+                <Text style={styles.titleText}>Cancel</Text>
+              </TouchableOpacity>
               </View>
             </ScrollView>
           </View>

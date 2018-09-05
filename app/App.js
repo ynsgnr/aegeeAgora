@@ -20,6 +20,9 @@ import News from './scenes/News';
 import Location from './scenes/Location';
 import Event from './scenes/Event'
 import Auth from './scenes/Auth'
+import EditEvent from './scenes/EditEvent'
+import EditLocation from './scenes/EditLocation'
+import EditNews from './scenes/EditNews'
 
 //import {resetDatabase} from './actions/write' //Used for injecting mock data to db
 
@@ -83,7 +86,7 @@ const TabNavigator = createBottomTabNavigator(
       <LogOutButton style={{width:SCREEN_WIDTH*0.2}}/>
     </View>
     :
-      <BottomTabBar {...props}/>
+    <BottomTabBar {...props}/>
     }
     </View>
   },
@@ -101,6 +104,9 @@ const RootNavigator = createStackNavigator (
     EventPage: Event,
     LocationPage: Location,
     AuthPage: Auth,
+    EditEventPage: EditEvent,
+    EditLocationPage: EditLocation,
+    EditNewsPage: EditNews,
   },
   {
     initialRouteName: 'Home'

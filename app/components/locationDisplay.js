@@ -34,22 +34,26 @@ export default class LocationDisplay extends Component {
   }
 
   componentDidMount(){
+    this.componentWillReceiveProps(this.props)
+  }
+
+  componentWillReceiveProps(nextProps){
     //if there is locationkey, get location from db, locationkey overwrites location object with location object from db
-    if(this.props.locationKey!=""){
-      getLocationByKey(this.props.locationKey).then( (val) =>{
+    if(nextProps.locationKey!=""){
+      getLocationByKey(nextProps.locationKey).then( (val) =>{
         this.setState({
           location:val,
           loading:false,
         })
       })
-    }else if(this.props.location!=undefined && this.props.location!={}){
+    }else if(nextProps.location!=undefined && nextProps.location!={}){
       this.setState({
-        location:this.props.location,
+        location:nextProps.location,
         loading:false,
       })
     }else{
       console.log("Please give locationKey or location object as props to location display component, given props are:");
-      console.log(this.props);
+      console.log(nextProps);
     }
   }
 

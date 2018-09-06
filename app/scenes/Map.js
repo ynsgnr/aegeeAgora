@@ -10,6 +10,8 @@ import NavBar from '../components/navBar'
 import MapView, {Marker} from 'react-native-maps'
 import Permissions from 'react-native-permissions'
 
+import firebase from 'react-native-firebase';
+
 import {getAllLocations,getTypes,getInitalRegion} from '../actions/locations'
 
 const title = "Map"
@@ -125,8 +127,8 @@ export default class Map extends Component {
   render() {
     return (
       <View>
-        <NavBar title={title} navigation={this.props.navigation}/>
-          {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> : 
+        <NavBar title={title} navigation={this.props.navigation} rigthButton={firebase.auth().currentUser && !firebase.auth().currentUser.isAnonymous} onRigthButtonPress={()=>this.props.navigation.push('EditLocationPage')}/>
+          {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :
             <View style ={style.mapContainer}>
               <MapView
                 showsUserLocation={true}
@@ -144,7 +146,8 @@ export default class Map extends Component {
                     key={marker.key}
                     pinColor={button.color}
                     onCalloutPress={()=>{
-                      if(marker.type=="eventLocation") this.props.navigation.push('LocationPage',{location:marker})
+                      if(firebase.auth().currentUser && !firebase.auth().currentUser.isAnonymous) this.props.navigation.push('EditLocationPage',{location:marker})
+                      else if(marker.type=="eventLocation") this.props.navigation.push('LocationPage',{location:marker})
                       else this.openMaps(marker.title,marker.latlng)
                     }}
                   />

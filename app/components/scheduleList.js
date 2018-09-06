@@ -9,6 +9,7 @@ export default class ScheduleList extends Component {
 
   static defaultProps = {
     events:[],
+    editMode:false,
   }
 
   //Render Item. Item Structıre:
@@ -36,7 +37,10 @@ export default class ScheduleList extends Component {
     for(i=0;i<eventList.length;i++){
       let event = eventList[i]
       renderedList.push(
-        <TouchableOpacity key={i} onPress={()=>{this.props.navigation.navigate('EventPage', {event:event})}}>
+        <TouchableOpacity key={i} onPress={()=>{
+          if(this.props.editMode) this.props.navigation.navigate('EditEventPage', {event:event})
+          else this.props.navigation.navigate('EventPage', {event:event})
+        }}>
           <Text style={style.titleText}>{eventList[i].title}</Text>
           <Text style={style.subText}>{eventList[i].locationInfo}</Text>
         </TouchableOpacity>
@@ -66,7 +70,7 @@ export default class ScheduleList extends Component {
 
   render(){
     return(
-      <FlatList style={[{marginBottom:50}]} keyExtractor={(item,index)=>item} data ={Object.keys(this.props.events)} renderItem={(item)=>this.renderEventList(item)}/>
+      <FlatList style={[{marginBottom:50}]} keyExtractor={(item,index)=>item} data={Object.keys(this.props.events)} renderItem={(item)=>this.renderEventList(item)}/>
     )
   }
 

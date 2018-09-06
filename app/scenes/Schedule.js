@@ -79,7 +79,7 @@ export default class Schedule extends Component {
       )
     }
     return (
-      <ScheduleList navigation={this.props.navigation} events={this.state.eventList[constructDayKey(d)]} key={i}/>
+      <ScheduleList navigation={this.props.navigation} events={this.state.eventList[constructDayKey(d)]} key={i} editMode={firebase.auth().currentUser && firebase.auth().currentUser.email}/>
     )
   }
 
@@ -118,9 +118,10 @@ export default class Schedule extends Component {
   }
 
   render() {
+    console.log(firebase.auth().currentUser);
     return (
       <View>
-        <NavBar title={title} navigation={this.props.navigation} rigthButton={firebase.auth().currentUser && !firebase.auth().currentUser.isAnonymous} onRigthButtonPress={()=>this.props.navigation.push('EditEventPage')}/>
+        <NavBar title={title} navigation={this.props.navigation} rigthButton={firebase.auth().currentUser && firebase.auth().currentUser.email} onRigthButtonPress={()=>this.props.navigation.push('EditEventPage')}/>
         <ScrollView ref={(c)=>this.scrolView=c} style={styles.body} onScrollEndDrag={(scrol)=>this.checkIfToggle(scrol)}>
           {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :
             <View>

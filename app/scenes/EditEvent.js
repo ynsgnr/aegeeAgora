@@ -36,7 +36,6 @@ export default class Event extends Component {
       event : undefined,
       eventKey : "",
       loading: true,
-      editMode: false,
       timePickerVisible: false,
     }
   }
@@ -61,7 +60,7 @@ export default class Event extends Component {
       for(i=0;i<data.length;i++){
         if(data[i].type=="eventLocation")
           pickerValues.push(
-            <Picker.Item label={data[i].title} value={data[i]} key={i} />
+            <Picker.Item label={data[i].title} value={data[i].key} key={i} />
           )
       }
 
@@ -69,7 +68,6 @@ export default class Event extends Component {
       if(eventKey!=""){
         getEventByKey(eventKey).then( (val) =>{
           this.props.navigation.setParams({title: "Edit Event"})
-          this.props.navigation.setParams({eventName: val.title})
           this.setState({
             event:val,
             loading:false,
@@ -78,7 +76,6 @@ export default class Event extends Component {
         })
       }else if(event!=undefined){
         this.props.navigation.setParams({title: "Edit Event"})
-        this.props.navigation.setParams({eventName: event.title})
         this.setState({
           event:event,
           loading:false,
@@ -128,7 +125,9 @@ export default class Event extends Component {
             <ScrollView>
 
               <Text style={[styles.titleText,styles.darkText]}>Title:</Text>
-              <TextInput  placeholder={'Title'} style={[styles.subText,styles.darkText,{marginLeft:10}]} onChangeText={(text)=>this.setState((previousState)=>{previousState.event.title=text;return previousState})}/>
+              <TextInput  placeholder={'Title'} style={[styles.subText,styles.darkText,{marginLeft:10}]}
+              onChangeText={(text)=>this.setState((previousState)=>{previousState.event.title=text;return previousState})}
+              value={this.state.event.title}/>
 
               <View style={{alignItems:'center', justifyContent: 'center', height:250,}}>
                 <TouchableOpacity onPress={()=>this.setState({timePickerVisible:true})}  style={style.dateTimeDisplay}>
@@ -158,22 +157,26 @@ export default class Event extends Component {
               <Picker
                 selectedValue={this.state.event.location}
                 style={{ flex:1 }}
-                onValueChange={(itemValue, itemIndex) =>
-                  this.setState((previousState)=>{
-                    previousState.event.locationKey=itemValue.key
-                    previousState.event.locationInfo=itemValue.title
-                    return previousState}
-                  )}
+                onValueChange={(itemValue, itemIndex) =>{
+                    this.setState((previousState)=>{
+                      previousState.event.location=itemValue
+                      previousState.event.locationInfo=this.state.locationPickerList[itemIndex].props.label
+                      return previousState}
+                    )}
+                  }
                 >
                 {this.state.locationPickerList}
               </Picker>
               <Text style={[styles.subText,styles.darkText,{marginLeft:10}]}>{this.state.event.locationInfo}</Text>
-              <LocationDisplay onPress={()=>this.props.navigation.push("LocationPage",{locationKey:this.state.event.location.toString()})} locationKey={this.state.event.location.toString()} height={100}/>
+              <LocationDisplay locationKey={this.state.event.location.toString()} onPress={()=>this.props.navigation.push("EditLocationPage",{locationKey:this.state.event.location.toString()})} locationKey={this.state.event.location.toString()} height={100}/>
 
               <View style={styles.startOriented}>
                 <Text style={[styles.titleText,styles.darkText]}>Description:</Text>
                 <View style={styles.longTextWrapper}>
-                  <TextInput multiline placeholder={'Description'} style={[styles.subText,styles.darkText,{marginLeft:10,width:SCREEN_WIDTH*0.8}]} onChangeText={(text)=>this.setState((previousState)=>{previousState.event.description=text;return previousState})}/>
+                  <TextInput multiline placeholder={'Description'} style={[styles.subText,styles.darkText,{marginLeft:10,width:SCREEN_WIDTH*0.8}]}
+                  onChangeText={(text)=>this.setState((previousState)=>{previousState.event.description=text;return previousState})}
+                  value={this.state.event.description}
+                  />
                 </View>
               </View>
               <View style={{flex:1,flexDirection:"row"}}>

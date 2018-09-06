@@ -1,6 +1,8 @@
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, ActivityIndicator, FlatList, TouchableOpacity ,Image} from 'react-native';
+import {StyleSheet, Text, View, ActivityIndicator, FlatList, TouchableOpacity ,Image, ScrollView, Picker, TextInput} from 'react-native';
+
+import {getTypes, getInfoByKey, writeInfo} from '../actions/info'
 
 //Resources
 import styles from '../resources/styles'
@@ -18,7 +20,7 @@ export default class NewsList extends Component {
 
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam('newsTitle', 'Loading...')
+      title: navigation.getParam('title', 'Loading...')
     };
   };
 
@@ -28,100 +30,125 @@ export default class NewsList extends Component {
       news : {},
       newsKey : "",
       loading: true,
-      editMode: false,
+      typePickerList:[]
     }
   }
 
-  //Render Item. Item Structıre:
-  /*
-        info:{
-          eventKey:
-          locationKey:
-          locationInfo:
-          eventInfo:
-          key:
-          type:
-          title:
-          picture:
-          text:
-          link:
-        }
-  */
+  componentDidMount(){
+    let infoKey = ""
+    let info = undefined
 
-  renderNews(news){
+    //Get event or infoKey from props or navigation params, props overwrites navigation params
+    if(this.props.infoKey=="") infoKey=this.props.navigation.getParam("infoKey", "")
+    if(this.props.info==undefined){
+      info=this.props.navigation.getParam("info", undefined )
+    }else{info=this.props.info}
+
+    //construct location picker
+    getTypes().then((data)=>{
+      let pickerValues = []
+      for(i=0;i<data.types.length;i++){
+        let name = data.titles[data.types[i]]
+        let key = data.types[i]
+        pickerValues.push(
+          <Picker.Item label={name} value={key} key={i} />
+        )
+      }
+      pickerValues.push(
+        <Picker.Item label={"News"} value={"news"} key={-1} />
+      )
+      //if there is infoKey, get event from db, infoKey overwrites event object with event object from db
+      if(infoKey!=""){
+        getInfoByKey(infoKey).then( (val) =>{
+          this.props.navigation.setParams({title: "Edit Information or News"})
+          this.setState({
+            info:val,
+            loading:false,
+            typePickerList:pickerValues,
+          })
+        })
+      }else if(info!=undefined){
+        this.props.navigation.setParams({title: "Edit Information or News"})
+        this.setState({
+          info:info,
+          loading:false,
+          typePickerList:pickerValues,
+        })
+      }else{
+        console.log("No event or key found, add a new event")
+        this.props.navigation.setParams({title: "Add New Info or News"})
+        this.setState({
+          info:{
+            "eventKey" : "",
+            "image" : "",
+            "key" : "-1",
+            "link" : "",
+            "locationKey" : "",
+            "text" : "",
+            "title" : "",
+            "type" : "news",
+            "valid" : true
+          },
+          "typePickerList":pickerValues,
+          loading:false,
+        })
+      }
+    })
+  }
+
+  render(){
+    console.log(this.state);
     return(
-      <View style={styles.listItem}>
-          <View style={style.leftSmall}>
-            <Image style={{width:50, height:50}} source={{uri:news.item.image}}/>
-          </View>
-          <View style={style.leftMid}>
-            <View style={styles.line}/>
-          </View>
-          <View style={[style.rightBig,{flexDirection:'column',alignItems:'flex-start'}]}>
-            <Text style={styles.titleText}>{news.item.title}</Text>
-            <View style={styles.lineButtonWrapper}>
-              {(news.item.eventKey!='') &&
-                <TouchableOpacity style={styles.lineButtons} onPress={()=>console.log(news.item.eventKey)}>
-                  <Text style={{padding:5}}>!</Text>
-                  <Text style={styles.subText}> {news.item.eventInfo} </Text>
-                </TouchableOpacity>
-              }
-              {(news.item.locationKey!='') &&
-                <TouchableOpacity style={styles.lineButtons} onPress={()=>console.log(news.item.locationKey)}>
-                  <Text style={{padding:5}}>!</Text>
-                  <Text style={styles.subText}> {news.item.locationInfo} </Text>
-                </TouchableOpacity>
-              }
-            </View>
-            <Text style={styles.subText}>{news.item.text}</Text>
-          </View>
+      <View>
+        {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :
+          <ScrollView>
+
+            <Text style={[styles.titleText,styles.darkText]}>Title:</Text>
+            <TextInput  placeholder={'Title'} style={[styles.subText,styles.darkText,{marginLeft:10}]}
+            onChangeText={(text)=>this.setState((previousState)=>{previousState.info.title=text;return previousState})}
+            value={this.state.info.title}/>
+
+            <Text style={[styles.titleText,styles.darkText]}>Text:</Text>
+            <TextInput  placeholder={'Explanation'} style={[styles.subText,styles.darkText,{marginLeft:10}]}
+            onChangeText={(text)=>this.setState((previousState)=>{previousState.info.text=text;return previousState})}
+            value={this.state.info.text}/>
+
+            <Text style={[styles.titleText,styles.darkText]}>Type:</Text>
+            <Picker
+              selectedValue={this.state.info.type}
+              style={{ flex:1 }}
+              onValueChange={(itemValue, itemIndex) =>{
+                  this.setState((previousState)=>{
+                    previousState.info.type=itemValue
+                    return previousState}
+                  )}
+                }
+              >
+              {this.state.typePickerList}
+            </Picker>
+
+            <Text style={[styles.titleText,styles.darkText]}>Link:</Text>
+            <TextInput  placeholder={'Opened when clicked, phone number for contacts, link for bonus and download'} style={[styles.subText,styles.darkText,{marginLeft:10}]}
+            onChangeText={(text)=>this.setState((previousState)=>{previousState.info.link=text;return previousState})}
+            value={this.state.info.link}/>
+
+            <Text style={[styles.titleText,styles.darkText]}>Icon:</Text>
+            <TextInput  placeholder={'Upload image to somewhere and copy link here'} style={[styles.subText,styles.darkText,{marginLeft:10}]}
+            onChangeText={(text)=>this.setState((previousState)=>{previousState.info.image=text;return previousState})}
+            value={this.state.info.image}/>
+
+            <TouchableOpacity onPress={()=>  {writeInfo(this.state.info);this.props.navigation.pop()}} style={styles.bigButton}>
+              <Text style={styles.titleText}>Save</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={()=>this.props.navigation.pop()} style={styles.bigButton}>
+              <Text style={styles.titleText}>Cancel</Text>
+            </TouchableOpacity>
+
+          </ScrollView>
+        }
       </View>
     )
   }
 
-
-  render(){
-    return(
-      <FlatList style={[{marginBottom:50}]} data ={this.props.news} renderItem={(item)=>this.renderNews(item)}/>
-    )
-  }
-
 }
-
-const style = StyleSheet.create({
-  leftSmall:{
-    flexDirection:'column',
-    flex:2,
-    marginLeft:10,
-  },
-  rightBig:{
-    flexDirection:'column',
-    flex:10,
-    alignItems:'flex-start',
-    padding:3,
-    marginBottom:5,
-  },
-  rightSmall:{
-    flexDirection:'column',
-    flex:5,
-    alignItems:'flex-end',
-    padding:3,
-    marginBottom:5,
-  },
-  leftMid:{
-    alignItems:'center',
-    flex:1,
-    paddingBottom: 10,
-    paddingTop: 10,
-  },
-  subText:{
-    marginBottom:7,
-    padding:1,
-    fontSize:15,
-  },
-  titleText:{
-    padding:1,
-    marginTop:7,
-    fontSize:18,
-  },
-})

@@ -5,6 +5,8 @@ import { Text, View, ActivityIndicator} from 'react-native';
 import NavBar from '../components/navBar'
 import NewsList from '../components/newsList'
 
+import firebase from 'react-native-firebase';
+
 import {getAllNews} from '../actions/info'
 
 const title = "News"
@@ -32,9 +34,9 @@ export default class News extends Component {
   render() {
     return (
       <View>
-        <NavBar title={title} navigation={this.props.navigation}/>
+        <NavBar title={title} navigation={this.props.navigation} rigthButton={firebase.auth().currentUser && !firebase.auth().currentUser.isAnonymous} onRigthButtonPress={()=>this.props.navigation.push('EditNewsPage')}/>
         {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :
-          <NewsList  navigation={this.props.navigation} news={this.state.newsList}/>
+          <NewsList  navigation={this.props.navigation} news={this.state.newsList}  editMode={firebase.auth().currentUser && !firebase.auth().currentUser.isAnonymous} onEdit={(item)=>this.props.navigation.push('EditNewsPage',{info:item})}/>
         }
       </View>
     );

@@ -10,6 +10,8 @@ export default class InfoList extends Component {
 
   static defaultProps = {
     infoList:[],
+    editMode:false,
+    onEdit:(item)=>{console.log(item)}
   }
 
   //Render Item. Item Structıre:
@@ -39,7 +41,11 @@ export default class InfoList extends Component {
 
   renderContact(contact){
     return(
-      <View style={styles.listItem}>
+      <TouchableOpacity style={styles.listItem}
+        onPress={()=>{
+          if(this.props.editMode) this.props.onEdit(contact.item)
+          else Linking.openURL('tel:'+contact.item.link)
+        }}>
           <View style={[style.leftSmall,{flex:3}]}>
             <Image style={{width:70, height:70, borderRadius:70}} source={{uri:contact.item.image}}/>
           </View>
@@ -49,18 +55,19 @@ export default class InfoList extends Component {
           <View style={[style.rightBig,{flexDirection:'column',alignItems:'flex-start'}]}>
             <Text style={styles.titleText}>{contact.item.title}</Text>
             <Text style={styles.subText}>{contact.item.text}</Text>
-            <TouchableOpacity onPress={()=>Linking.openURL('tel:'+contact.item.link)}>
-            < Text style={styles.titleText}>{contact.item.link}</Text>
-            </TouchableOpacity>
+            <Text style={styles.titleText}>{contact.item.link}</Text>
           </View>
-      </View>
+      </TouchableOpacity>
     )
   }
 
   renderDownload(download){
       return(
         <View style={styles.listItem}>
-          <TouchableOpacity style={styles.bigButton} onPress={()=>Linking.openURL(download.item.link)}>
+          <TouchableOpacity style={styles.bigButton}
+            onPress={()=>{
+              if(this.props.editMode) this.props.onEdit(download.item)
+              else Linking.openURL(download.item.link)}}>
             <View style={[style.leftSmall,{flex:1,alignItems:'center',justifyContent:'center',paddingLeft:15}]}>
               <Image style={{width:30, height:30}} source={{uri:download.item.image}}/>
             </View>
@@ -75,7 +82,11 @@ export default class InfoList extends Component {
 
   renderBonus(bonus){
     return(
-      <TouchableOpacity style={styles.listItem} onPress={()=>{if(bonus.item.link!=undefined && bonus.item.link!="")Linking.openURL(bonus.item.link)}}>
+      <TouchableOpacity style={styles.listItem}
+        onPress={()=>{
+        if(this.props.editMode) this.props.onEdit(bonus.item)
+        else if(bonus.item.link!=undefined && bonus.item.link!="")Linking.openURL(bonus.item.link)}
+      }>
           <View style={style.leftSmall}>
             <Image style={{width:50, height:50}} source={{uri:bonus.item.image}}/>
           </View>

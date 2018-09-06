@@ -10,6 +10,8 @@ export default class NewsList extends Component {
 
   static defaultProps = {
     news:[],
+    editMode:false,
+    onEdit:(item)=>{console.log(item)}
   }
 
   //Render Item. Item Structıre:
@@ -62,7 +64,14 @@ export default class NewsList extends Component {
 
   render(){
     return(
-      <FlatList style={[{marginBottom:50}]} data ={this.props.news} renderItem={(item)=>this.renderNews(item)}/>
+      <FlatList style={[{marginBottom:50}]} data ={this.props.news} renderItem={(item)=>{
+        if(this.props.editMode) {return(
+          <TouchableOpacity onPress={()=>this.props.onEdit(item.item)}>
+            {this.renderNews(item)}
+          </TouchableOpacity>
+        )}
+        else return this.renderNews(item)}
+      }/>
     )
   }
 

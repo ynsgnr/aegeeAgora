@@ -32,3 +32,25 @@ export function getTypes(){
     })
   })
 }
+
+export function getInfoByKey(key){
+  return new Promise(function(resolve,reject){
+    firebase.firestore().collection('info').doc(key.toString()).get().then((snapshot)=>{
+      resolve(snapshot.data())
+    })
+  })
+}
+
+export function writeInfo(info){
+  return new Promise(function(resolve,reject){
+    if(info!=undefined)
+    if(info.key=="-1" || info.key==-1){
+      getAllInfo().then((data)=>{
+        info.key=data.length.toString()
+        firebase.firestore().collection('info').doc(info.key).set(event)
+      })
+    }else{
+      firebase.firestore().collection('info').doc(info.key).update(info)
+    }
+  })
+}

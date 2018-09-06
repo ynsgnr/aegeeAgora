@@ -38,3 +38,28 @@ export function getLocationByKey(key){
     })
   })
 }
+
+export function writeLocation(location){
+  return new Promise(function(resolve,reject){
+    if(location!=undefined)
+    if(location.key=="-1" || location.key==-1){
+      getAllLocations().then((data)=>{
+        location.key=data.length.toString()
+        firebase.firestore().collection('locations').doc(location.key).set(location)
+      })
+    }else{
+      firebase.firestore().collection('locations').doc(location.key).update(location)
+      let ref = firebase.firestore().collection('events')
+      ref.where("location","==",location.key).get().then((qsnapshot)=>{
+        let dataArray=[]
+        qsnapshot.forEach((doc)=>dataArray.push(doc.data()))
+        firebase.firestore().runTransaction(async transaction => {
+          for(i=0;i<dataArray.length;i++){
+            dataArray[i].locationInfo=location.title
+            transaction.set(ref.doc(dataArray[i].key), dataArray[i])
+          }
+        }).then(()=>resolve())
+      }).then(()=>resolve())
+    }
+  })
+}

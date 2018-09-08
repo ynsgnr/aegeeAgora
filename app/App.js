@@ -151,7 +151,29 @@ export default class App extends React.Component {
       console.log("Already loged as: ")
       console.log(firebase.auth().currentUser.email);
     }
-        //resetDatabase()
+
+    firebase.messaging().hasPermission()
+    .then(enabled => {
+      if (enabled) {
+        console.log("Yay we have permission");
+      } else {
+        firebase.messaging().requestPermission()
+        .then(() => {
+          console.log("Yay we have persmission");
+        })
+        .catch(error => {
+          console.log("notification permission issue");
+          console.log(error);
+        });
+      }
+    });
+
+    //resetDatabase()
+  }
+
+  componentWillUnmount() {
+      if(this.notificationDisplayedListener)this.notificationDisplayedListener();
+      if(this.notificationListener)this.notificationListener();
   }
 
   render() {

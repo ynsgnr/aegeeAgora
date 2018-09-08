@@ -11,6 +11,8 @@ import com.facebook.soloader.SoLoader;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 
 import com.airbnb.android.react.maps.MapsPackage;
 
@@ -34,6 +36,8 @@ public class MainApplication extends Application implements ReactApplication {
           new RNFirebasePackage(),
           new RNFirebaseFirestorePackage(),
           new RNFirebaseAuthPackage(),
+          new RNFirebaseNotificationsPackage(),
+           new RNFirebaseMessagingPackage(),
           new MapsPackage(),
           new VectorIconsPackage()
       );

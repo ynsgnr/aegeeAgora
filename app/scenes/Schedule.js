@@ -45,16 +45,16 @@ export default class Schedule extends Component {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  componentWillMount(){
-    this.sleep(500).then(()=>{this.toggleCalendar()})
-  }
-
   componentDidMount(){
     getAllEventsByDay().then((dayList) => {
       this.setState({
         eventList:dayList,
         loading:false,
       })
+    })
+    this.sleep(500).then(()=>{
+      this.scrolView.scrollTo({x:0,y:(this.props.maxDayPickerHeigth-this.props.minDayPickerHeigth),animated:true})
+      this.setState({expanded:false})
     })
   }
 
@@ -73,7 +73,6 @@ export default class Schedule extends Component {
   }
 
   toggleCalendar(){
-    console.log("Toggleing");
     if(this.state.expanded){
       //Shrink
       this.scrolView.scrollTo({x:0,y:(this.props.maxDayPickerHeigth-this.props.minDayPickerHeigth),animated:true})

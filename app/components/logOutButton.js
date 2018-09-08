@@ -40,7 +40,6 @@ class LogOutButton extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <View style={{flex:1,flexDirection:'row'}}>
         <TouchableOpacity style={{flex:1,justifyContent:'center',alignItems:'center',backgroundColor:colors.ligthRed}} onPress={()=>{firebase.auth().signOut()}}>

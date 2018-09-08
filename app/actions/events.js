@@ -60,6 +60,28 @@ export function getAllEventsByDay(){
   })
 }
 
+export function getLocationEventsByDay(location){
+  return new Promise(function(resolve,reject){
+    firebase.firestore().collection('events').where("location","==",location.toString()).get().then((qsnapshot)=>{
+      let dayList={}
+      qsnapshot.forEach((val)=>{
+        val.data().startDate = new Date(val.data().startDate)
+        val.data().endDate = new Date(val.data().endDate)
+
+        let dayKey = constructDayKey(val.data().startDate)
+
+        if(dayList[dayKey]==undefined) dayList[dayKey]={}
+
+        let hourKey = constructHourKey(val.data().startDate)
+
+        if(dayList[dayKey][hourKey]==undefined) dayList[dayKey][hourKey]=[]
+        dayList[dayKey][hourKey].push(val.data())
+      })
+      resolve(dayList)
+    })
+  })
+}
+
 export function constructDayKey(d){
   let timeString = "";
       if (d.getDate()<10){

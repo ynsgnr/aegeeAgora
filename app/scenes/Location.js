@@ -3,8 +3,10 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View, ActivityIndicator, Image, ScrollView, Linking, Dimensions} from 'react-native';
 
 import {getLocationByKey} from '../actions/locations'
+import {getLocationEventsByDay} from '../actions/events'
 
 import LocationDisplay from '../components/locationDisplay'
+import EventsList from'../components/eventsList'
 
 import styles from '../resources/styles'
 
@@ -18,6 +20,7 @@ export default class Location extends Component {
   static defaultProps = {
     locationKey:"",
     location: undefined,
+    evetns:undefined,
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -29,9 +32,10 @@ export default class Location extends Component {
   constructor(props){
     super(props)
     this.state={
-      location : {},
+      location : undefined,
       locationKey : "",
       loading: true,
+      events:undefined
     }
   }
 
@@ -60,7 +64,13 @@ export default class Location extends Component {
         this.props.navigation.setParams({locationName: val.title})
         this.setState({
           location:val,
+          events:events,
           loading:false,
+        })
+        getLocationEventsByDay(val.key).then((events)=>{
+          this.setState({
+            events:events
+          })
         })
       })
     }else if(location!=undefined){
@@ -69,13 +79,17 @@ export default class Location extends Component {
         location:location,
         loading:false,
       })
+      getLocationEventsByDay(location.key).then((events)=>{
+        this.setState({
+          events:events
+        })
+      })
     }else{
       console.log("Please give locationKey or location object as props to location page");
     }
   }
 
   render() {
-    console.log(this.state);
     return (
       <View>
         {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :
@@ -102,6 +116,9 @@ export default class Location extends Component {
                 <Text style={styles.subText}>{this.state.location.description}</Text>
               </View>
             </View>
+
+            <Text style={[styles.titleText,styles.darkText]}>Events Here:</Text>
+            <EventsList events={this.state.events} navigation={this.props.navigation}/>
 
           </ScrollView>
         }

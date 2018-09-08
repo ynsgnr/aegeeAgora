@@ -101,7 +101,6 @@ export default class Schedule extends Component {
   }
 
   render() {
-    console.log(firebase.auth().currentUser);
     return (
       <View>
         <NavBar title={title} navigation={this.props.navigation} rigthButton={firebase.auth().currentUser && firebase.auth().currentUser.email} onRigthButtonPress={()=>this.props.navigation.push('EditEventPage')}/>

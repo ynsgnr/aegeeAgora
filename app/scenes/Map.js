@@ -2,6 +2,8 @@
 import React, {Component} from 'react';
 import {Platform, TouchableOpacity, Text, View, StyleSheet, Dimensions, ActivityIndicator, Linking} from 'react-native'
 
+import { NavigationEvents } from 'react-navigation';
+
 //import styles from '../resources/styles' //Does not work well with maps
 import colors from '../resources/colors'
 
@@ -127,6 +129,7 @@ export default class Map extends Component {
   render() {
     return (
       <View>
+        <NavigationEvents onWillFocus={payload => this.componentDidMount()} />
         <NavBar title={title} navigation={this.props.navigation} rigthButton={firebase.auth().currentUser && !firebase.auth().currentUser.isAnonymous} onRigthButtonPress={()=>this.props.navigation.push('EditLocationPage')}/>
           {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :
             <View style ={style.mapContainer}>

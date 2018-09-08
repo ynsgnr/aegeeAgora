@@ -2,6 +2,8 @@
 import React, {Component} from 'react';
 import {Text, View, ActivityIndicator} from 'react-native';
 
+import { NavigationEvents } from 'react-navigation';
+
 import NavBar from '../components/navBar'
 import InfoList from '../components/infoList'
 
@@ -50,6 +52,7 @@ export default class Info extends Component {
   render() {
     return (
       <View>
+        <NavigationEvents onWillFocus={payload => this.componentDidMount()} />
         <NavBar title={title} navigation={this.props.navigation} rigthButton={firebase.auth().currentUser && !firebase.auth().currentUser.isAnonymous} onRigthButtonPress={()=>this.props.navigation.push('EditNewsPage')}/>
         {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :
           <InfoList navigation={this.props.navigation} infoList={this.state.infoList} editMode={firebase.auth().currentUser && !firebase.auth().currentUser.isAnonymous} onEdit={(item)=>this.props.navigation.push('EditNewsPage',{info:item})}/>

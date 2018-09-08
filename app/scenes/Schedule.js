@@ -2,6 +2,8 @@
 import React, {Component} from 'react';
 import {Text, View, ActivityIndicator, ScrollView, TouchableOpacity, Animated, Dimensions} from 'react-native';
 
+import { NavigationEvents } from 'react-navigation';
+
 import {CalendarList} from 'react-native-calendars';
 
 import firebase from 'react-native-firebase';
@@ -38,8 +40,13 @@ export default class Schedule extends Component {
       expanded:true,
     }
   }
+
   sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  componentWillMount(){
+    this.sleep(500).then(()=>{this.toggleCalendar()})
   }
 
   componentDidMount(){
@@ -48,7 +55,6 @@ export default class Schedule extends Component {
         eventList:dayList,
         loading:false,
       })
-      this.sleep(100).then(()=>{this.toggleCalendar()})
     })
   }
 
@@ -67,6 +73,7 @@ export default class Schedule extends Component {
   }
 
   toggleCalendar(){
+    console.log("Toggleing");
     if(this.state.expanded){
       //Shrink
       this.scrolView.scrollTo({x:0,y:(this.props.maxDayPickerHeigth-this.props.minDayPickerHeigth),animated:true})
@@ -103,6 +110,7 @@ export default class Schedule extends Component {
   render() {
     return (
       <View>
+        <NavigationEvents onWillFocus={payload => this.componentDidMount()} />
         <NavBar title={title} navigation={this.props.navigation} rigthButton={firebase.auth().currentUser && firebase.auth().currentUser.email} onRigthButtonPress={()=>this.props.navigation.push('EditEventPage')}/>
         <ScrollView ref={(c)=>this.scrolView=c} style={styles.body} onScrollEndDrag={(scrol)=>this.checkIfToggle(scrol)}>
           {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :

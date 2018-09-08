@@ -38,6 +38,28 @@ export function writeEvent(event){
   })
 }
 
+export function getAllEventsByDay(){
+  return new Promise(function(resolve,reject){
+    getAllEvents().then((val)=>{
+      let dayList={}
+      for(i=0;i<val.length;i++){
+        val[i].startDate = new Date(val[i].startDate)
+        val[i].endDate = new Date(val[i].endDate)
+
+        let dayKey = constructDayKey(val[i].startDate)
+
+        if(dayList[dayKey]==undefined) dayList[dayKey]={}
+
+        let hourKey = constructHourKey(val[i].startDate)
+
+        if(dayList[dayKey][hourKey]==undefined) dayList[dayKey][hourKey]=[]
+        dayList[dayKey][hourKey].push(val[i])
+      }
+      resolve(dayList)
+    })
+  })
+}
+
 export function constructDayKey(d){
   let timeString = "";
       if (d.getDate()<10){

@@ -2,8 +2,6 @@
 import React, {Component} from 'react';
 import {Text, View, ActivityIndicator, ScrollView, TouchableOpacity, Animated, Dimensions} from 'react-native';
 
-import {constructDayKey, constructHourKey, getWeekDay, constructReverseDayKey} from '../actions/events'
-
 import {CalendarList} from 'react-native-calendars';
 
 import firebase from 'react-native-firebase';
@@ -17,7 +15,7 @@ import NavBar from '../components/navBar'
 import ScheduleList from '../components/scheduleList'
 
 //Actions
-import {getAllEvents} from '../actions/events'
+import {constructDayKey, constructHourKey, getWeekDay, constructReverseDayKey, getAllEventsByDay} from '../actions/events'
 
 const title = "Schedule"
 
@@ -45,27 +43,12 @@ export default class Schedule extends Component {
   }
 
   componentDidMount(){
-    getAllEvents().then( (val) => {
-      //Order by day?
-      let dayList={}
-      for(i=0;i<val.length;i++){
-        val[i].startDate = new Date(val[i].startDate)
-        val[i].endDate = new Date(val[i].endDate)
-
-        let dayKey = constructDayKey(val[i].startDate)
-
-        if(dayList[dayKey]==undefined) dayList[dayKey]={}
-
-        let hourKey = constructHourKey(val[i].startDate)
-
-        if(dayList[dayKey][hourKey]==undefined) dayList[dayKey][hourKey]=[]
-        dayList[dayKey][hourKey].push(val[i])
-      }
+    getAllEventsByDay().then((dayList) => {
       this.setState({
         eventList:dayList,
         loading:false,
       })
-      this.sleep(200).then(()=>{this.toggleCalendar()})
+      this.sleep(100).then(()=>{this.toggleCalendar()})
     })
   }
 

@@ -62,7 +62,7 @@ export function writeEventsMockData(){
         }, {
           "description" : "Blablabla",
           "endDate" : "2018-08-24T12:33:00.000Z",
-          "key" : "40",
+          "key" : "5",
           "location" : 0,
           "locationInfo" : "Test Location Info",
           "startDate" : "2018-08-24T11:33:00.000Z",
@@ -71,7 +71,7 @@ export function writeEventsMockData(){
         }, {
           "description" : "Blablabla",
           "endDate" : "2018-08-24T13:33:00.000Z",
-          "key" : "5",
+          "key" : "6",
           "location" : 0,
           "locationInfo" : "Test Location Info",
           "startDate" : "2018-08-24T12:33:00.000Z",
@@ -80,7 +80,7 @@ export function writeEventsMockData(){
         }, {
           "description" : "Blablabla",
           "endDate" : "2018-08-24T15:33:00.000Z",
-          "key" : "6",
+          "key" : "7",
           "location" : 0,
           "locationInfo" : "Test Location Info",
           "startDate" : "2018-08-24T13:33:00.000Z",
@@ -89,7 +89,7 @@ export function writeEventsMockData(){
         }, {
           "description" : "Blablabla",
           "endDate" : "2018-08-24T16:33:00.000Z",
-          "key" : "7",
+          "key" : "8",
           "location" : 0,
           "locationInfo" : "Test Location Info",
           "startDate" : "2018-08-24T15:33:00.000Z",
@@ -113,7 +113,7 @@ export function writeInfoMockData(){
     }, {
       "eventKey" : "",
       "image" : "https://openclipart.org/image/2400px/svg_to_png/202776/pawn.png",
-      "key" : "01",
+      "key" : "1",
       "link" : "05555555555",
       "locationKey" : "",
       "text" : "Duty",
@@ -123,7 +123,7 @@ export function writeInfoMockData(){
     }, {
       "eventKey" : "",
       "image" : "https://cdn2.iconfinder.com/data/icons/55-files-and-documents/512/Icon_17-512.png",
-      "key" : "10",
+      "key" : "2",
       "link" : "http://aegee.org/",
       "locationKey" : "",
       "text" : "Document explanation",
@@ -133,7 +133,7 @@ export function writeInfoMockData(){
     }, {
       "eventKey" : "",
       "image" : "https://cdn2.iconfinder.com/data/icons/55-files-and-documents/512/Icon_17-512.png",
-      "key" : "11",
+      "key" : "3",
       "link" : "http://aegee.org/",
       "locationKey" : "",
       "text" : "Document explanation",
@@ -143,7 +143,7 @@ export function writeInfoMockData(){
     }, {
       "eventKey" : "",
       "image" : "https://cdn2.iconfinder.com/data/icons/55-files-and-documents/512/Icon_17-512.png",
-      "key" : "12",
+      "key" : "4",
       "link" : "http://aegee.org/",
       "locationKey" : "",
       "text" : "Document explanation",
@@ -153,7 +153,7 @@ export function writeInfoMockData(){
     }, {
       "eventKey" : "",
       "image" : "https://i.pinimg.com/originals/9e/2b/0a/9e2b0a924f1c13b93c96fb3c16dd6486.jpg",
-      "key" : "2",
+      "key" : "5",
       "link" : "http://aegee.org/",
       "locationKey" : "",
       "text" : "Info Here",
@@ -163,7 +163,7 @@ export function writeInfoMockData(){
     }, {
       "eventKey" : "",
       "image" : "https://i.pinimg.com/originals/9e/2b/0a/9e2b0a924f1c13b93c96fb3c16dd6486.jpg",
-      "key" : "3",
+      "key" : "6",
       "link" : "http://aegee.org/",
       "locationKey" : "",
       "text" : "News Info",
@@ -173,7 +173,7 @@ export function writeInfoMockData(){
     }, {
       "eventKey" : "",
       "image" : "https://i.pinimg.com/originals/9e/2b/0a/9e2b0a924f1c13b93c96fb3c16dd6486.jpg",
-      "key" : "4",
+      "key" : "7",
       "link" : "http://aegee.org/",
       "locationKey" : "",
       "text" : "News Info 2",

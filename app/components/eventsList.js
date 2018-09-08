@@ -84,7 +84,7 @@ export default class EventsList extends Component {
     }
 
     return(
-      <View style={styles.listItem}>
+      <View key={eventList[0].key} style={styles.listItem}>
           <View style={style.leftSmall}>
             <Text style={styles.subText}>{event.item.date}</Text>
           </View>
@@ -109,6 +109,7 @@ export default class EventsList extends Component {
     return(
       <SectionList style={[{marginBottom:50}]}
       sections={this.state.sections}
+      keyExtractor={(itemValue,itemIndex)=>itemIndex}
       renderItem={(item,index,section)=>this.renderEventList(item,section)}
       renderSectionHeader={({section: {title}}) => (
         <View style={styles.daySelector}>

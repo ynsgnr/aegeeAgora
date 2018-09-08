@@ -128,12 +128,12 @@ export default class Location extends Component {
               </View>
             </View>
 
-            <Text style={[styles.titleText,styles.darkText]}>Events Here:</Text>
+            <Text style={[styles.titleText,styles.darkText]}>Events Located Here:</Text>
             <EventsList events={this.state.events} navigation={this.props.navigation}/>
 
             {this.state.news && this.state.news.length>0 &&
               <View>
-                  <Text style={[styles.titleText,styles.darkText]}>News About This Event:</Text>
+                  <Text style={[styles.titleText,styles.darkText]}>News About This Location:</Text>
                   <NewsList news={this.state.news} navigation={this.props.navigation}/>
               </View>
             }

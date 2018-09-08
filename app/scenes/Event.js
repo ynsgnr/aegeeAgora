@@ -140,7 +140,7 @@ const style =  StyleSheet.create({
   dateTimeDisplay:{
     flex:1,
     flexDirection:'row',
-    centered:'space-around',
+    justifyContent:'space-around',
     alignItems:'center',
     padding:10
   },

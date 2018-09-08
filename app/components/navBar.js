@@ -36,7 +36,9 @@ export default class NavBar extends Component {
     return(
       <View style={styles.navbar}>
         <TouchableWithoutFeedback style={{flex:1}} onPress={()=>this.openAdminPage()}>
+          <View>
             <Text style={[{fontSize:20, color:'black', padding:10}]}>{this.props.title ? this.props.title : ""}</Text>
+          </View>
         </TouchableWithoutFeedback>
         {this.props.rigthButton &&
           <TouchableOpacity style={{padding:5,position:'absolute',right:0}} onPress={this.props.onRigthButtonPress}>

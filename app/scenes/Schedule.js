@@ -117,10 +117,10 @@ export default class Schedule extends Component {
             <View>
               <View style={{flexDirection:'column'}}>
                 <View style={{height:this.props.maxDayPickerHeigth-this.props.minDayPickerHeigth,backgroundColor:colors.white}}>
-                  <CalendarList style={{height:this.props.maxDayPickerHeigth-this.props.minDayPickerHeigth,backgroundColor:colors.white,calendarBackground:colors.white}}
+                  <CalendarList style={{height:this.props.maxDayPickerHeigth-this.props.minDayPickerHeigth,backgroundColor:colors.white}}
                   horizontal
                   pagingEnabled
-                   hideArrows={false}
+                  hideArrows={false}
                   current={constructReverseDayKey(this.state.currentDay)}
                   onDayPress={(day) => {
                     let currentDay = new Date()

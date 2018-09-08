@@ -3,6 +3,8 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View, ActivityIndicator, FlatList, TouchableOpacity ,Image, ScrollView, Picker, TextInput} from 'react-native';
 
 import {getTypes, getInfoByKey, writeInfo} from '../actions/info'
+import {getAllEvents} from '../actions/events'
+import {getEventLocations} from '../actions/locations'
 
 //Resources
 import styles from '../resources/styles'
@@ -27,10 +29,11 @@ export default class NewsList extends Component {
   constructor(props){
     super(props)
     this.state={
-      news : {},
-      newsKey : "",
+      info : {},
       loading: true,
-      typePickerList:[]
+      typePickerList:[],
+      eventPickerList:[],
+      locationPickerList:[],
     }
   }
 
@@ -75,15 +78,17 @@ export default class NewsList extends Component {
           typePickerList:pickerValues,
         })
       }else{
-        console.log("No event or key found, add a new event")
+        console.log("No info or key found, add a new info")
         this.props.navigation.setParams({title: "Add New Info or News"})
         this.setState({
           info:{
             "eventKey" : "",
+            "eventInfo" : "",
             "image" : "",
             "key" : "-1",
             "link" : "",
             "locationKey" : "",
+            "locationInfo" : "",
             "text" : "",
             "title" : "",
             "type" : "news",
@@ -94,10 +99,27 @@ export default class NewsList extends Component {
         })
       }
     })
+    getAllEvents().then((events)=>{
+      let eventPicker = []
+      for(i=0;i<events.length;i++){
+        eventPicker.push( <Picker.Item label={events[i].title} value={events[i].key} key={i} />)
+      }
+      this.setState({
+        eventPickerList:eventPicker
+      })
+    })
+    getEventLocations().then((locations)=>{
+      let locationPicker = []
+      for(i=0;i<locations.length;i++){
+        locationPicker.push( <Picker.Item label={locations[i].title} value={locations[i].key} key={i} />)
+      }
+      this.setState({
+        locationPickerList:locationPicker
+      })
+    })
   }
 
   render(){
-    console.log(this.state);
     return(
       <View>
         {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :
@@ -136,6 +158,55 @@ export default class NewsList extends Component {
             <TextInput  placeholder={'Upload image to somewhere and copy link here'} style={[styles.subText,styles.darkText,{marginLeft:10}]}
             onChangeText={(text)=>this.setState((previousState)=>{previousState.info.image=text;return previousState})}
             value={this.state.info.image}/>
+
+            <Text style={[styles.titleText,styles.darkText]}>Associated With Event:</Text>
+            {(this.state.eventPickerList.length>0) ?
+              <View>
+                <Picker
+                  selectedValue={this.state.info.eventKey}
+                  style={{ flex:1 }}
+                  onValueChange={(itemValue, itemIndex) =>{
+                      if(itemIndex>1) label = this.state.eventPickerList[itemIndex-1].props.label
+                      else label = ""
+                      this.setState((previousState)=>{
+                        previousState.info.eventKey=itemValue
+                        previousState.info.eventInfo=label
+                        console.log(previousState.info);
+                        return previousState}
+                      )}
+                    }
+                  >
+                  <Picker.Item label={"None"} value={""} key={"-1"} />
+                  {this.state.eventPickerList}
+                </Picker>
+              </View>
+              :
+              <ActivityIndicator/>
+            }
+
+            <Text style={[styles.titleText,styles.darkText]}>Associated With Location:</Text>
+            {(this.state.locationPickerList.length>0) ?
+              <View>
+                <Picker
+                selectedValue={this.state.info.locationKey}
+                  style={{ flex:1 }}
+                  onValueChange={(itemValue, itemIndex) =>{
+                      if(itemIndex>1) label = this.state.locationPickerList[itemIndex-1].props.label
+                      else label = ""
+                      this.setState((previousState)=>{
+                        previousState.info.locationKey=itemValue
+                        previousState.info.locationInfo=label
+                        return previousState}
+                      )}
+                    }
+                  >
+                  <Picker.Item label={"None"} value={""} key={"-1"} />
+                  {this.state.locationPickerList}
+                </Picker>
+              </View>
+              :
+              <ActivityIndicator/>
+            }
 
             <TouchableOpacity onPress={()=>  {writeInfo(this.state.info);this.props.navigation.pop()}} style={styles.bigButton}>
               <Text style={styles.titleText}>Save</Text>

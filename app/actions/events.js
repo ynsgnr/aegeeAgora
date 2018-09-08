@@ -34,7 +34,18 @@ export function writeEvent(event){
       })
     }else{
       firebase.firestore().collection('events').doc(event.key).update(event)
+      let newsRef = firebase.firestore().collection('info')
+      newsRef.where("eventKey","==",event.key).get().then((newsSnapshot)=>{
+        firebase.firestore().runTransaction(async transaction => {
+          newsSnapshot.forEach((doc)=>{
+            let news = doc.data()
+            news.eventInfo=event.title
+            transaction.set(newsRef.doc(news.key), news)
+          })
+        })
+      })
     }
+    resolve()
   })
 }
 

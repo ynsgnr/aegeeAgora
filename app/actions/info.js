@@ -25,6 +25,26 @@ export function getAllNews(){
   })
 }
 
+export function getNewsByEvent(event){
+  return new Promise(function(resolve,reject){
+    firebase.firestore().collection('info').where("eventKey","==",event).where("type","==","news").get().then((qsnapshot)=>{
+      let dataArray=[]
+      qsnapshot.forEach((doc)=>dataArray.push(doc.data()))
+      resolve(dataArray)
+    })
+  })
+}
+
+export function getNewsByLocation(location){
+  return new Promise(function(resolve,reject){
+    firebase.firestore().collection('info').where("locationKey","==",location).where("type","==","news").get().then((qsnapshot)=>{
+      let dataArray=[]
+      qsnapshot.forEach((doc)=>dataArray.push(doc.data()))
+      resolve(dataArray)
+    })
+  })
+}
+
 export function getTypes(){
   return new Promise(function(resolve,reject){
     firebase.firestore().collection('settings').doc("infoTypes").get().then((snapshot)=>{
@@ -43,11 +63,12 @@ export function getInfoByKey(key){
 
 export function writeInfo(info){
   return new Promise(function(resolve,reject){
+    console.log(info);
     if(info!=undefined)
     if(info.key=="-1" || info.key==-1){
       getAllInfo().then((data)=>{
         info.key=data.length.toString()
-        firebase.firestore().collection('info').doc(info.key).set(event)
+        firebase.firestore().collection('info').doc(info.key).set(info)
       })
     }else{
       firebase.firestore().collection('info').doc(info.key).update(info)

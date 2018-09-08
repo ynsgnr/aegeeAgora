@@ -4,7 +4,7 @@ import {Text, View, ActivityIndicator, ScrollView, TouchableOpacity, Animated, D
 
 import {constructDayKey, constructHourKey, getWeekDay, constructReverseDayKey} from '../actions/events'
 
-import {Calendar} from 'react-native-calendars';
+import {CalendarList} from 'react-native-calendars';
 
 import firebase from 'react-native-firebase';
 
@@ -127,7 +127,10 @@ export default class Schedule extends Component {
             <View>
               <View style={{flexDirection:'column'}}>
                 <View style={{height:this.props.maxDayPickerHeigth-this.props.minDayPickerHeigth,backgroundColor:colors.white}}>
-                  <Calendar style={{height:this.props.maxDayPickerHeigth-this.props.minDayPickerHeigth,backgroundColor:colors.white,calendarBackground:colors.white}}
+                  <CalendarList style={{height:this.props.maxDayPickerHeigth-this.props.minDayPickerHeigth,backgroundColor:colors.white,calendarBackground:colors.white}}
+                  horizontal
+                  pagingEnabled
+                   hideArrows={false}
                   current={constructReverseDayKey(this.state.currentDay)}
                   onDayPress={(day) => {
                     let currentDay = new Date()

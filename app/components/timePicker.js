@@ -107,7 +107,6 @@ export default class TimePicker extends Component{
   }
 
   componentWillReceiveProps(nextProps){
-    console.log(nextProps);
     d = nextProps.beginDate
     b = nextProps.endDate
     bDateS = ''

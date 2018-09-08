@@ -2,6 +2,8 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, ActivityIndicator, FlatList, TouchableOpacity ,Image} from 'react-native';
 
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
 //Resources
 import styles from '../resources/styles'
 import colors from '../resources/colors'
@@ -43,14 +45,14 @@ export default class NewsList extends Component {
             <Text style={styles.titleText}>{news.item.title}</Text>
             <View style={styles.lineButtonWrapper}>
               {(news.item.eventKey!='') &&
-                <TouchableOpacity style={styles.lineButtons} onPress={()=>console.log(news.item.eventKey)}>
-                  <Text style={{padding:5}}>!</Text>
+                <TouchableOpacity style={styles.lineButtons} onPress={()=>this.props.navigation.navigate('EventPage', {eventKey:news.item.eventKey})}>
+                  <Icon name="calendar" size={15} color={colors.ligthGrey} solid/>
                   <Text style={styles.subText}> {news.item.eventInfo} </Text>
                 </TouchableOpacity>
               }
               {(news.item.locationKey!='') &&
-                <TouchableOpacity style={styles.lineButtons} onPress={()=>console.log(news.item.locationKey)}>
-                  <Text style={{padding:5}}>!</Text>
+                <TouchableOpacity style={styles.lineButtons} onPress={()=>this.props.navigation.navigate('LocationPage', {locationKey:news.item.locationKey})}>
+                  <Icon name="map-marker-alt" size={15} color={colors.ligthGrey} solid/>
                   <Text style={styles.subText}> {news.item.locationInfo} </Text>
                 </TouchableOpacity>
               }
@@ -64,7 +66,7 @@ export default class NewsList extends Component {
 
   render(){
     return(
-      <FlatList style={[{marginBottom:50}]} data ={this.props.news} renderItem={(item)=>{
+      <FlatList style={[{marginBottom:50}]} data={this.props.news} renderItem={(item)=>{
         if(this.props.editMode) {return(
           <TouchableOpacity onPress={()=>this.props.onEdit(item.item)}>
             {this.renderNews(item)}

@@ -2,6 +2,8 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, ActivityIndicator, SectionList, TouchableOpacity} from 'react-native';
 
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
 //Resources
 import styles from '../resources/styles'
 
@@ -73,7 +75,10 @@ export default class EventsList extends Component {
           else this.props.navigation.navigate('EventPage', {event:event})
         }}>
           <Text style={style.titleText}>{eventList[i].title}</Text>
-          <Text style={style.subText}>{eventList[i].locationInfo}</Text>
+          <View style={{flexDirection:'row',alignItems:'center',padding:5}}>
+            <Icon name="map-marker-alt" size={15} color={colors.ligthGrey} solid/>
+            <Text style={style.subText}>{eventList[i].locationInfo}</Text>
+          </View>
         </TouchableOpacity>
       )
     }

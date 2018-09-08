@@ -84,7 +84,7 @@ export default styles = StyleSheet.create({
     marginRight:10,
   },
   lineButtons:{
-    alignItems:'flex-start',
+    alignItems:'center',
     justifyContent:'flex-start',
     flexDirection:'row',
     flex:1,

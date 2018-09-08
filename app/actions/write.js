@@ -11,88 +11,89 @@ export function resetDatabase(){
   writeInfoTypes()
   writeInitLocation()
   writeLocationTypes()
+  console.log("Reset completed");
 }
 
 export function writeEventsMockData(){
   let mockData = [ {
           "description" : "Blablabla",
-          "endDate" : "2018-08-24T06:02:00.000Z",
+          "endDate" : "2018-09-08T06:02:00.000Z",
           "key" : "0",
-          "location" : 0,
+          "location" : "0",
           "locationInfo" : "Test Location Info",
-          "startDate" : "2018-08-24T04:01:00.000Z",
+          "startDate" : "2018-09-08T04:01:00.000Z",
           "title" : "Test Event 1",
           "valid" : true
         }, {
           "description" : "Blablabla",
-          "endDate" : "2018-08-24T08:03:00.000Z",
+          "endDate" : "2018-09-08T08:03:00.000Z",
           "key" : "1",
-          "location" : 0,
+          "location" : "0",
           "locationInfo" : "Test Location Info",
-          "startDate" : "2018-08-24T06:15:00.000Z",
+          "startDate" : "2018-09-08T06:15:00.000Z",
           "title" : "Test Event 2",
           "valid" : true
         }, {
           "description" : "Blablabla",
-          "endDate" : "2018-08-24T12:33:00.000Z",
+          "endDate" : "2018-09-08T12:33:00.000Z",
           "key" : "2",
-          "location" : 0,
+          "location" : "0",
           "locationInfo" : "Test Location Info",
-          "startDate" : "2018-08-24T08:03:00.000Z",
+          "startDate" : "2018-09-08T08:03:00.000Z",
           "title" : "Test Event 3",
           "valid" : true
         }, {
           "description" : "Blablabla",
-          "endDate" : "2018-08-24T12:33:00.000Z",
+          "endDate" : "2018-09-08T12:33:00.000Z",
           "key" : "3",
-          "location" : 0,
+          "location" : "0",
           "locationInfo" : "Test Location Info",
-          "startDate" : "2018-08-24T11:33:00.000Z",
+          "startDate" : "2018-09-08T11:33:00.000Z",
           "title" : "Test Event 4",
           "valid" : true
         }, {
           "description" : "Blablabla",
-          "endDate" : "2018-08-24T12:33:00.000Z",
+          "endDate" : "2018-09-08T12:33:00.000Z",
           "key" : "4",
-          "location" : 0,
+          "location" : "0",
           "locationInfo" : "Test Location Info",
-          "startDate" : "2018-08-24T11:33:00.000Z",
+          "startDate" : "2018-09-08T11:33:00.000Z",
           "title" : "Test Event 5",
           "valid" : true
         }, {
           "description" : "Blablabla",
-          "endDate" : "2018-08-24T12:33:00.000Z",
+          "endDate" : "2018-09-08T12:33:00.000Z",
           "key" : "5",
-          "location" : 0,
+          "location" : "0",
           "locationInfo" : "Test Location Info",
-          "startDate" : "2018-08-24T11:33:00.000Z",
+          "startDate" : "2018-09-08T11:33:00.000Z",
           "title" : "Test Event 6",
           "valid" : true
         }, {
           "description" : "Blablabla",
-          "endDate" : "2018-08-24T13:33:00.000Z",
+          "endDate" : "2018-09-08T13:33:00.000Z",
           "key" : "6",
-          "location" : 0,
+          "location" : "0",
           "locationInfo" : "Test Location Info",
-          "startDate" : "2018-08-24T12:33:00.000Z",
+          "startDate" : "2018-09-08T12:33:00.000Z",
           "title" : "Test Event 7",
           "valid" : true
         }, {
           "description" : "Blablabla",
-          "endDate" : "2018-08-24T15:33:00.000Z",
+          "endDate" : "2018-09-08T15:33:00.000Z",
           "key" : "7",
-          "location" : 0,
+          "location" : "0",
           "locationInfo" : "Test Location Info",
-          "startDate" : "2018-08-24T13:33:00.000Z",
+          "startDate" : "2018-09-08T13:33:00.000Z",
           "title" : "Test Event 8",
           "valid" : true
         }, {
           "description" : "Blablabla",
-          "endDate" : "2018-08-24T16:33:00.000Z",
+          "endDate" : "2018-09-08T16:33:00.000Z",
           "key" : "8",
-          "location" : 0,
+          "location" : "0",
           "locationInfo" : "Test Location Info",
-          "startDate" : "2018-08-24T15:33:00.000Z",
+          "startDate" : "2018-09-08T15:33:00.000Z",
           "title" : "Test Event 9",
           "valid" : true
         } ]
@@ -269,7 +270,9 @@ export function writeArrayToBranch(branch,data){
   //branch: branch name
   //data: array of data to write to branch
   const ref = firebase.firestore().collection(branch)
-  for(i=0;i<data.length;i++){
-    ref.doc(i.toString()).set(data[i])
-  }
+  firebase.firestore().runTransaction(async transaction => {
+    for(i=0;i<data.length;i++){
+      transaction.set(ref.doc(i.toString()), data[i])
+    }
+  })
 }

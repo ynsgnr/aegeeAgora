@@ -4,9 +4,11 @@ import {StyleSheet, Text, View, ActivityIndicator, Image, ScrollView, Linking, D
 
 import {getLocationByKey} from '../actions/locations'
 import {getLocationEventsByDay} from '../actions/events'
+import {getNewsByLocation} from '../actions/info'
 
 import LocationDisplay from '../components/locationDisplay'
 import EventsList from'../components/eventsList'
+import NewsList from '../components/newsList'
 
 import styles from '../resources/styles'
 
@@ -64,12 +66,16 @@ export default class Location extends Component {
         this.props.navigation.setParams({locationName: val.title})
         this.setState({
           location:val,
-          events:events,
           loading:false,
         })
         getLocationEventsByDay(val.key).then((events)=>{
           this.setState({
             events:events
+          })
+        })
+        getNewsByLocation(val.key).then((news)=>{
+          this.setState({
+            news:news
           })
         })
       })
@@ -82,6 +88,11 @@ export default class Location extends Component {
       getLocationEventsByDay(location.key).then((events)=>{
         this.setState({
           events:events
+        })
+      })
+      getNewsByLocation(location.key).then((news)=>{
+        this.setState({
+          news:news
         })
       })
     }else{
@@ -119,6 +130,13 @@ export default class Location extends Component {
 
             <Text style={[styles.titleText,styles.darkText]}>Events Here:</Text>
             <EventsList events={this.state.events} navigation={this.props.navigation}/>
+
+            {this.state.news && this.state.news.length>0 &&
+              <View>
+                  <Text style={[styles.titleText,styles.darkText]}>News About This Event:</Text>
+                  <NewsList news={this.state.news} navigation={this.props.navigation}/>
+              </View>
+            }
 
           </ScrollView>
         }

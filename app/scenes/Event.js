@@ -3,8 +3,10 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, ScrollView} from 'react-native';
 
 import {getEventByKey, constructDayKey, constructHourKey, getWeekDay} from '../actions/events'
+import {getNewsByEvent} from '../actions/info'
 
 import LocationDisplay from '../components/locationDisplay'
+import NewsList from '../components/newsList'
 
 import colors from '../resources/colors'
 import styles from '../resources/styles'
@@ -17,6 +19,7 @@ export default class Event extends Component {
   static defaultProps = {
     eventKey:"",
     event: undefined,
+    news: [],
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -41,23 +44,35 @@ export default class Event extends Component {
     //Get event or eventKey from props or navigation params, props overwrites navigation params
     if(this.props.eventKey=="") eventKey=this.props.navigation.getParam("eventKey", "")
     if(this.props.event==undefined){
-      event=this.props.navigation.getParam("event", {} )
+      event=this.props.navigation.getParam("event", undefined )
     }else{event=this.props.event}
 
     //if there is eventkey, get event from db, eventkey overwrites event object with event object from db
     if(eventKey!=""){
       getEventByKey(eventKey).then( (val) =>{
         this.props.navigation.setParams({eventName: val.title})
+        val.startDate=new Date(val.startDate)
+        val.endDate=new Date(val.endDate)
         this.setState({
           event:val,
           loading:false,
         })
+        getNewsByEvent(val.key).then((news)=>{
+          this.setState({
+            news:news
+          })
+        })
       })
-    }else if(event!={}){
+    }else if(event!=undefined){
       this.props.navigation.setParams({eventName: event.title})
       this.setState({
         event:event,
         loading:false,
+      })
+      getNewsByEvent(event.key).then((news)=>{
+        this.setState({
+          news:news
+        })
       })
     }else{
       console.log("Please give eventKey or event object as props to Event page");
@@ -103,6 +118,13 @@ export default class Event extends Component {
                 <View style={styles.longTextWrapper}>
                   <Text style={styles.subText}>{this.state.event.description}</Text>
                 </View>
+              </View>
+            }
+
+            {this.state.news && this.state.news.length>0 &&
+              <View>
+                  <Text style={[styles.titleText,styles.darkText]}>News About This Event:</Text>
+                  <NewsList news={this.state.news} navigation={this.props.navigation}/>
               </View>
             }
 

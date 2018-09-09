@@ -50,11 +50,11 @@ export default class Schedule extends Component {
       this.setState({
         eventList:dayList,
         loading:false,
-      })
-    })
-    this.sleep(500).then(()=>{
-      this.scrolView.scrollTo({x:0,y:(this.props.maxDayPickerHeigth-this.props.minDayPickerHeigth),animated:true})
-      this.setState({expanded:false})
+      },()=>
+        this.sleep(800).then(()=>{
+        this.scrolView.scrollTo({x:0,y:(this.props.maxDayPickerHeigth-this.props.minDayPickerHeigth),animated:true})
+        this.setState({expanded:false})
+      }))
     })
   }
 

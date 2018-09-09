@@ -63,7 +63,6 @@ export function getInfoByKey(key){
 
 export function writeInfo(info){
   return new Promise(function(resolve,reject){
-    console.log(info);
     if(info!=undefined)
     if(info.key=="-1" || info.key==-1){
       getAllInfo().then((data)=>{

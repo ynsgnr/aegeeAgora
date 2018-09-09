@@ -166,12 +166,11 @@ export default class NewsList extends Component {
                   selectedValue={this.state.info.eventKey}
                   style={{ flex:1 }}
                   onValueChange={(itemValue, itemIndex) =>{
-                      if(itemIndex>1) label = this.state.eventPickerList[itemIndex-1].props.label
+                      if(itemIndex>0) label = this.state.eventPickerList[itemIndex-1].props.label
                       else label = ""
                       this.setState((previousState)=>{
                         previousState.info.eventKey=itemValue
                         previousState.info.eventInfo=label
-                        console.log(previousState.info);
                         return previousState}
                       )}
                     }
@@ -191,7 +190,7 @@ export default class NewsList extends Component {
                 selectedValue={this.state.info.locationKey}
                   style={{ flex:1 }}
                   onValueChange={(itemValue, itemIndex) =>{
-                      if(itemIndex>1) label = this.state.locationPickerList[itemIndex-1].props.label
+                      if(itemIndex>0) label = this.state.locationPickerList[itemIndex-1].props.label
                       else label = ""
                       this.setState((previousState)=>{
                         previousState.info.locationKey=itemValue

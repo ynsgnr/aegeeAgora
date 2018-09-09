@@ -50,11 +50,20 @@ export default class Schedule extends Component {
       this.setState({
         eventList:dayList,
         loading:false,
-      },()=>
+      },()=>{
         this.sleep(800).then(()=>{
-        this.scrolView.scrollTo({x:0,y:(this.props.maxDayPickerHeigth-this.props.minDayPickerHeigth),animated:true})
-        this.setState({expanded:false})
-      }))
+          this.scrolView.scrollTo({x:0,y:(this.props.maxDayPickerHeigth-this.props.minDayPickerHeigth),animated:true})
+          this.setState({expanded:false})
+        })}
+      )
+    })
+  }
+
+  refresh(){
+    getAllEventsByDay().then((dayList) => {
+      this.setState({
+        eventList:dayList,
+      })
     })
   }
 
@@ -109,7 +118,7 @@ export default class Schedule extends Component {
   render() {
     return (
       <View>
-        <NavigationEvents onWillFocus={payload => this.componentDidMount()} />
+        <NavigationEvents onWillFocus={payload => this.refresh()} />
         <NavBar title={title} navigation={this.props.navigation} rigthButton={firebase.auth().currentUser && firebase.auth().currentUser.email} onRigthButtonPress={()=>this.props.navigation.push('EditEventPage')}/>
         <ScrollView ref={(c)=>this.scrolView=c} style={styles.body} onScrollEndDrag={(scrol)=>this.checkIfToggle(scrol)}>
           {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :

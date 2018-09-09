@@ -11,7 +11,12 @@ exports.sendPushNotification = functions.firestore
         const message = {
             notification: {
                 title: data.title,
-                body: data.text,
+                body: data.text
+            },
+            android: {
+                notification: {
+                    sound: "default"
+                }
             },
             topic: "all"
         };

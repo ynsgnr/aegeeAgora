@@ -147,22 +147,22 @@ export default class App extends React.Component {
     const channel = new firebase.notifications.Android.Channel('AEGEEagora-channel', 'AEGEE Agora Informative Notifications', firebase.notifications.Android.Importance.Max)
       .setDescription('Notifications related to AEGEE Agora');
     firebase.notifications().android.createChannel(channel);
-    this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((notification: Notification) => {
+    this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((n: Notification) => {
         // Process your notification as required
         // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
+
     });
-    this.notificationListener = firebase.notifications().onNotification((notification: Notification) => {
+    this.notificationListener = firebase.notifications().onNotification((n: Notification) => {
         // Process your notification as required
 
         //TODO Platform specific stuff
-        notification.android.setChannelId('AEGEEagora-channel')
-                    .android.setAutoCancel(true)
-                    .android.setPriority(firebase.notifications.Android.Priority.High)
-                    .android.setVibrate(firebase.notifications.Android.Defaults.Vibrate)
-                    .setSound(firebase.notifications.Android.Defaults.Sound)
 
+        n.setNotificationId('notificationId')
+          .android.setChannelId('AEGEEagora-channel')
+          .android.setAutoCancel(true)
+          .android.setPriority(firebase.notifications.Android.Priority.High)
 
-        firebase.notifications().displayNotification(notification)
+        firebase.notifications().displayNotification(n)
     });
     firebase.messaging().subscribeToTopic("all");
   }

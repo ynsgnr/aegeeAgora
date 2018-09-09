@@ -1,4 +1,4 @@
-package com.agora;
+package com.aegee.agora;
 
 import android.app.Application;
 

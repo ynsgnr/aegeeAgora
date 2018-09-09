@@ -1,7 +1,9 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Dimensions} from 'react-native';
+
 import { createBottomTabNavigator,createStackNavigator } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 import { BottomTabBar } from 'react-navigation-tabs'
 
 import firebase from 'react-native-firebase';
@@ -141,7 +143,48 @@ this.props.navigation.setParams({otherParam: 'Updated!'}) //Update navigation op
 
 export default class App extends React.Component {
 
+  setUpNotifications(){
+    const channel = new firebase.notifications.Android.Channel('AEGEEagora-channel', 'AEGEE Agora Informative Notifications', firebase.notifications.Android.Importance.Max)
+      .setDescription('Notifications related to AEGEE Agora');
+    firebase.notifications().android.createChannel(channel);
+    this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((notification: Notification) => {
+        // Process your notification as required
+        // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
+    });
+    this.notificationListener = firebase.notifications().onNotification((notification: Notification) => {
+        // Process your notification as required
+
+        //TODO Platform specific stuff
+        notification.android.setChannelId('AEGEEagora-channel')
+                    .android.setAutoCancel(true)
+                    .android.setPriority(firebase.notifications.Android.Priority.High)
+                    .android.setVibrate(firebase.notifications.Android.Defaults.Vibrate)
+                    .setSound(firebase.notifications.Android.Defaults.Sound)
+
+
+        firebase.notifications().displayNotification(notification)
+    });
+    firebase.messaging().subscribeToTopic("all");
+  }
+
   componentDidMount(){
+    firebase.notifications().getInitialNotification()
+          .then((notificationOpen: NotificationOpen) => {
+            if (notificationOpen) {
+              // App was opened by a notification
+              // Get the action triggered by the notification being opened
+              const action = notificationOpen.action;
+              // Get information about the notification that was opened
+              const notification: Notification = notificationOpen.notification;
+              this.RootNavigator.dispatch(
+                NavigationActions.reset({
+                  index: 0,
+                  // TabNav is a TabNavigator nested in a StackNavigator
+                  actions: [NavigationActions.navigate({ routeName: 'News' })]
+                })
+              )
+            }
+          });
     if(firebase.auth().currentUser==null){
       firebase.auth().signInAnonymouslyAndRetrieveData()
         .then((data) => {
@@ -155,11 +198,13 @@ export default class App extends React.Component {
     firebase.messaging().hasPermission()
     .then(enabled => {
       if (enabled) {
-        console.log("Yay we have permission");
+        console.log("Yay we have permission!");
+        this.setUpNotifications()
       } else {
         firebase.messaging().requestPermission()
         .then(() => {
-          console.log("Yay we have persmission");
+          console.log("Yay we have persmission!");
+          this.setUpNotifications()
         })
         .catch(error => {
           console.log("notification permission issue");
@@ -174,10 +219,11 @@ export default class App extends React.Component {
   componentWillUnmount() {
       if(this.notificationDisplayedListener)this.notificationDisplayedListener();
       if(this.notificationListener)this.notificationListener();
+      if(this.notificationOpenedListener)this.notificationOpenedListener();
   }
 
   render() {
-    return <RootNavigator/>
+    return <RootNavigator ref={navigatorRef=>this.RootNavigator=navigatorRef}/>
   }
 
 }

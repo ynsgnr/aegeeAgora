@@ -64,7 +64,7 @@ export default class LocationDisplay extends Component {
         <View style ={[style.mapContainer,{height:this.props.height}]}>
           <MapView
             style={style.map}
-            initialRegion={
+            region={
                           {
                             latitude:this.state.location.Lat,
                             latitudeDelta : 0.0922,

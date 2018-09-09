@@ -168,7 +168,7 @@ export default class Event extends Component {
                 {this.state.locationPickerList}
               </Picker>
               <Text style={[styles.subText,styles.darkText,{marginLeft:10}]}>{this.state.event.locationInfo}</Text>
-              <LocationDisplay locationKey={this.state.event.location.toString()} onPress={()=>this.props.navigation.push("EditLocationPage",{locationKey:this.state.event.location.toString()})} locationKey={this.state.event.location.toString()} height={100}/>
+              <LocationDisplay locationKey={this.state.event.location.toString()} onPress={()=>this.props.navigation.push("EditLocationPage",{locationKey:this.state.event.location.toString()})} height={100}/>
 
               <View style={styles.startOriented}>
                 <Text style={[styles.titleText,styles.darkText]}>Description:</Text>

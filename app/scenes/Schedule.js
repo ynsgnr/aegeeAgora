@@ -141,7 +141,7 @@ export default class Schedule extends Component {
                   markedDates={this.getMarkedDates()}/>
                 </View>
                 <View style={[styles.daySelector,{height:this.props.minDayPickerHeigth}]}>
-                  <TouchableOpacity style={{padding:20}} onPress={()=>this.setState(previousState=>{
+                  <TouchableOpacity onPress={()=>this.setState(previousState=>{
                     let currentDay = new Date(previousState.currentDay)
                     currentDay.setDate(currentDay.getDate()-1)
                     return (
@@ -153,7 +153,7 @@ export default class Schedule extends Component {
                   <TouchableOpacity onPress={()=>this.toggleCalendar()}>
                     <Text style={[styles.daySelectorText,{flex:2}]}>{constructDayKey(this.state.currentDay)+" "+getWeekDay(this.state.currentDay)}</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={{padding:20}} onPress={()=>this.setState(previousState=>{
+                  <TouchableOpacity onPress={()=>this.setState(previousState=>{
                     let currentDay = new Date(previousState.currentDay)
                     currentDay.setDate(currentDay.getDate()+1)
                     return (

@@ -95,6 +95,8 @@ PODS:
   - Protobuf (3.6.1)
   - React (0.55.0):
     - React/Core (= 0.55.0)
+  - react-native-maps (0.21.0):
+    - React
   - React/Core (0.55.0):
     - yoga (= 0.55.0.React)
   - React/CxxBridge (0.55.0):
@@ -153,6 +155,7 @@ DEPENDENCIES:
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - GoogleMaps
+  - react-native-maps (from `../node_modules/react-native-maps`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
   - React/DevSupport (from `../node_modules/react-native`)
@@ -200,6 +203,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   React:
     :path: "../node_modules/react-native"
+  react-native-maps:
+    :path: "../node_modules/react-native-maps"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   yoga:
@@ -229,9 +234,10 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   React: aa2040dbb6f317b95314968021bd2888816e03d5
+  react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
   RNVectorIcons: c0dbfbf6068fefa240c37b0f71bd03b45dddac44
   yoga: a23273df0088bf7f2bb7e5d7b00044ea57a2a54a
 
-PODFILE CHECKSUM: 5c62654137df7b5a23614922539a1b29a87c0da1
+PODFILE CHECKSUM: 579bc07fa371409fc1a76e6b0134cc6b178e3997
 
 COCOAPODS: 1.5.3

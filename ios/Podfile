@@ -35,6 +35,8 @@ target 'Agora' do
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   pod 'GoogleMaps'
 
+  pod 'react-native-maps', :path => '../node_modules/react-native-maps'
+
   target 'AgoraTests' do
     inherit! :search_paths
     # Pods for testing

@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, ActivityIndicator, Image, ScrollView, Linking, Dimensions} from 'react-native';
+import {StyleSheet, Text, View, ActivityIndicator, Image, ScrollView, Linking, Dimensions, Platform} from 'react-native';
 
 import {getLocationByKey} from '../actions/locations'
 import {getLocationEventsByDay} from '../actions/events'

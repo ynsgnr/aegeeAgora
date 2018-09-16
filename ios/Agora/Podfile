@@ -1,0 +1,33 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'Agora' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for Agora
+
+  target 'Agora-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'AgoraTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+target 'Agora-tvOS' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for Agora-tvOS
+
+  target 'Agora-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end

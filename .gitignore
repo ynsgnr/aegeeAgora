@@ -60,3 +60,7 @@ android/app/google-services.json
 
 .firebase
 android/app/release
+ios/Agora/GoogleService-Info.plist
+ios/Pods
+ios/CertificateSigningRequest.certSigningRequest
+ios/Agora/Agora.entitlements

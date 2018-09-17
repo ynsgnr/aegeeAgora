@@ -47,7 +47,7 @@ export default class InfoList extends Component {
           else Linking.openURL('tel:'+contact.item.link)
         }}>
           <View style={[style.leftSmall,{flex:3}]}>
-            <Image style={{width:70, height:70, borderRadius:70}} source={{uri:contact.item.image}}/>
+            <Image style={{width:70, height:70, borderRadius:10}} source={{uri:contact.item.image}}/>
           </View>
           <View style={style.leftMid}>
             <View style={styles.line}/>
@@ -157,7 +157,14 @@ export default class InfoList extends Component {
         sections ={this.props.infoList}
         renderItem={(item,index,section)=>this.renderItem(item)}
         renderSectionHeader={({section: {title}}) => (
-          <Text style={{fontWeight: 'bold', padding:10, fontSize:25}}>{title}</Text>
+          <View style={{backgroundColor:colors.background,
+              borderWidth: 1,
+              borderTopWidth: 0,
+              borderLeftWidth: 0,
+              borderRightWidth: 0,
+              borderBottomColor: 'rgba(0, 0, 0, 0.12)'}}>
+            <Text style={{fontWeight: 'bold', padding:10, fontSize:25}}>{title}</Text>
+          </View>
         )}/>
     )
   }

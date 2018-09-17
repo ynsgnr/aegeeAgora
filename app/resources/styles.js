@@ -44,6 +44,7 @@ export default styles = StyleSheet.create({
   },
   navbar:{
     width:SCREEN_WIDTH,
+    marginTop:25,
     height:50,
     justifyContent: 'center',
     alignItems:'center',
@@ -52,7 +53,8 @@ export default styles = StyleSheet.create({
     borderTopWidth: 0,
     borderLeftWidth: 0,
     borderRightWidth: 0,
-    borderBottomColor: 'rgba(0, 0, 0, 0.12)'
+    borderBottomColor: 'rgba(0, 0, 0, 0.12)',
+    backgroundColor: colors.background
   },
   daySelector:{
     width:SCREEN_WIDTH,
@@ -72,9 +74,12 @@ export default styles = StyleSheet.create({
   },
   leftArrow:{
     fontSize:20,
+    color:colors.black,
+
   },
   rightArrow:{
     fontSize:20,
+    color:colors.black,
   },
   lineButtonWrapper:{
     flexDirection:'row',

@@ -110,7 +110,7 @@ export default class Event extends Component {
 
             <Text style={[styles.titleText,styles.darkText]}>Location</Text>
             <Text style={[styles.subText,styles.darkText,{marginLeft:10}]}>{this.state.event.locationInfo}</Text>
-            <LocationDisplay onPress={()=>this.props.navigation.push("LocationPage",{locationKey:this.state.event.location.toString()})} locationKey={this.state.event.location.toString()} height={100}/>
+            <LocationDisplay onPress={()=>this.props.navigation.push("LocationPage",{locationKey:this.state.event.location.toString()})} locationKey={this.state.event.location.toString()} height={120} displayShortcut/>
 
             {this.state.event.description!=undefined && this.state.event.description!="" &&
               <View style={styles.startOriented}>

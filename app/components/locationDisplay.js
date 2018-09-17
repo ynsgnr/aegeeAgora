@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {TouchableOpacity, Text, View, ActivityIndicator, Image, Dimensions,StyleSheet} from 'react-native'
+import {TouchableOpacity, Text, View, ActivityIndicator, Image, Dimensions,StyleSheet, Linking, Platform} from 'react-native'
 
 import styles from '../resources/styles'
 import colors from '../resources/colors'
@@ -41,11 +41,11 @@ export default class LocationDisplay extends Component {
     //if there is locationkey, get location from db, locationkey overwrites location object with location object from db
     if(nextProps.locationKey!=""){
       getLocationByKey(nextProps.locationKey).then( (val) =>{
-        this.setState({
-          location:val,
-          loading:false,
+          this.setState({
+            location:val,
+            loading:false,
+          })
         })
-      })
     }else if(nextProps.location!=undefined && nextProps.location!={}){
       this.setState({
         location:nextProps.location,
@@ -55,6 +55,15 @@ export default class LocationDisplay extends Component {
       console.log("Please give locationKey or location object as props to location display component, given props are:");
       console.log(nextProps);
     }
+  }
+
+  openMaps(title,latitude,longitude){
+    Linking.openURL(
+      Platform.select({
+        ios: 'maps:0,0?q='+title+'@'+latitude+','+longitude ,
+        android: 'geo:0,0?q='+latitude+','+longitude+'('+title+')'
+      })
+    )
   }
 
   render() {
@@ -72,7 +81,6 @@ export default class LocationDisplay extends Component {
                             longitudeDelta : 0.0421,
                           }
                         }
-            cacheEnabled={true}
             pitchEnabled={false}
             scrollEnabled={false}
             rotataEnabled={false}
@@ -85,6 +93,21 @@ export default class LocationDisplay extends Component {
               }
             }/>
           </MapView>
+          {this.props.displayShortcut &&
+            <TouchableOpacity
+              style={{padding:7, borderColor:'rgba(0, 0, 0, 0.12)',
+                      borderTopWidth: 1,
+                      borderLeftWidth: 1,
+                      borderRightWidth: 1,
+                      borderBottomWidth: 0,
+                      backgroundColor:'rgba(255, 255, 255, 0.5)',
+                      borderTopLeftRadius:10,
+                      borderTopRightRadius:10,
+                      }}
+              onPress={()=>this.openMaps(this.state.location.title,this.state.location.Lat,this.state.location.Long,)}>
+              <Text>Open in Maps</Text>
+            </TouchableOpacity>
+          }
         </View>
       </TouchableOpacity>
     )

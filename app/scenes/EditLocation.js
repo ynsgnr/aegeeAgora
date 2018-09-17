@@ -142,7 +142,9 @@ export default class EditLocation extends Component {
 
             <Text style={[styles.titleText,styles.darkText]}>Map Location:</Text>
             <Text style={[styles.subText,styles.darkText]}>Long Press to set</Text>
-            <View style ={[style.mapContainer,{height:300}]}>
+            <View
+            onMoveShouldSetResponder={()=>{return false}}
+            style ={[style.mapContainer,{height:300}]}>
               <MapView
                 style={style.map}
                 initialRegion={
@@ -153,7 +155,6 @@ export default class EditLocation extends Component {
                                 longitudeDelta : 0.0421,
                               }
                             }
-                cacheEnabled={true}
                 onLongPress={(event)=>{
                   let pressed = event.nativeEvent
                   this.setState((previousState)=>{

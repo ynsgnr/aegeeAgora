@@ -79,10 +79,6 @@ export default class Map extends Component {
 
       })
     })
-    Permissions.request('location').then(response => {
-        console.log("Location Permission response: "+response);
-        //TODO check on other android and ios phones
-    })
   }
 
 
@@ -183,8 +179,9 @@ const style = StyleSheet.create({
    ...StyleSheet.absoluteFillObject,
  },
  buttonContainer:{
-   height: Dimensions.get('window').height*0.82,
-   width: Dimensions.get('window').width,
+   position:'absolute',
+   right:0,
+   bottom:0,
    padding:10,
    alignItems:'flex-end',
    justifyContent:'flex-end',

@@ -185,15 +185,11 @@ export default class App extends React.Component {
               )
             }
           });
-    if(firebase.auth().currentUser==null){
-      firebase.auth().signInAnonymouslyAndRetrieveData()
+
+    firebase.auth().signInAnonymouslyAndRetrieveData()
         .then((data) => {
           console.log("signed in anonymously: ")
         });
-    }else {
-      console.log("Already loged as: ")
-      console.log(firebase.auth().currentUser.email);
-    }
 
     firebase.messaging().hasPermission()
     .then(enabled => {

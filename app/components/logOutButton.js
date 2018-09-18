@@ -23,7 +23,14 @@ class LogOutButton extends Component {
 
   componentDidMount(){
     this.unsubscriber = firebase.auth().onAuthStateChanged((user) => {
-      if(user==undefined || user.isAnonymous) this.props.navigation.replace('Home')
+
+      if(user==undefined || user.isAnonymous) {
+        firebase.auth().signInAnonymouslyAndRetrieveData()
+               .then((data) => {
+                 console.log("signed in anonymously: ")
+                 this.props.navigation.replace('Home')
+               });
+      }
     });
     let user = firebase.auth().currentUser
     if(user!=null && user.isAnonymous==false){
@@ -40,7 +47,7 @@ class LogOutButton extends Component {
   render() {
     return (
       <View style={{flex:1,flexDirection:'row'}}>
-        <TouchableOpacity style={{flex:1,justifyContent:'center',alignItems:'center',backgroundColor:colors.ligthRed}} onPress={()=>{firebase.auth().signOut()}}>
+        <TouchableOpacity style={{flex:1,justifyContent:'center',alignItems:'center',backgroundColor:colors.ligthRed}} onPress={()=>{firebase.auth().signOut();}}>
           <Text style={[styles.subText,{color:colors.white}]}>Log Out</Text>
         </TouchableOpacity>
       </View>

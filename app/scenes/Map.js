@@ -181,7 +181,7 @@ const style = StyleSheet.create({
  buttonContainer:{
    position:'absolute',
    right:0,
-   bottom:0,
+   bottom:5,
    padding:10,
    alignItems:'flex-end',
    justifyContent:'flex-end',

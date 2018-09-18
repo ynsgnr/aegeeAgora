@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Text, View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import {Text, View, TouchableWithoutFeedback, TouchableOpacity, Platform } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -32,9 +32,16 @@ export default class NavBar extends Component {
     }
   }
 
+  getPlatformSpecificStyle(){
+    return  Platform.select({
+        ios: [styles.navbar,{marginTop:25}] ,
+        android: [styles.navbar,{marginTop:0}]
+      })
+  }
+
   render(){
     return(
-      <View style={styles.navbar}>
+      <View style={this.getPlatformSpecificStyle()}>
         <TouchableWithoutFeedback style={{flex:1}} onPress={()=>this.openAdminPage()}>
           <View>
             <Text style={[{fontSize:20, color:'black', padding:10}]}>{this.props.title ? this.props.title : ""}</Text>

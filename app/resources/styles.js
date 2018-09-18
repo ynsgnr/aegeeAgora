@@ -44,7 +44,6 @@ export default styles = StyleSheet.create({
   },
   navbar:{
     width:SCREEN_WIDTH,
-    marginTop:25,
     height:50,
     justifyContent: 'center',
     alignItems:'center',

@@ -55,7 +55,7 @@ export default class Info extends Component {
         <NavigationEvents onWillFocus={payload => this.componentDidMount()} />
         <NavBar title={title} navigation={this.props.navigation} rigthButton={firebase.auth().currentUser && !firebase.auth().currentUser.isAnonymous} onRigthButtonPress={()=>this.props.navigation.push('EditNewsPage')}/>
         {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :
-          <InfoList navigation={this.props.navigation} infoList={this.state.infoList} editMode={firebase.auth().currentUser && !firebase.auth().currentUser.isAnonymous} onEdit={(item)=>this.props.navigation.push('EditNewsPage',{info:item})}/>
+          <InfoList navigation={this.props.navigation} infoList={this.state.infoList} editMode={!firebase.auth().currentUser.toJSON().isAnonymous} onEdit={(item)=>this.props.navigation.push('EditNewsPage',{info:item})}/>
         }
       </View>
     );

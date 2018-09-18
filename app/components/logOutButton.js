@@ -17,7 +17,6 @@ class LogOutButton extends Component {
   constructor(props){
     super(props)
     this.state={
-      loading: true,
       user:{isAnonymous:true},
     }
   }
@@ -30,7 +29,6 @@ class LogOutButton extends Component {
     if(user!=null && user.isAnonymous==false){
       this.setState({
         user:user,
-        loading:false,
       })
     }
   }

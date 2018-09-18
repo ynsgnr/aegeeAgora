@@ -77,7 +77,7 @@ export default class Schedule extends Component {
       )
     }
     return (
-      <ScheduleList navigation={this.props.navigation} events={this.state.eventList[constructDayKey(d)]} key={i} editMode={firebase.auth().currentUser && firebase.auth().currentUser.email}/>
+      <ScheduleList navigation={this.props.navigation} events={this.state.eventList[constructDayKey(d)]} key={i} editMode={firebase.auth().currentUser.toJSON().email}/>
     )
   }
 

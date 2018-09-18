@@ -39,7 +39,7 @@ export default class News extends Component {
         <NavigationEvents onWillFocus={payload => this.componentDidMount()} />
         <NavBar title={title} navigation={this.props.navigation} rigthButton={firebase.auth().currentUser && !firebase.auth().currentUser.isAnonymous} onRigthButtonPress={()=>this.props.navigation.push('EditNewsPage')}/>
         {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :
-          <NewsList  navigation={this.props.navigation} news={this.state.newsList}  editMode={firebase.auth().currentUser.toJSON().email}/>
+          <NewsList  navigation={this.props.navigation} news={this.state.newsList}  editMode={firebase.auth().currentUser.toJSON().email} onEdit={(item)=>this.props.navigation.push('EditNewsPage',{info:item})}/>
         }
       </View>
     );

@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Dimensions} from 'react-native';
+import {Platform, StyleSheet, Text, View, Dimensions, ActivityIndicator} from 'react-native';
 
 import { createBottomTabNavigator,createStackNavigator } from 'react-navigation';
 import { NavigationActions } from 'react-navigation';
@@ -25,6 +25,8 @@ import Auth from './scenes/Auth'
 import EditEvent from './scenes/EditEvent'
 import EditLocation from './scenes/EditLocation'
 import EditNews from './scenes/EditNews'
+
+import styles from './resources/styles'
 
 //import {resetDatabase} from './actions/write' //Used for injecting mock data to db
 
@@ -143,6 +145,18 @@ this.props.navigation.setParams({otherParam: 'Updated!'}) //Update navigation op
 
 export default class App extends React.Component {
 
+  constructor(props){
+    super(props)
+    firebase.auth().signInAnonymouslyAndRetrieveData()
+        .then((data) => {
+          this.setState({logedIn:true})
+        });
+    this.state={
+      logedIn:false
+    }
+  }
+
+
   setUpNotifications(){
     const channel = new firebase.notifications.Android.Channel('AEGEEagora-channel', 'AEGEE Agora Informative Notifications', firebase.notifications.Android.Importance.Max)
       .setDescription('Notifications related to AEGEE Agora');
@@ -186,11 +200,6 @@ export default class App extends React.Component {
             }
           });
 
-    firebase.auth().signInAnonymouslyAndRetrieveData()
-        .then((data) => {
-          console.log("signed in anonymously: ")
-        });
-
     firebase.messaging().hasPermission()
     .then(enabled => {
       if (enabled) {
@@ -219,7 +228,10 @@ export default class App extends React.Component {
   }
 
   render() {
-    return <RootNavigator ref={navigatorRef=>this.RootNavigator=navigatorRef}/>
+    if(this.state.logedIn)
+      return <RootNavigator ref={navigatorRef=>this.RootNavigator=navigatorRef}/>
+    else
+      return <View style={styles.centered}><ActivityIndicator size="large"/></View>
   }
 
 }

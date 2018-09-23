@@ -146,7 +146,7 @@ export default class Map extends Component {
                     pinColor={button.color}
                     onCalloutPress={()=>{
                       if(firebase.auth().currentUser && !firebase.auth().currentUser.isAnonymous) this.props.navigation.push('EditLocationPage',{location:marker})
-                      else if(marker.type=="eventLocation") this.props.navigation.push('LocationPage',{location:marker})
+                      else if(marker.type=="eventLocation" || marker.insideMap) this.props.navigation.push('LocationPage',{location:marker})
                       else this.openMaps(marker.title,marker.latlng)
                     }}
                   />

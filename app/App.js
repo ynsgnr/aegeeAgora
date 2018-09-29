@@ -12,6 +12,8 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import LogOutButton from './components/logOutButton'
 
+import ScannerButton from './components/scannerButton'
+
 //Tab Scenes
 import Schedule from './scenes/Schedule';
 import Map from './scenes/Map';
@@ -25,6 +27,7 @@ import Auth from './scenes/Auth'
 import EditEvent from './scenes/EditEvent'
 import EditLocation from './scenes/EditLocation'
 import EditNews from './scenes/EditNews'
+import Scanner from './scenes/Scanner'
 
 import styles from './resources/styles'
 
@@ -78,7 +81,7 @@ const TabNavigator = createBottomTabNavigator(
           showIcon: true
         },
       }
-    }
+    },
   },
   {
     initialRouteName : 'Schedule', //Starting screen
@@ -86,8 +89,9 @@ const TabNavigator = createBottomTabNavigator(
     <View>
     {(firebase.auth().currentUser!=null && firebase.auth().currentUser.isAnonymous==false) ?
     <View style={{flexDirection:'row'}}>
-      <BottomTabBar style={{width:SCREEN_WIDTH*0.8}} {...props}/>
-      <LogOutButton style={{width:SCREEN_WIDTH*0.2}}/>
+      <ScannerButton  style={{width:'15%'}}/>
+      <BottomTabBar style={{width:'70%'}} {...props}/>
+      <LogOutButton style={{width:'15%'}}/>
     </View>
     :
     <BottomTabBar {...props}/>
@@ -111,6 +115,7 @@ const RootNavigator = createStackNavigator (
     EditEventPage: EditEvent,
     EditLocationPage: EditLocation,
     EditNewsPage: EditNews,
+    ScannerPage: Scanner,
   },
   {
     initialRouteName: 'Home'

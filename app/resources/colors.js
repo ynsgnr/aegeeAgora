@@ -8,5 +8,5 @@ export default colors = {
   black: "#585858",
   red: "#d52157",
   ligthRed: "#df767d",
-  ligthYellow: "#cddf76",
+  ligthYellow: "#916817",
 }

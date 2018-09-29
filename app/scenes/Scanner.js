@@ -11,7 +11,7 @@ import { NavigationEvents } from 'react-navigation';
 
 import firebase from 'react-native-firebase';
 
-import {getAllNews} from '../actions/info'
+import {getStart, doSomethingWithBarcode} from '../actions/barcodes'
 
 import { RNCamera } from 'react-native-camera';
 
@@ -29,18 +29,20 @@ export default class Scanner extends Component {
 
 
   componentDidMount(){
+    this.start="42424242424242424242"
     this.setState({
       loading:false,
     })
+    getStart().then((start)=>this.start=start)
     this.lastRead=""
   }
 
   onTextRecognized(data){
     text=data.textBlocks
     for(i=0;i<text.length;i++){
-      if(text[i].value.includes("226-") && text[i].value!=this.lastRead){
-        console.log(text[i].value);
+      if(text[i].value.includes(this.start) && text[i].value!=this.lastRead){
         this.lastRead=text[i].value
+        doSomethingWithBarcode(this.lastRead)
         this.setState({infoText:'Last Scanned: '+this.lastRead})
       }
     }

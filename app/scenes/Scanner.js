@@ -2,6 +2,8 @@
 import React, {Component} from 'react';
 import { Text, View, ActivityIndicator, Platform, StyleSheet} from 'react-native';
 
+import style from '../resources/styles'
+
 import NavBar from '../components/navBar'
 
 import { NavigationEvents } from 'react-navigation';
@@ -20,42 +22,46 @@ export default class Scanner extends Component {
     super(props)
     this.state={
       loading: true,
+      infoText: "Scaning...",
     }
   }
+
 
   componentDidMount(){
     this.setState({
       loading:false,
     })
+    this.lastRead=""
   }
 
-  onBarCodeRead(barcode){
-    console.log(barcode);
+  onTextRecognized(data){
+    text=data.textBlocks
+    for(i=0;i<text.length;i++){
+      if(text[i].value.includes("226-") && text[i].value!=this.lastRead){
+        console.log(text[i].value);
+
+        this.lastRead=text[i].value
+      }
+    }
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <RNCamera
-            ref={ref => {
-              this.camera = ref;
-            }}
-            style = {styles.preview}
-            type={RNCamera.Constants.Type.back}
-            flashMode={RNCamera.Constants.FlashMode.on}
-            permissionDialogTitle={'Permission to use camera'}
-            permissionDialogMessage={'We need your permission to use your camera phone'}
-            onGoogleVisionBarcodesDetected={({ barcodes }) => {
-              console.log("reading with google vision");
-              this.onBarCodeRead(barcodes)
-            }}
-            onBarCodeRead={
-              Platform.select({
-                  ios: (barcodes)=>this.onBarCodeRead(barcodes) ,
-                  android: undefined
-                })
-            }
-        />
+      <View style={style.}>
+
+        <View style={styles.container}>
+          <RNCamera
+              ref={ref => {
+                this.camera = ref;
+              }}
+              style = {styles.preview}
+              type={RNCamera.Constants.Type.back}
+              flashMode={RNCamera.Constants.FlashMode.on}
+              permissionDialogTitle={'Permission to use camera'}
+              permissionDialogMessage={'We need your permission to use your camera phone'}
+              onTextRecognized={(texts)=>this.onTextRecognized(texts)}
+          />
+        </View>
       </View>
     );
   }

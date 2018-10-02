@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import { Text, View, ActivityIndicator, Platform, StyleSheet} from 'react-native';
+import { Text, View, ActivityIndicator, Platform, StyleSheet, TouchableOpacity} from 'react-native';
 
 import styles from '../resources/styles'
 import colors from '../resources/colors'
@@ -11,7 +11,7 @@ import { NavigationEvents } from 'react-navigation';
 
 import firebase from 'react-native-firebase';
 
-import {getStart, doSomethingWithBarcode} from '../actions/barcodes'
+import {getStart, doSomethingWithBarcode, loginToSystem, login} from '../actions/barcodes'
 
 import { RNCamera } from 'react-native-camera';
 
@@ -24,14 +24,21 @@ export default class Scanner extends Component {
     this.state={
       loading: true,
       infoText: "Scaning...",
+      returnText: ""
     }
   }
 
 
   componentDidMount(){
     this.start="42424242424242424242"
-    this.setState({
-      loading:false,
+    loginToSystem().then((response)=>{
+      console.log(response);
+    }).then(()=>{
+      login("username","password").then(()=>{
+        this.setState({
+          loading:false,
+        })
+      })
     })
     getStart().then((start)=>this.start=start)
     this.lastRead=""
@@ -42,17 +49,29 @@ export default class Scanner extends Component {
     for(i=0;i<text.length;i++){
       if(text[i].value.includes(this.start) && text[i].value!=this.lastRead){
         this.lastRead=text[i].value
-        doSomethingWithBarcode(this.lastRead)
-        this.setState({infoText:'Last Scanned: '+this.lastRead})
+        doSomethingWithBarcode(this.lastRead).then((responseText)=>{
+            this.setState({infoText:'Last Scanned: '+this.lastRead})
+            this.setState({returnText:responseText})
+        })
       }
     }
   }
 
   render() {
+    if(this.state.loading) return (<View style={styles.centered}><ActivityIndicator size="large"/></View>)
     return (
       <View style={style.container}>
-        <View style={{backgroundColor:colors.white,padding:10,borderColor:colors.ligthGrey,borderWidth:1}}>
-          <Text style={styles.subText}>{this.state.infoText}</Text>
+        <View style={{backgroundColor:colors.white,padding:10,borderColor:colors.ligthGrey,borderWidth:1,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
+          <View style={{padding:1,flexDirection:"column"}}>
+            <Text style={styles.subText}>{this.state.infoText}</Text>
+            <Text style={styles.subText}>{this.state.returnText}</Text>
+          </View>
+          <TouchableOpacity style={{padding:5,backgroundColor:colors.ligthGrey,borderRadius:5}} onPress={()=>{
+            this.lastRead=""
+            this.setState({infoText:"Scaning...",returnText:""})
+          }}>
+            <Text>Clean</Text>
+          </TouchableOpacity>
         </View>
         <RNCamera
             ref={ref => {

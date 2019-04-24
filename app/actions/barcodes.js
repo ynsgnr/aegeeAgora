@@ -58,22 +58,23 @@ export function doSomethingWithBarcode(barcodeNum){
       xhr.withCredentials = true;
       xhr.addEventListener("readystatechange", function () {
         if (this.readyState === 4) {
-          console.log(this)
-          serverMessage = this.responseURL.split("+")
-          let message = ""
-          let i=1
-          console.log(serverMessage)
-          if(serverMessage.length==1){resolve("Format Error");return;}
-          while(serverMessage[i] && !serverMessage[i].includes("%")){
-            message=message+" "+serverMessage[i]
-            i++
+          //Not found url https://www.zeus.aegee.org/statutoryvote/jc/barcodes.php?m=ERR111%3A+Participant+005-0500+not+found+in+the+database%21%3Cbr+%2F%3E%0A%09%09%09%09%09%09%09%09%09%09%09If+you+are+a+delegate+of+an+antenna%2C+come+in+and+talk+to+the+Chair%21+Next+please%21%3Cbr+%2F%3E%0A%09%09%09%09%09%09%09%09%09%09%09If+you+are+an+envoy+of+a+contact+antenna%2C+come+in+and+talk+to+the+Chair%21+Next+please%21%3Cbr+%2F%3E%0A%09%09%09%09%09%09%09%09%09%09%09If+you+are+not+in+the+above+categories%2C+please+pass+from+the+entrances+for+the+visitors+in+the+future%21+Next+please%21
+          //Success url https://www.zeus.aegee.org/statutoryvote/jc/barcodes.php?m=%3Ch1+style%3D%27color%3Ared%3B%27%3EMerilyn+Isok+exited%3C%2Fh1%3E
+          //FOrmat error url https://www.zeus.aegee.org/statutoryvote/jc/barcodes.php
+
+          var finalMessage
+          var url = this.responseURL.split("=")
+          if(url.length==1){resolve("Format Error");return;}
+          var message = decodeURIComponent(url[1])
+          var parsedMessage = message.split(">")
+          console.log(parsedMessage)
+          if(!parsedMessage[0].includes("ERR")){
+            finalMessage = parsedMessage[1].split("<")[0].split("+").join(" ");
+          }else{
+            console.log(parsedMessage[0].split("<"))
+            finalMessage = parsedMessage[0].split("<")[0].split("+").join(" ");
           }
-          message=message+serverMessage[i].split("%")[0]
-          if(message==""){
-              console.log("Identified character from other source");
-              message="Format Error"
-          }
-          resolve(message)
+          resolve(finalMessage)
         }
       });
       xhr.open("POST", "https://www.zeus.aegee.org/statutoryvote/jc/barcodes.php");

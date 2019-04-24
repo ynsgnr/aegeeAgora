@@ -10,7 +10,7 @@ import styles from '../resources/styles'
 export default class ScheduleList extends Component {
 
   static defaultProps = {
-    events:[],
+    events:{},
     editMode:false,
   }
 
@@ -75,7 +75,7 @@ export default class ScheduleList extends Component {
 
   render(){
     return(
-      <FlatList style={[{marginBottom:50}]} keyExtractor={(item,index)=>item} data={Object.keys(this.props.events)} renderItem={(item)=>this.renderEventList(item)}/>
+      <FlatList style={[{marginBottom:50}]} keyExtractor={(item,index)=>item} data={Object.keys(this.props.events).sort()} renderItem={(item)=>this.renderEventList(item)}/>
     )
   }
 

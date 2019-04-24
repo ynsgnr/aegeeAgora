@@ -50,8 +50,28 @@ export default class Scanner extends Component {
       if(text[i].value.includes(this.start) && text[i].value!=this.lastRead){
         this.lastRead=text[i].value
         doSomethingWithBarcode(this.lastRead).then((responseText)=>{
-            this.setState({infoText:'Last Scanned: '+this.lastRead})
+          this.setState({infoText:'Last Scanned: '+this.lastRead})
+          if(responseText){
             this.setState({returnText:responseText})
+          }else{
+            this.setState({returnText:"Server Error"})
+          }
+        })
+      }
+    }
+  }
+
+  onBarCodeRead(barcodes){
+    for(i=0;i<barcodes.length;i++){
+      if(barcodes[i].data && barcodes[i].data!=this.lastRead){
+        this.lastRead=barcodes[i].data
+        doSomethingWithBarcode(this.lastRead).then((responseText)=>{
+          this.setState({infoText:'Last Scanned: '+this.lastRead})
+          if(responseText){
+            this.setState({returnText:responseText})
+          }else{
+            this.setState({returnText:"Server Error"})
+          }
         })
       }
     }
@@ -83,6 +103,16 @@ export default class Scanner extends Component {
             permissionDialogTitle={'Permission to use camera'}
             permissionDialogMessage={'We need your permission to use your camera phone'}
             onTextRecognized={(texts)=>this.onTextRecognized(texts)}
+            onGoogleVisionBarcodesDetected={({ barcodes }) => {	   
+              console.log("reading with google vision");
+              this.onBarCodeRead(barcodes)
+            }}
+            onBarCodeRead={
+              Platform.select({	
+                  ios: (barcodes)=>this.onBarCodeRead(barcodes) ,	
+                  android: undefined	
+                })	
+            }
         />
       </View>
     );

@@ -42,13 +42,15 @@ export function doSomethingWithBarcode(barcodeNum){
       },
       body:"participantId="+barcodeNum
     }).then((response) => {
+      console.log(response)
       serverMessage = response.url.split("+")
       let message = ""
       let i=1
-      while(!serverMessage[i].includes("%")){
+      while(serverMessage[i] && !serverMessage[i].includes("%")){
         message=message+" "+serverMessage[i]
         i++
       }
+      if(!serverMessage[i]) return undefined
       message=message+serverMessage[i].split("%")[0]
       if(message==""){
           console.log("Identified character from other source");

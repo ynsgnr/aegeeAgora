@@ -132,23 +132,23 @@ export default class Event extends Component {
               <View style={{alignItems:'center', justifyContent: 'center', height:250,}}>
                 <TouchableOpacity onPress={()=>this.setState({timePickerVisible:true})}  style={style.dateTimeDisplay}>
                     <View style={style.smallSide}>
-                      <Text style={[styles.titleText,styles.darkText]}>{constructHourKey(this.state.event.startDate)}</Text>
+                      <Text style={[styles.titleText,styles.darkText]}>{"\n"+constructHourKey(this.state.event.startDate)}</Text>
                       <View style={style.shapeContainer}>
                         <View style={style.midLineInvisible}/>
                         <View style={styles.littleCircle}/>
                         <View style={style.midLine}/>
                       </View>
-                      <Text style={[styles.titleText,styles.darkText]}>{constructDayKey(this.state.event.startDate)+" "+getWeekDay(this.state.event.startDate)}</Text>
+                      <Text style={[styles.titleText,styles.darkText]}>{constructDayKey(this.state.event.startDate)+"\n"+getWeekDay(this.state.event.startDate)}</Text>
                     </View>
                   <View style={style.midLine}/>
                   <View style={style.smallSide}>
-                    <Text style={[styles.titleText,styles.darkText]}>{constructHourKey(this.state.event.endDate)}</Text>
+                    <Text style={[styles.titleText,styles.darkText]}>{"\n"+constructHourKey(this.state.event.endDate)}</Text>
                     <View style={style.shapeContainer}>
                       <View style={style.midLine}/>
                       <View style={styles.littleCircle}/>
                       <View style={style.midLineInvisible}/>
                     </View>
-                    <Text style={[styles.titleText,styles.darkText]}>{constructDayKey(this.state.event.endDate)+" "+getWeekDay(this.state.event.endDate)}</Text>
+                    <Text style={[styles.titleText,styles.darkText]}>{constructDayKey(this.state.event.endDate)+"\n"+getWeekDay(this.state.event.endDate)}</Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -203,7 +203,8 @@ const style =  StyleSheet.create({
     flexDirection:'row',
     justifyContent:'space-around',
     alignItems:'center',
-    padding:10
+    padding:10,
+    paddingTop:0
   },
   smallSide:{
     flexDirection:'column',

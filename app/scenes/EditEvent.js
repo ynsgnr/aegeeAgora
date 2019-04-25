@@ -89,7 +89,7 @@ export default class Event extends Component {
             "endDate" : endDate,
             "key" : "-1",
             "location" : "0",
-            "locationInfo" : " ",
+            "locationInfo" : data[0].title,
             "startDate" : startDate,
             "title" : "",
             "valid" : true,

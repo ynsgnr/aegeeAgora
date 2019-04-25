@@ -97,7 +97,11 @@ export default class EditLocation extends Component {
             "description" : "",
             "type" : "eventLocation",
             "insideMap" : "",
-            "valid" : true
+            "valid" : true,
+            "latlng" :{
+              "latitude": 41.011394,
+              "longitude": 28.925189,
+            },
           },
           loading:false,
           types:types,
@@ -160,6 +164,8 @@ export default class EditLocation extends Component {
                   this.setState((previousState)=>{
                     previousState.location.Lat=pressed.coordinate.latitude
                     previousState.location.Long=pressed.coordinate.longitude
+                    previousState.latitude=pressed.coordinate.latitude
+                    previousState.longitude=pressed.coordinate.longitude
                     return previousState
                   })
                 }}

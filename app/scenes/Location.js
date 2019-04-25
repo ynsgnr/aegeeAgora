@@ -129,7 +129,7 @@ export default class Location extends Component {
             </View>
 
 
-            {this.state.location.type=="eventLocation" &&
+            {(this.state.events && Object.keys(this.state.events).length>0) &&
               <View>
                 <Text style={[styles.titleText,styles.darkText]}>Events Located Here:</Text>
                 <EventsList events={this.state.events} navigation={this.props.navigation}/>

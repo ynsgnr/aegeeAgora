@@ -58,10 +58,9 @@ export default class Event extends Component {
     getAllLocations().then((data)=>{
       let pickerValues = []
       for(i=0;i<data.length;i++){
-        if(data[i].type=="eventLocation")
-          pickerValues.push(
-            <Picker.Item label={data[i].title} value={data[i].key} key={i} />
-          )
+        pickerValues.push(
+          <Picker.Item label={data[i].title} value={data[i].key} key={i} />
+        )
       }
 
       //if there is eventkey, get event from db, eventkey overwrites event object with event object from db

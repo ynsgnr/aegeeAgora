@@ -89,8 +89,6 @@ export default class EditLocation extends Component {
         this.props.navigation.setParams({title: "Add New Location"})
         this.setState({
           location:{
-            "Lat" : 41.011394,
-            "Long" : 28.925189,
             "key" : "-1",
             "title" : "",
             "text" : "",
@@ -102,6 +100,8 @@ export default class EditLocation extends Component {
               "latitude": 41.011394,
               "longitude": 28.925189,
             },
+            "Lat":41.011394,
+            "Long":28.925189
           },
           loading:false,
           types:types,
@@ -111,6 +111,7 @@ export default class EditLocation extends Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <View>
         {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :
@@ -153,29 +154,26 @@ export default class EditLocation extends Component {
                 style={style.map}
                 initialRegion={
                               {
-                                latitude:this.state.location.Lat,
+                                latitude:this.state.location.latlng.latitude,
                                 latitudeDelta : 0.0922,
-                                longitude:this.state.location.Long,
+                                longitude:this.state.location.latlng.longitude,
                                 longitudeDelta : 0.0421,
                               }
                             }
                 onLongPress={(event)=>{
                   let pressed = event.nativeEvent
                   this.setState((previousState)=>{
-                    previousState.location.Lat=pressed.coordinate.latitude
+                    previousState.location.latlng={
+                      latitude:pressed.coordinate.latitude,
+                      longitude:pressed.coordinate.longitude
+                    }
+                    previousState.location.Lat=pressed.coordinate.latitude                    
                     previousState.location.Long=pressed.coordinate.longitude
-                    previousState.latitude=pressed.coordinate.latitude
-                    previousState.longitude=pressed.coordinate.longitude
                     return previousState
                   })
                 }}
               >
-                <Marker coordinate={
-                  {
-                    latitude:this.state.location.Lat,
-                    longitude:this.state.location.Long,
-                  }
-                }/>
+                <Marker coordinate={this.state.location.latlng}/>
               </MapView>
             </View>
 
@@ -200,7 +198,7 @@ export default class EditLocation extends Component {
               </View>
             </View>
             <View style={{flex:1,flexDirection:"row"}}>
-            <TouchableOpacity onPress={()=>  {writeLocation(this.state.location).then(()=>this.props.navigation.pop())}} style={styles.bigButton}>
+            <TouchableOpacity onPress={()=>  {console.log(this.state.location);writeLocation(this.state.location).then(()=>this.props.navigation.pop())}} style={styles.bigButton}>
               <Text style={styles.titleText}>Save</Text>
             </TouchableOpacity>
 

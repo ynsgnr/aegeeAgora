@@ -53,10 +53,7 @@ export default class Map extends Component {
             let type = val[i].type
             if(markerLists[type]==undefined)markerLists[type]=[]
             markerLists[type].push({
-                latlng :{
-                  latitude:val[i].Lat,
-                  longitude:val[i].Long,
-                },
+                latlng :val[i].latlng,
                 title:val[i].title,
                 description:val[i].description,
                 key:val[i].key,

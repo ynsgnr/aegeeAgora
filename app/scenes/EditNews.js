@@ -87,6 +87,10 @@ export default class NewsList extends Component {
             "image" : "",
             "key" : "-1",
             "link" : "",
+            "hyperlink" : {
+              "link": "",
+              "text": ""
+            },
             "locationKey" : "",
             "locationInfo" : "",
             "text" : "",
@@ -150,9 +154,20 @@ export default class NewsList extends Component {
             </Picker>
 
             <Text style={[styles.titleText,styles.darkText]}>Link:</Text>
-            <TextInput  placeholder={'Opened when clicked, phone number for contacts, link for bonus and download'} style={[styles.subText,styles.darkText,{marginLeft:10}]}
-            onChangeText={(text)=>this.setState((previousState)=>{previousState.info.link=text;return previousState})}
-            value={this.state.info.link}/>
+            
+            <Text style={[styles.titleText,styles.darkText]}>Link to open when clicked:</Text>
+            <TextInput multiline placeholder={'Opened when clicked, add "tel:" for phone numbers, "mailto:" for emails to the begining, link for bonus and download'}
+            style={[styles.subText,styles.darkText,{marginLeft:10,height:100}]}
+            onChangeText={(text)=>this.setState((previousState)=>{previousState.info.hyperlink.link=text;
+              previousState.info.link=text.replace("tel:","").replace("mailto:","");
+              return previousState})}
+            value={this.state.info.hyperlink.link}/>
+
+            <Text style={[styles.titleText,styles.darkText]}>Link to display:</Text>
+            <TextInput multiline placeholder={'Link displayed to user (not the same with open when clicked), phone number for contacts, link for bonus and download'}
+            style={[styles.subText,styles.darkText,{marginLeft:10,height:100}]}
+            onChangeText={(text)=>this.setState((previousState)=>{previousState.info.hyperlink.text=text;return previousState})}
+            value={this.state.info.hyperlink.text}/>
 
             <Text style={[styles.titleText,styles.darkText]}>Icon:</Text>
             <TextInput  placeholder={'Upload image to somewhere and copy link here'} style={[styles.subText,styles.darkText,{marginLeft:10}]}

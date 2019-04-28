@@ -31,6 +31,10 @@ export default class InfoList extends Component {
                     picture:
                     text:
                     link:
+                    hyperlink:{
+                      link:
+                      text:
+                    }
                   },
                 ]
               },
@@ -44,7 +48,7 @@ export default class InfoList extends Component {
       <TouchableOpacity style={styles.listItem}
         onPress={()=>{
           if(this.props.editMode) this.props.onEdit(contact.item)
-          else Linking.openURL('tel:'+contact.item.link)
+          else Linking.openURL(contact.item.hyperlink.link)
         }}>
           <View style={[style.leftSmall,{flex:3}]}>
             <Image style={{width:70, height:70, borderRadius:10}} source={{uri:contact.item.image}}/>
@@ -55,7 +59,7 @@ export default class InfoList extends Component {
           <View style={[style.rightBig,{flexDirection:'column',alignItems:'flex-start'}]}>
             <Text style={styles.titleText}>{contact.item.title}</Text>
             <Text style={styles.subText}>{contact.item.text}</Text>
-            <Text style={styles.titleText}>{contact.item.link}</Text>
+            <Text style={styles.titleText}>{contact.item.hyperlink.text}</Text>
           </View>
       </TouchableOpacity>
     )
@@ -67,7 +71,7 @@ export default class InfoList extends Component {
           <TouchableOpacity style={styles.bigButton}
             onPress={()=>{
               if(this.props.editMode) this.props.onEdit(download.item)
-              else Linking.openURL(download.item.link)}}>
+              else Linking.openURL(download.item.hyperlink.link)}}>
             <View style={[style.leftSmall,{flex:1,alignItems:'center',justifyContent:'center',paddingLeft:15}]}>
               <Image style={{width:30, height:30}} source={{uri:download.item.image}}/>
             </View>
@@ -85,7 +89,7 @@ export default class InfoList extends Component {
       <TouchableOpacity style={styles.listItem}
         onPress={()=>{
         if(this.props.editMode) this.props.onEdit(bonus.item)
-        else if(bonus.item.link!=undefined && bonus.item.link!="")Linking.openURL(bonus.item.link)}
+        else if(bonus.item.hyperlink!=undefined && bonus.item.hyperlink.link!="")Linking.openURL(bonus.item.hyperlink.link)}
       }>
           <View style={style.leftSmall}>
             <Image style={{width:50, height:50}} source={{uri:bonus.item.image}}/>

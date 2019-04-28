@@ -48,7 +48,7 @@ export default class InfoList extends Component {
       <TouchableOpacity style={styles.listItem}
         onPress={()=>{
           if(this.props.editMode) this.props.onEdit(contact.item)
-          else Linking.openURL(contact.item.hyperlink.link)
+          else if(contact.item.hyperlink.link && contact.item.hyperlink.link !="" && contact.item.hyperlink.link!=" ") Linking.openURL(contact.item.hyperlink.link)
         }}>
           <View style={[style.leftSmall,{flex:3}]}>
             <Image style={{width:70, height:70, borderRadius:10}} source={{uri:contact.item.image}}/>

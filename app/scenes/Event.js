@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, ScrollView} from 'react-native';
+import {StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, ScrollView, Image, Linking, Dimensions} from 'react-native';
 
 import {getEventByKey, constructDayKey, constructHourKey, getWeekDay} from '../actions/events'
 import {getNewsByEvent} from '../actions/info'
@@ -11,6 +11,7 @@ import NewsList from '../components/newsList'
 import colors from '../resources/colors'
 import styles from '../resources/styles'
 
+const SCREEN_WIDTH = Dimensions.get('window').width;
 export default class Event extends Component {
 
   //Props avaliable by component props or navigation paramaters
@@ -79,12 +80,28 @@ export default class Event extends Component {
     }
   }
 
-  render() {
+  render() {    console.log(
+    <View>      {(this.state.event.image && this.state.event.image!=""  && this.state.event.image!=" ") &&
+    <View style={[styles.startOriented]}>
+      <Image style={{width:SCREEN_WIDTH, aspectRatio: 1}} source={{uri:this.state.event.image}}/>
+    </View>
+}</View>
+  )
+  console.log(this.state)
+  console.log((this.state.event.image && this.state.event.image!=""  && this.state.event.image!=" "))
     return (
       <View>
         {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :
           <ScrollView>
-            <View style={{alignItems:'center', justifyContent: 'center', height:250,}}>
+
+            {(this.state.event.image && this.state.event.image!=""  && this.state.event.image!=" ") ?
+              <View style={[styles.startOriented]}>
+                <Image style={{width:SCREEN_WIDTH, aspectRatio: 1}} source={{uri:this.state.event.image}}/>
+              </View>
+              : <View></View>
+            }
+
+            <View style={{alignItems:'center', justifyContent: 'center', height:200,}}>
               <View style={style.dateTimeDisplay}>
                   <View style={style.smallSide}>
                     <Text style={[styles.titleText,styles.darkText]}>{"\n"+constructHourKey(this.state.event.startDate)}</Text>
@@ -111,6 +128,15 @@ export default class Event extends Component {
             <Text style={[styles.titleText,styles.darkText]}>Location</Text>
             <Text style={[styles.subText,styles.darkText,{marginLeft:10}]}>{this.state.event.locationInfo}</Text>
             <LocationDisplay onPress={()=>this.props.navigation.push("LocationPage",{locationKey:this.state.event.location.toString()})} locationKey={this.state.event.location.toString()} height={120} displayShortcut/>
+
+            { (this.state.event.hyperlink && this.state.event.hyperlink.link!=""  && this.state.event.hyperlink.link!=" " ) &&
+            <TouchableOpacity style={styles.bigButton}
+              onPress={()=>{ Linking.openURL( this.state.event.hyperlink.link)}}>
+                <View style={{flex:1,alignItems:'center'}}>
+                  <Text style={{padding:5, fontSize:18}}>{this.state.event.hyperlink.text}</Text>
+                </View>
+            </TouchableOpacity>
+            }
 
             {(this.state.event.description!=undefined && this.state.event.description!="") &&
               <View style={styles.startOriented}>

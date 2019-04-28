@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, ScrollView, TextInput, Dimensions, Picker} from 'react-native';
+import {StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, ScrollView, TextInput, Dimensions, Picker, Alert} from 'react-native';
 
 import {getEventByKey, writeEvent, constructDayKey, constructHourKey, getWeekDay} from '../actions/events'
 import {getAllLocations} from '../actions/locations'
@@ -93,6 +93,11 @@ export default class Event extends Component {
             "startDate" : startDate,
             "title" : "",
             "valid" : true,
+            "hyperlink":{
+              "link":"",
+              "text":""
+            },
+            "image":""
           },
           "locationPickerList":pickerValues,
           loading:false,
@@ -125,7 +130,6 @@ export default class Event extends Component {
                       {cancelable: true},
                     );
                   }
-                  //Show a toast
                   previousState.timePickerVisible=false
                   return previousState
                 })
@@ -187,6 +191,26 @@ export default class Event extends Component {
                   />
                 </View>
               </View>
+
+              <Text style={[styles.titleText,styles.darkText]}>Link:</Text>
+            
+              <Text style={[styles.titleText,styles.darkText]}>Link to open when clicked:</Text>
+              <TextInput placeholder={'Opened when clicked to button'}
+              style={[styles.subText,styles.darkText,{marginLeft:10}]}
+              onChangeText={(text)=>this.setState((previousState)=>{previousState.event.hyperlink.link=text;return previousState})}
+              value={this.state.event.hyperlink.link}/>
+
+              <Text style={[styles.titleText,styles.darkText]}>Link to display:</Text>
+              <TextInput placeholder={'Button text'}
+              style={[styles.subText,styles.darkText,{marginLeft:10}]}
+              onChangeText={(text)=>this.setState((previousState)=>{previousState.event.hyperlink.text=text;return previousState})}
+              value={this.state.event.hyperlink.text}/>
+
+              <Text style={[styles.titleText,styles.darkText]}>Image:</Text>
+              <TextInput  placeholder={'Image link to display'} style={[styles.subText,styles.darkText,{marginLeft:10}]}
+              onChangeText={(text)=>this.setState((previousState)=>{previousState.event.image=text;return previousState})}
+              value={this.state.event.image}/>
+
               <View style={{flex:1,flexDirection:"row"}}>
               <TouchableOpacity onPress={()=>  {writeEvent(this.state.event);this.props.navigation.pop()}} style={styles.bigButton}>
                 <Text style={styles.titleText}>Save</Text>

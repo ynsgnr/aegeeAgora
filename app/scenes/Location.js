@@ -13,7 +13,6 @@ import NewsList from '../components/newsList'
 import styles from '../resources/styles'
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
-
 export default class Location extends Component {
 
   //Props avaliable by component props or navigation paramaters
@@ -116,7 +115,6 @@ export default class Location extends Component {
 
             {(this.state.location.insideMap!=undefined && this.state.location.insideMap!="")&&
               <View style={[styles.startOriented,{paddingLeft:10}]}>
-                <Text style={styles.titleText}>Inside Map</Text>
                 <Image style={{width:SCREEN_WIDTH*0.9, aspectRatio: 1}} source={{uri:this.state.location.insideMap}}/>
               </View>
             }

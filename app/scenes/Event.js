@@ -80,15 +80,7 @@ export default class Event extends Component {
     }
   }
 
-  render() {    console.log(
-    <View>      {(this.state.event.image && this.state.event.image!=""  && this.state.event.image!=" ") &&
-    <View style={[styles.startOriented]}>
-      <Image style={{width:SCREEN_WIDTH, aspectRatio: 1}} source={{uri:this.state.event.image}}/>
-    </View>
-}</View>
-  )
-  console.log(this.state)
-  console.log((this.state.event.image && this.state.event.image!=""  && this.state.event.image!=" "))
+  render() {
     return (
       <View>
         {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :

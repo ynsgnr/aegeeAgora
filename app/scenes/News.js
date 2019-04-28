@@ -25,7 +25,11 @@ export default class News extends Component {
 
   componentDidMount(){
     getAllNews().then( (val) =>{
-      let newsList=[]
+      val.sort(function(a, b){
+        if(a.key > b.key) return -1;
+        if(a.key < b.key) return 1;
+        return 0;
+      })
       this.setState({
         newsList:val,
         loading:false,

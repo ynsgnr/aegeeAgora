@@ -203,12 +203,12 @@ export default class TimePicker extends Component{
   saveAndclose(){
     this.setState({loaded:false})
     beginDay = new Date(this.state.beginDay.timestamp)
-    beginDay.setHours(this.state.bHour)
-    beginDay.setMinutes(this.state.bMin)
+    beginDay.setHours(Math.round(this.bhscrollOffset/SCROLLSTEPHEIGHT)-1)
+    beginDay.setMinutes(Math.round(this.bmscrollOffset/SCROLLSTEPHEIGHT)-1)
 
     endDay = new Date(this.state.endDay.timestamp)
-    endDay.setHours(this.state.eHour)
-    endDay.setMinutes(this.state.eMin)
+    endDay.setHours(Math.round(this.ehscrollOffset/SCROLLSTEPHEIGHT)-1)
+    endDay.setMinutes(Math.round(this.emscrollOffset/SCROLLSTEPHEIGHT)-1)
 
     this.props.done(beginDay,endDay)
   }

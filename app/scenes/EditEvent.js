@@ -115,6 +115,15 @@ export default class Event extends Component {
                     previousState.event.startDate=begin
                     previousState.event.endDate=end
                     previousState.timePickerVisible=false
+                  }else{
+                    Alert.alert(
+                      'Check Dates',
+                      'Begin date can not be bigger than end date',
+                      [
+                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                      ],
+                      {cancelable: true},
+                    );
                   }
                   //Show a toast
                   previousState.timePickerVisible=false

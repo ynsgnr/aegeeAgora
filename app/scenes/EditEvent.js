@@ -67,6 +67,8 @@ export default class Event extends Component {
       if(eventKey!=""){
         getEventByKey(eventKey).then( (val) =>{
           this.props.navigation.setParams({title: "Edit Event"})
+          if(val.hyperlink==undefined)val.hyperlink={link:'',text:''}
+          if(val.image==undefined)val.image=''
           this.setState({
             event:val,
             loading:false,
@@ -75,6 +77,8 @@ export default class Event extends Component {
         })
       }else if(event!=undefined){
         this.props.navigation.setParams({title: "Edit Event"})
+        if(event.hyperlink==undefined)event.hyperlink={link:'',text:''}
+        if(event.image==undefined)event.image=''
         this.setState({
           event:event,
           loading:false,

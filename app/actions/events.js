@@ -161,3 +161,11 @@ export function getWeekDay(d){
       return "Saturday"
   }
 }
+
+export function getInitialDate(){
+  return new Promise(function(resolve,reject){
+    firebase.firestore().collection('settings').doc("initDate").get().then((snapshot)=>{
+      resolve(snapshot.data().timestamp)
+    })
+  })
+}

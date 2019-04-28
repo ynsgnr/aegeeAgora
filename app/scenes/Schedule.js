@@ -17,7 +17,7 @@ import NavBar from '../components/navBar'
 import ScheduleList from '../components/scheduleList'
 
 //Actions
-import {constructDayKey, constructHourKey, getWeekDay, constructReverseDayKey, getAllEventsByDay} from '../actions/events'
+import {constructDayKey, constructHourKey, getWeekDay, constructReverseDayKey, getAllEventsByDay, getInitialDate} from '../actions/events'
 
 const title = "Schedule"
 
@@ -56,6 +56,9 @@ export default class Schedule extends Component {
           this.setState({expanded:false})
         })}
       )
+    })
+    getInitialDate().then((date)=>{
+      if(this.state.currentDay<date)this.setState({currentDay:date})
     })
   }
 

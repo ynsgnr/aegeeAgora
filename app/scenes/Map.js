@@ -152,7 +152,7 @@ export default class Map extends Component {
               <View style={style.buttonContainer}>
               {this.state.buttonList.map( (button,index) => (
                 <TouchableOpacity key={index} style={this.getButtonStyle(button)} onPress={()=>this.onLocationTypeButtonPress(index)}>
-                  <Text>{button.title}</Text>
+                  <Text style={{fontSize:12, color:'#ffffff', textShadowColor:'#000000', textShadowRadius:0.1}}>{button.title}</Text>
                 </TouchableOpacity>
               ))}
               </View>
@@ -177,7 +177,7 @@ const style = StyleSheet.create({
  buttonContainer:{
    position:'absolute',
    right:0,
-   bottom:5,
+   top:5,
    padding:10,
    alignItems:'flex-end',
    justifyContent:'flex-end',

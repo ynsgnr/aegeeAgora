@@ -82,3 +82,11 @@ export function getAbout(){
     })
   })
 }
+
+export function getEasterEgg(){
+  return new Promise(function(resolve,reject){
+    firebase.firestore().collection('settings').doc("easterEgg").get().then((snapshot)=>{
+      resolve(snapshot.data())
+    })
+  })
+}

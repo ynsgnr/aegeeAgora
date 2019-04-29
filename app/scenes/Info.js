@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {Text, View, ActivityIndicator} from 'react-native';
+import {Text, View, ScrollView, ActivityIndicator} from 'react-native';
 
 import { NavigationEvents } from 'react-navigation';
 
@@ -9,7 +9,7 @@ import InfoList from '../components/infoList'
 
 import firebase from 'react-native-firebase';
 
-import {getAllInfo,getTypes} from '../actions/info'
+import {getAllInfo,getTypes,getAbout} from '../actions/info'
 
 const title = "Information & Contact"
 
@@ -20,6 +20,7 @@ export default class Info extends Component {
     this.state={
       infoList : {},
       loading: true,
+      about:""
     }
   }
 
@@ -47,17 +48,23 @@ export default class Info extends Component {
         })
       })
     })
+    getAbout().then(about=>this.setState({about:about.split('%newline%')}))
   }
 
   render() {
     return (
-      <View>
+      <ScrollView>
         <NavigationEvents onWillFocus={payload => this.componentDidMount()} />
         <NavBar title={title} navigation={this.props.navigation} rigthButton={firebase.auth().currentUser && !firebase.auth().currentUser.isAnonymous} onRigthButtonPress={()=>this.props.navigation.push('EditNewsPage')}/>
         {this.state.loading ? <View style={styles.centered}><ActivityIndicator size="large"/></View> :
           <InfoList navigation={this.props.navigation} infoList={this.state.infoList} editMode={!firebase.auth().currentUser.toJSON().isAnonymous} onEdit={(item)=>this.props.navigation.push('EditNewsPage',{info:item})}/>
         }
-      </View>
+        <View style={{flex:1,alignItems:'center',flexDirection:'column'}}>
+        {this.state.about.map && this.state.about.map(text=>(
+          <Text key={text} style={{fontSize:10,padding:5}}>{text}</Text>
+        ))}
+        </View>
+      </ScrollView>
     );
   }
 

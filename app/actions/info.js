@@ -74,3 +74,11 @@ export function writeInfo(info){
     }
   })
 }
+
+export function getAbout(){
+  return new Promise(function(resolve,reject){
+    firebase.firestore().collection('settings').doc("about").get().then((snapshot)=>{
+      resolve(snapshot.data().text)
+    })
+  })
+}
